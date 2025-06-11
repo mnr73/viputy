@@ -38,5 +38,15 @@
         "src",
         "index.js",
         "datepicker.js"
-    ]
+    ],
+    "exports": {
+        ".": {
+            "import": "./dist/index.es.js"
+        },
+        "./datepicker": {}
+    },
+    "repository": {
+        "type": "git",
+        "url": "https://github.com/mnr73/viputy"
+    }
 }
