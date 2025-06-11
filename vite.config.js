@@ -17,7 +17,7 @@ export default defineConfig({
                 datepicker: path.resolve(__dirname, 'src/datepicker.js')
             },
             name: 'Viputy',
-            fileName: (format) => `${entryName}.${format}.js`,
+            fileName: (format, entryName) => `${entryName}.${format}.js`,
         },
         rollupOptions: {
             external: ['vue', 'tailwindcss'],
