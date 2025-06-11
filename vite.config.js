@@ -14,7 +14,7 @@ export default defineConfig({
         lib: {
             entry: {
                 index: path.resolve(__dirname, 'src/index.js'),
-                datepicker: path.resolve(__dirname, 'src/datepicker.js')
+                datePicker: path.resolve(__dirname, 'src/datePicker.js')
             },
             name: 'Viputy',
             fileName: (format, entryName) => `${entryName}.${format}.js`,
