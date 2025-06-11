@@ -1,5 +1,5 @@
 {
-    "name": "viputy",
+    "name": "@mnr/viputy",
     "version": "0.1.0-beta",
     "type": "module",
     "description": "vue and tailwind useful component for form inputs",
