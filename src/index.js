@@ -1,3 +1,5 @@
+import './style.css'
+
 import ViFrame from "./components/base/ViFrame.vue";
 import ViNoFrame from "./components/base/ViNoFrame.vue";
 import ViPart from "./components/base/ViPart.vue";
