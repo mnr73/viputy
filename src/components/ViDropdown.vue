@@ -1,6 +1,6 @@
 <script setup>
 import { computed, ref, useTemplateRef } from 'vue'
-import { onClickOutside } from '@vueuse/core/useClickOutside'
+import { onClickOutside } from '@vueuse/core'
 import ViPart from './base/ViPart.vue'
 
 const emit = defineEmits(['closePopup', 'openPopup'])

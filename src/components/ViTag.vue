@@ -1,8 +1,8 @@
 <script setup>
 import { computed, ref, useTemplateRef } from 'vue'
 import ViPart from './base/ViPart.vue'
-import ViTagComponent from './base/ViTagComponent.vue'
-import { onClickOutside } from '@vueuse/core/useClickOutside'
+import ViTagComponent from './parts/ViTagComponent.vue'
+import { onClickOutside } from '@vueuse/core'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
