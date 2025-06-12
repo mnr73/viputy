@@ -7,7 +7,7 @@ import { onClickOutside } from '@vueuse/core'
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
   modelValue: {
-    type: [Set]
+    type: [Array]
   },
   datalist: {
     type: Array,
@@ -84,9 +84,9 @@ const focusMode = computed(() => {
 })
 
 const datalist = computed(() => {
-  return inputValue.value
-    ? [inputValue.value, ...props.datalist]
-    : props.datalist
+  let data = props.datalist || []
+
+  return inputValue.value ? [inputValue.value, ...data] : data
 })
 
 const open = computed({
@@ -157,11 +157,20 @@ function onBlur() {
   focus.value = false
 }
 
+const value = computed({
+  get() {
+    return props.modelValue
+  },
+  set(value) {
+    emit('update:modelValue', value)
+  }
+})
+
 function onClickData(data) {
   focusInput()
-  props.modelValue.has(data)
-    ? props.modelValue.delete(data)
-    : props.modelValue.add(data)
+  let list = new Set(value.value)
+  list.has(data) ? list.delete(data) : list.add(data)
+  value.value = Array.from(list)
 
   open.value = true
 }
@@ -175,7 +184,7 @@ function focusInput() {
 }
 
 function deleteTag(tag) {
-  props.modelValue.delete(tag)
+  value.value = value.value.filter((item) => item !== tag)
 }
 
 function editTag(tag) {
@@ -194,17 +203,17 @@ defineExpose({ focusInput })
     :status="props.status"
     :disabled="props.disabled"
     :noFrame="props.noFrame"
-    :openPopup="!!(openPopup && datalist.length)"
+    :openPopup="!!(openPopup && datalist?.length)"
     @clickOnBox="(e) => onClick(e)"
     ref="element"
   >
     <template #top v-if="!props.hideTags">
       <div
-        v-show="props.modelValue.size"
+        v-show="value?.length"
         class="p-1 flex flex-wrap border border-slate-200 bg-slate-100 mb-1 rounded-md gap-1"
       >
         <ViTagComponent
-          v-for="(item, index) in props.modelValue"
+          v-for="(item, index) in value"
           :key="index"
           :text="item"
           @delete="deleteTag"
@@ -217,7 +226,7 @@ defineExpose({ focusInput })
     </template>
     <template #after>
       <slot name="after"></slot>
-      <span class="h-full flex items-center" v-if="datalist !== null">
+      <span class="h-full flex items-center" v-if="props.datalist !== null">
         <svg
           xmlns="http://www.w3.org/2000/svg"
           class="w-6 h-6 text-slate-400"
@@ -241,8 +250,10 @@ defineExpose({ focusInput })
           :key="index"
           @click="onClickData(item)"
           :class="{
-            '!bg-slate-50 border-s-4 border-s-sky-400':
-              props.modelValue.has(item),
+            '!bg-slate-50 border-s-4 border-s-sky-400': (Array.isArray(value)
+              ? value
+              : []
+            ).includes(item),
             '!bg-slate-50 border-e-slate-200 border-e-4':
               stageOptionIndex == index
           }"
