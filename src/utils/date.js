@@ -1,6 +1,5 @@
-import jalaali from 'jalaali-js'
-const { jalaaliMonthLength, toGregorian, toJalaali } = jalaali;
 import { DateTime } from 'luxon';
+import { getPersianMonthDays, gregorianToPersian, persianToGregorian } from './persianDate';
 
 /**
  * Converts a Luxon DateTime object to a Jalaali date object.
@@ -11,20 +10,8 @@ export function luxonToJalaali(luxonDate) {
     if (!luxonDate || typeof luxonDate.year !== 'number') {
         throw new Error('Invalid Luxon DateTime object');
     }
-    const { year, month, day } = luxonDate;
-    return toJalaali(year, month, day);
-}
-
-/**
- * Converts a Jalaali date object to a Luxon DateTime object.
- * @param {{jy: number, jm: number, jd: number}} jalaaliDate
- * @returns {import('luxon').DateTime}
- */
-export function jalaaliToLuxon(jalaaliDate) {
-    const { jy, jm, jd } = jalaaliDate;
-    const { gy, gm, gd } = toGregorian(jy, jm, jd);
-    // Import DateTime here to avoid circular dependency if needed
-    return DateTime.fromObject({ year: gy, month: gm, day: gd });
+    const dateObject = gregorianToPersian(luxonDate.toJSDate());
+    return { jy: dateObject.year, jm: dateObject.month, jd: dateObject.day };
 }
 
 /**
@@ -35,7 +22,12 @@ export function jalaaliToLuxon(jalaaliDate) {
  * @returns {{gy: number, gm: number, gd: number}} Gregorian date object
  */
 export function jalaaliYMDToGregorian(jy, jm, jd) {
-    return toGregorian(jy, jm, jd);
+    const dateObject = persianToGregorian(jy, jm, jd);
+    return {
+        gy: dateObject.year,
+        gm: dateObject.month,
+        gd: dateObject.day
+    };
 }
 
 /**
@@ -47,9 +39,10 @@ export function jalaaliYMDToGregorian(jy, jm, jd) {
  */
 export function getDaysInMonthByType(year, month, persian) {
     if (persian) {
-        return jalaaliMonthLength(year, month);
+        return getPersianMonthDays(year, month);
     } else {
         return DateTime.fromObject({ year, month }).daysInMonth;
     }
 }
+
 

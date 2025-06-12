@@ -1,6 +1,6 @@
 {
     "name": "@mnr73/viputy",
-    "version": "0.1.17-beta",
+    "version": "0.1.18-beta",
     "type": "module",
     "description": "vue and tailwind useful component for form inputs",
     "main": "index.js",
@@ -19,7 +19,6 @@
     "license": "ISC",
     "dependencies": {
         "@vueuse/core": "^13.3.0",
-        "jalaali-js": "^1.2.8",
         "luxon": "^3.6.1"
     },
     "peerDependencies": {
