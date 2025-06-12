@@ -1,8 +1,8 @@
 <script setup>
 import { computed, ref, useTemplateRef } from 'vue'
 import ViPart from './base/ViPart.vue'
-import { formatNumber } from '@/utils/formatters'
-import { deFormatNumber } from '@/utils/formatters'
+import { formatNumber } from '../utils/formatters'
+import { deFormatNumber } from '../utils/formatters'
 
 const emit = defineEmits(['update:modelValue'])
 const props = defineProps({
@@ -113,7 +113,7 @@ const value = computed({
     return formatEncode(props.modelValue)
   },
   set(value) {
-    emit('update:modelValue', formatDecode(value))
+    emit('update:modelValue', formatDecode(value.value))
   }
 })
 
