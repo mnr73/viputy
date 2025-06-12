@@ -1,9 +1,12 @@
 <script setup>
 import ViDropdown from './ViDropdown.vue'
 import { DateTime } from 'luxon'
-import jalaali from 'jalaali-js'
 import { computed, ref, useTemplateRef } from 'vue'
-import { getDaysInMonthByType, luxonToJalaali } from '@/utils/date'
+import {
+  getDaysInMonthByType,
+  jalaaliYMDToGregorian,
+  luxonToJalaali
+} from '../utils/date'
 
 const emit = defineEmits({
   'update:modelValue': {
@@ -295,7 +298,7 @@ function setValue() {
         day: day.value
       })
     } else {
-      const { gy, gm, gd } = jalaali.toGregorian(
+      const { gy, gm, gd } = jalaaliYMDToGregorian(
         year.value,
         month.value,
         day.value
@@ -334,7 +337,7 @@ function changeCalenderToGregorian() {
   if (activeCalender.value == 'gregorian') return
   activeCalender.value = 'gregorian'
 
-  let { gy, gm, gd } = jalaali.toGregorian(year.value, month.value, day.value)
+  let { gy, gm, gd } = jalaaliYMDToGregorian(year.value, month.value, day.value)
 
   year.value = gy
   month.value = gm

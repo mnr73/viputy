@@ -1,4 +1,5 @@
-import jalaali from 'jalaali-js';
+import jalaali from 'jalaali-js'
+const { jalaaliMonthLength, toGregorian, toJalaali } = jalaali;
 import { DateTime } from 'luxon';
 
 /**
@@ -11,7 +12,7 @@ export function luxonToJalaali(luxonDate) {
         throw new Error('Invalid Luxon DateTime object');
     }
     const { year, month, day } = luxonDate;
-    return jalaali.toJalaali(year, month, day);
+    return toJalaali(year, month, day);
 }
 
 /**
@@ -21,27 +22,22 @@ export function luxonToJalaali(luxonDate) {
  */
 export function jalaaliToLuxon(jalaaliDate) {
     const { jy, jm, jd } = jalaaliDate;
-    const { gy, gm, gd } = jalaali.toGregorian(jy, jm, jd);
+    const { gy, gm, gd } = toGregorian(jy, jm, jd);
     // Import DateTime here to avoid circular dependency if needed
     return DateTime.fromObject({ year: gy, month: gm, day: gd });
 }
 
 /**
- * Returns the number of days in a given month and year for either a Luxon DateTime or a Jalaali date object.
- * @param {import('luxon').DateTime | {jy: number, jm: number}} dateObj
- * @returns {number}
+ * Converts a Jalaali (Persian) date (year, month, day) to Gregorian (year, month, day).
+ * @param {number} jy - Jalaali year
+ * @param {number} jm - Jalaali month (1-12)
+ * @param {number} jd - Jalaali day (1-31)
+ * @returns {{gy: number, gm: number, gd: number}} Gregorian date object
  */
-export function getDaysInMonth(dateObj) {
-    if (dateObj && typeof dateObj.year === 'number' && typeof dateObj.month === 'number') {
-        if (typeof dateObj.daysInMonth === 'number') {
-            return dateObj.daysInMonth;
-        }
-    } else if (dateObj && typeof dateObj.jy === 'number' && typeof dateObj.jm === 'number') {
-        return jalaali.jalaaliMonthLength(dateObj.jy, dateObj.jm);
-    } else {
-        throw new Error('Invalid date object');
-    }
+export function jalaaliYMDToGregorian(jy, jm, jd) {
+    return toGregorian(jy, jm, jd);
 }
+
 /**
  * Returns the number of days in a given month and year, for either Persian (Jalaali) or Gregorian calendar.
  * @param {number} year
@@ -51,7 +47,7 @@ export function getDaysInMonth(dateObj) {
  */
 export function getDaysInMonthByType(year, month, persian) {
     if (persian) {
-        return jalaali.jalaaliMonthLength(year, month);
+        return jalaaliMonthLength(year, month);
     } else {
         return DateTime.fromObject({ year, month }).daysInMonth;
     }
