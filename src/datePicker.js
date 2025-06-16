@@ -1,5 +1,3 @@
-import ViSimpleDate from "./components/ViSimpleDate.vue";
+import ViSimpleDate from './components/ViSimpleDate.vue';
 
-export {
-    ViSimpleDate
-}
+export { ViSimpleDate };

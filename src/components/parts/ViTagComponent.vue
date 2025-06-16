@@ -1,15 +1,15 @@
 <script setup>
-import { ref } from 'vue'
+import { ref } from 'vue';
 
-const emit = defineEmits(['delete', 'edit'])
+const emit = defineEmits(['delete', 'edit']);
 const props = defineProps({
   text: {
     type: String
   }
-})
-const mode = ref()
+});
+const mode = ref();
 function onClick() {
-  emit(mode.value, props.text)
+  emit(mode.value, props.text);
 }
 </script>
 

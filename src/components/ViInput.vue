@@ -1,10 +1,10 @@
 <script setup>
-import { computed, ref, useTemplateRef } from 'vue'
-import ViPart from './base/ViPart.vue'
-import { formatNumber } from '../utils/formatters'
-import { deFormatNumber } from '../utils/formatters'
+import { computed, ref, useTemplateRef } from 'vue';
+import ViPart from './base/ViPart.vue';
+import { formatNumber } from '../utils/formatters';
+import { deFormatNumber } from '../utils/formatters';
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
 const props = defineProps({
   modelValue: {
     type: [String, Number]
@@ -37,7 +37,7 @@ const props = defineProps({
         'datetime-local',
         'month',
         'time'
-      ].includes(value)
+      ].includes(value);
     }
   },
   accept: {
@@ -47,7 +47,7 @@ const props = defineProps({
     type: String,
     default: null,
     validator: (value) => {
-      return ['error', 'warning', 'true'].includes(value)
+      return ['error', 'warning', 'true'].includes(value);
     }
   },
   format: {
@@ -78,7 +78,7 @@ const props = defineProps({
     type: String,
     default: null,
     validator: (value) => {
-      return ['rtl', 'ltr'].includes(value)
+      return ['rtl', 'ltr'].includes(value);
     }
   },
   min: {
@@ -97,125 +97,125 @@ const props = defineProps({
     type: Number,
     default: null
   }
-})
+});
 
-const input = useTemplateRef('input')
-const focus = ref(false)
-const showPassword = ref(false)
-const openPopup = ref(false)
-const stageOptionIndex = ref(0)
+const input = useTemplateRef('input');
+const focus = ref(false);
+const showPassword = ref(false);
+const openPopup = ref(false);
+const stageOptionIndex = ref(0);
 const focusMode = computed(() => {
-  return focus.value && !props.disabled
-})
+  return focus.value && !props.disabled;
+});
 
 const value = computed({
   get() {
-    return formatEncode(props.modelValue)
+    return formatEncode(props.modelValue);
   },
   set(value) {
-    emit('update:modelValue', formatDecode(value.value))
+    emit('update:modelValue', formatDecode(value.value));
   }
-})
+});
 
 const type = computed(() => {
   if (props.type == 'password' && showPassword.value) {
-    return 'text'
+    return 'text';
   }
-  return props.type
-})
+  return props.type;
+});
 
 const dataListFiltered = computed(() => {
-  stageOptionIndex.value = 0
-  if (!props.datalist) return []
-  if (!value.value) return props.datalist
+  stageOptionIndex.value = 0;
+  if (!props.datalist) return [];
+  if (!value.value) return props.datalist;
   return props.datalist.filter((item) => {
-    const itemStr = String(item).toLowerCase()
-    const valueStr = String(value.value).toLowerCase()
-    return itemStr.includes(valueStr) && itemStr !== valueStr
-  })
-})
+    const itemStr = String(item).toLowerCase();
+    const valueStr = String(value.value).toLowerCase();
+    return itemStr.includes(valueStr) && itemStr !== valueStr;
+  });
+});
 
 function formatEncode(val) {
   if (!props.format) {
-    return val
+    return val;
   }
   if (props.accept === 'number' && val) {
-    return formatNumber(val)
+    return formatNumber(val);
   }
-  return val
+  return val;
 }
 
 function formatDecode(val) {
   if (!props.format) {
-    return val
+    return val;
   }
   if (props.accept === 'number' && val) {
-    return deFormatNumber(val)
+    return deFormatNumber(val);
   }
-  return val
+  return val;
 }
 
 function handleKey(e) {
-  openPopup.value = true
+  openPopup.value = true;
 
   if (dataListFiltered.value?.length && openPopup.value == true) {
     if (e.code == 'ArrowDown') {
-      stageOptionIndex.value++
+      stageOptionIndex.value++;
       if (stageOptionIndex.value >= dataListFiltered.value?.length) {
-        stageOptionIndex.value = dataListFiltered.value?.length - 1
+        stageOptionIndex.value = dataListFiltered.value?.length - 1;
       }
     }
     if (e.code == 'ArrowUp') {
-      stageOptionIndex.value--
+      stageOptionIndex.value--;
       if (stageOptionIndex.value < 0) {
-        stageOptionIndex.value = 0
+        stageOptionIndex.value = 0;
       }
     }
     if (e.code == 'Enter') {
       input.value.value = value.value =
-        dataListFiltered.value[stageOptionIndex.value]
+        dataListFiltered.value[stageOptionIndex.value];
     }
   }
 }
 
 function onFocus() {
-  openPopup.value = true
-  focus.value = true
+  openPopup.value = true;
+  focus.value = true;
 }
 
 function onBlur() {
-  focus.value = false
+  focus.value = false;
   setTimeout(() => {
-    openPopup.value = false
-  }, 100)
+    openPopup.value = false;
+  }, 100);
 }
 
 function onClickData(data) {
-  focusInput()
-  input.value.value = value.value = data
-  openPopup.value = true
+  focusInput();
+  input.value.value = value.value = data;
+  openPopup.value = true;
 }
 
 function onClick(e) {
-  focusInput()
+  focusInput();
 }
 
 function focusInput() {
-  input.value.focus()
+  input.value.focus();
 }
 
 function onBeforeInput(e) {
-  if (e.data === null) return
+  if (e.data === null) return;
   if (
     props.accept === 'number' &&
     (!/^[\d\.]+$/.test(e.data) || // Only allow digits and dot
       (e.data.includes('.') && e.target.value.includes('.'))) // Prevent second dot
   ) {
-    return e.preventDefault()
+    return e.preventDefault();
   }
 }
 
-defineExpose({ focusInput })
+defineExpose({ focusInput });
 </script>
 
 <template>

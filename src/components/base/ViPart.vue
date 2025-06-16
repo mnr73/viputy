@@ -1,16 +1,16 @@
 <script setup>
-import { computed, ref, useSlots } from 'vue'
-import ViFrame from './ViFrame.vue'
-import ViNoFrame from './ViNoFrame.vue'
+import { computed, ref, useSlots } from 'vue';
+import ViFrame from './ViFrame.vue';
+import ViNoFrame from './ViNoFrame.vue';
 
-const emit = defineEmits(['clickOnBox'])
-const slots = useSlots()
+const emit = defineEmits(['clickOnBox']);
+const slots = useSlots();
 const props = defineProps({
   status: {
     type: String,
     default: null,
     validator: (value) => {
-      return ['error', 'warning', 'true'].includes(value)
+      return ['error', 'warning', 'true'].includes(value);
     }
   },
   disabled: {
@@ -29,15 +29,15 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-})
+});
 
-const hover = ref(false)
+const hover = ref(false);
 const hoverMode = computed(() => {
-  return hover.value && !props.focused && !props.disabled
-})
+  return hover.value && !props.focused && !props.disabled;
+});
 
 function onClick(e) {
-  emit('clickOnBox', e)
+  emit('clickOnBox', e);
 }
 </script>
 

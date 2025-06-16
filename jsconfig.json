@@ -1,17 +1,13 @@
 {
-    "compilerOptions": {
-        "module": "ESNext",
-        "target": "ESNext",
-        "moduleResolution": "Node",
-        "strict": true,
-        "baseUrl": "./",
-        "paths": {
-            "@/*": [
-                "src/*"
-            ],
-            "@dev/*": [
-                "src/*"
-            ],
-        }
+  "compilerOptions": {
+    "module": "ESNext",
+    "target": "ESNext",
+    "moduleResolution": "Node",
+    "strict": true,
+    "baseUrl": "./",
+    "paths": {
+      "@/*": ["src/*"],
+      "@dev/*": ["src/*"]
     }
+  }
 }

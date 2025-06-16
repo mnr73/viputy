@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue'
+import { computed } from 'vue';
 
 const props = defineProps({
   modelValue: {
@@ -16,26 +16,26 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-})
-const emit = defineEmits(['update:modelValue', 'on', 'off'])
+});
+const emit = defineEmits(['update:modelValue', 'on', 'off']);
 
 const value = computed({
   get() {
-    return props.modelValue
+    return props.modelValue;
   },
   set(value) {
     if (value) {
-      emit('on')
+      emit('on');
     } else {
-      emit('off')
+      emit('off');
     }
-    emit('update:modelValue', value)
+    emit('update:modelValue', value);
   }
-})
+});
 
 const on = computed(() => {
-  return value.value == props.value
-})
+  return value.value == props.value;
+});
 </script>
 
 <template>

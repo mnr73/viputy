@@ -1,52 +1,52 @@
 {
-    "name": "@mnr73/viputy",
-    "version": "0.1.18-beta",
-    "type": "module",
-    "description": "vue and tailwind useful component for form inputs",
-    "main": "index.js",
-    "keywords": [
-        "vue",
-        "input",
-        "component"
-    ],
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build",
-        "preview": "vite preview",
-        "test": "echo \"Error: no test specified\" && exit 1"
+  "name": "@mnr73/viputy",
+  "version": "0.1.18-beta",
+  "type": "module",
+  "description": "vue and tailwind useful component for form inputs",
+  "main": "index.js",
+  "keywords": [
+    "vue",
+    "input",
+    "component"
+  ],
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Milad Nazari",
+  "license": "ISC",
+  "dependencies": {
+    "@vueuse/core": "^13.3.0",
+    "luxon": "^3.6.1"
+  },
+  "peerDependencies": {
+    "tailwindcss": "^4.1.8",
+    "vue": "^3.5.13"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^5.2.3",
+    "eslint": "^9.28.0",
+    "eslint-plugin-vue": "^10.1.0",
+    "prettier": "3.5.3",
+    "vite": "^6.3.5"
+  },
+  "files": [
+    "src",
+    "index.js",
+    "datePicker.js"
+  ],
+  "exports": {
+    ".": {
+      "import": "./src/index.js"
     },
-    "author": "Milad Nazari",
-    "license": "ISC",
-    "dependencies": {
-        "@vueuse/core": "^13.3.0",
-        "luxon": "^3.6.1"
-    },
-    "peerDependencies": {
-        "tailwindcss": "^4.1.8",
-        "vue": "^3.5.13"
-    },
-    "devDependencies": {
-        "@vitejs/plugin-vue": "^5.2.3",
-        "eslint": "^9.28.0",
-        "eslint-plugin-vue": "^10.1.0",
-        "prettier": "3.5.3",
-        "vite": "^6.3.5"
-    },
-    "files": [
-        "src",
-        "index.js",
-        "datePicker.js"
-    ],
-    "exports": {
-        ".": {
-            "import": "./src/index.js"
-        },
-        "./datePicker": {
-            "import": "./src/datePicker.js"
-        }
-    },
-    "repository": {
-        "type": "git",
-        "url": "https://github.com/mnr73/viputy"
+    "./datePicker": {
+      "import": "./src/datePicker.js"
     }
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mnr73/viputy"
+  }
 }

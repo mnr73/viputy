@@ -1,8 +1,8 @@
 <script setup>
-import { computed, ref, useTemplateRef } from 'vue'
-import ViDropdown from './ViDropdown.vue'
+import { computed, ref, useTemplateRef } from 'vue';
+import ViDropdown from './ViDropdown.vue';
 
-const emit = defineEmits(['update:modelValue', 'search', 'change'])
+const emit = defineEmits(['update:modelValue', 'search', 'change']);
 const props = defineProps({
   modelValue: {
     type: [String, Number, Object, Array]
@@ -22,7 +22,7 @@ const props = defineProps({
     type: String,
     default: null,
     validator: (value) => {
-      return ['error', 'warning', 'true'].includes(value)
+      return ['error', 'warning', 'true'].includes(value);
     }
   },
   disabled: {
@@ -57,35 +57,35 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-})
+});
 
-const element = useTemplateRef('element')
-const searchInput = useTemplateRef('searchInput')
-const stageOptionIndex = ref(-1)
-const filterText = ref(null)
+const element = useTemplateRef('element');
+const searchInput = useTemplateRef('searchInput');
+const stageOptionIndex = ref(-1);
+const filterText = ref(null);
 
 const selectedOption = computed({
   get() {
-    return props.modelValue
+    return props.modelValue;
   },
   set(value) {
-    emit('update:modelValue', value)
+    emit('update:modelValue', value);
   }
-})
+});
 
 const optionsFiltered = computed(() => {
-  stageOptionIndex.value = -1
-  if (!props.options) return []
-  if (!filterText.value) return props.options
+  stageOptionIndex.value = -1;
+  if (!props.options) return [];
+  if (!filterText.value) return props.options;
   if (props.filter !== false) {
     return props.options.filter((item) => {
-      stageOptionIndex.value = 0
+      stageOptionIndex.value = 0;
       if (typeof item === 'object' && item !== null) {
         if (props.filter === true) {
           return Object.values(item)
             .join(' ')
             .toLowerCase()
-            .includes(String(filterText.value).toLowerCase())
+            .includes(String(filterText.value).toLowerCase());
         } else if (Array.isArray(props.filter)) {
           return props.filter
             .map((key) => {
@@ -95,122 +95,122 @@ const optionsFiltered = computed(() => {
                 .reduce(
                   (acc, k) => (acc && acc[k] !== undefined ? acc[k] : ''),
                   item
-                )
+                );
             })
             .join(' ')
             .toLowerCase()
-            .includes(String(filterText.value).toLowerCase())
+            .includes(String(filterText.value).toLowerCase());
         }
-        return []
+        return [];
       } else {
         return String(item)
           .toLowerCase()
-          .includes(String(filterText.value).toLowerCase())
+          .includes(String(filterText.value).toLowerCase());
       }
-    })
+    });
   }
-  return props.options
-})
+  return props.options;
+});
 
 function checkSelected(val) {
-  let selected = selectedOption.value
+  let selected = selectedOption.value;
 
   if (props.multiple && Array.isArray(selected)) {
     if (typeof val === 'object' && val !== null) {
       return selected.some(
         (item) => item && item[props.compareKey] === val[props.compareKey]
-      )
+      );
     } else {
-      return selected.includes(val)
+      return selected.includes(val);
     }
   }
   return props.compareKey && val?.[props.compareKey] != undefined
     ? val?.[props.compareKey] == selected?.[props.compareKey]
-    : val == selected
+    : val == selected;
 }
 
 function onOptionClick(option) {
-  filterText.value = null
+  filterText.value = null;
   if (props.multiple) {
     let selected = Array.isArray(selectedOption.value)
       ? [...selectedOption.value]
-      : []
+      : [];
     let exists =
       props.compareKey && typeof option === 'object'
         ? selected.some(
             (item) =>
               item && item[props.compareKey] === option[props.compareKey]
           )
-        : selected.includes(option)
+        : selected.includes(option);
 
     if (!exists) {
-      selected.push(option)
+      selected.push(option);
     } else {
       selected = selected.filter((item) =>
         props.compareKey && typeof option === 'object'
           ? item && item[props.compareKey] !== option[props.compareKey]
           : item !== option
-      )
+      );
     }
-    selectedOption.value = selected
+    selectedOption.value = selected;
   } else {
-    selectedOption.value = option
-    element.value.closeList()
+    selectedOption.value = option;
+    element.value.closeList();
   }
-  element.value.focusInput()
-  emit('change')
+  element.value.focusInput();
+  emit('change');
 }
 
 function handleKey(e) {
   if (optionsFiltered.value?.length) {
     if (e.code == 'ArrowDown') {
-      e.preventDefault()
-      element.value.openList()
-      stageOptionIndex.value++
+      e.preventDefault();
+      element.value.openList();
+      stageOptionIndex.value++;
       if (stageOptionIndex.value >= optionsFiltered.value?.length) {
-        stageOptionIndex.value = optionsFiltered.value?.length - 1
+        stageOptionIndex.value = optionsFiltered.value?.length - 1;
       }
     }
     if (e.code == 'ArrowUp') {
-      e.preventDefault()
-      element.value.openList()
-      stageOptionIndex.value--
+      e.preventDefault();
+      element.value.openList();
+      stageOptionIndex.value--;
       if (stageOptionIndex.value < 0) {
-        stageOptionIndex.value = 0
+        stageOptionIndex.value = 0;
       }
     }
     if (e.code == 'Enter' && stageOptionIndex.value >= 0) {
-      onOptionClick(optionsFiltered.value[stageOptionIndex.value])
+      onOptionClick(optionsFiltered.value[stageOptionIndex.value]);
     }
     if (e.code === 'Delete') {
-      clearInput()
+      clearInput();
     }
     if (
       (e.code == 'Tab' || (e.code == 'KeyF' && e.ctrlKey == true)) &&
       (props.filter !== false || props.search)
     ) {
-      e.preventDefault()
-      element.value.openList()
+      e.preventDefault();
+      element.value.openList();
       setTimeout(() => {
-        searchInput.value.focus()
-      }, 10)
+        searchInput.value.focus();
+      }, 10);
     }
   }
 }
 
 function closePopup() {
   setTimeout(() => {
-    stageOptionIndex.value = -1
-  }, 100)
+    stageOptionIndex.value = -1;
+  }, 100);
 }
 
 function clearInput() {
   if (props.multiple) {
-    selectedOption.value = []
+    selectedOption.value = [];
   } else {
-    selectedOption.value = null
+    selectedOption.value = null;
   }
-  emit('change')
+  emit('change');
 }
 </script>
 

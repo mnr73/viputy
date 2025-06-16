@@ -1,9 +1,9 @@
 <script setup>
-import ViCheckBox from '@/components/ViCheckBox.vue'
-import ViInput from '@/components/ViInput.vue'
-import { ref } from 'vue'
+import ViCheckBox from '@/components/ViCheckBox.vue';
+import ViInput from '@/components/ViInput.vue';
+import { ref } from 'vue';
 
-const checkbox = ref(false)
+const checkbox = ref(false);
 </script>
 
 <template>

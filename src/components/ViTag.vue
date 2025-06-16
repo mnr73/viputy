@@ -1,10 +1,10 @@
 <script setup>
-import { computed, ref, useTemplateRef } from 'vue'
-import ViPart from './base/ViPart.vue'
-import ViTagComponent from './parts/ViTagComponent.vue'
-import { onClickOutside } from '@vueuse/core'
+import { computed, ref, useTemplateRef } from 'vue';
+import ViPart from './base/ViPart.vue';
+import ViTagComponent from './parts/ViTagComponent.vue';
+import { onClickOutside } from '@vueuse/core';
 
-const emit = defineEmits(['update:modelValue'])
+const emit = defineEmits(['update:modelValue']);
 const props = defineProps({
   modelValue: {
     type: [Array]
@@ -25,7 +25,7 @@ const props = defineProps({
     type: String,
     default: null,
     validator: (value) => {
-      return ['error', 'warning', 'true'].includes(value)
+      return ['error', 'warning', 'true'].includes(value);
     }
   },
   disabled: {
@@ -48,7 +48,7 @@ const props = defineProps({
     type: String,
     default: null,
     validator: (value) => {
-      return ['rtl', 'ltr'].includes(value)
+      return ['rtl', 'ltr'].includes(value);
     }
   },
   min: {
@@ -71,130 +71,130 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-})
+});
 
-const input = useTemplateRef('input')
-const element = useTemplateRef('element')
-const focus = ref(false)
-const openPopup = ref(false)
-const stageOptionIndex = ref(0)
-const inputValue = ref()
+const input = useTemplateRef('input');
+const element = useTemplateRef('element');
+const focus = ref(false);
+const openPopup = ref(false);
+const stageOptionIndex = ref(0);
+const inputValue = ref();
 const focusMode = computed(() => {
-  return focus.value && !props.disabled
-})
+  return focus.value && !props.disabled;
+});
 
 const datalist = computed(() => {
-  let data = props.datalist || []
+  let data = props.datalist || [];
 
-  return inputValue.value ? [inputValue.value, ...data] : data
-})
+  return inputValue.value ? [inputValue.value, ...data] : data;
+});
 
 const open = computed({
   get() {
-    return openPopup.value
+    return openPopup.value;
   },
   set(value) {
     if (value) {
-      openPopup.value = true
+      openPopup.value = true;
     } else {
-      inputValue.value = null
-      openPopup.value = false
+      inputValue.value = null;
+      openPopup.value = false;
     }
   }
-})
+});
 
 function blurInput() {
-  input.value.blur()
+  input.value.blur();
 }
 
 onClickOutside(element, () => {
-  open.value = false
-})
+  open.value = false;
+});
 
 function handleKey(e) {
-  open.value = true
+  open.value = true;
 
   if (e.code == 'Escape') {
-    blurInput()
+    blurInput();
   }
 
   if (datalist.value?.length && openPopup.value == true) {
     if (e.code == 'ArrowDown') {
-      stageOptionIndex.value++
-      e.preventDefault()
+      stageOptionIndex.value++;
+      e.preventDefault();
       if (stageOptionIndex.value >= datalist.value?.length) {
-        stageOptionIndex.value = datalist.value?.length - 1
+        stageOptionIndex.value = datalist.value?.length - 1;
       }
     }
     if (e.code == 'ArrowUp') {
-      e.preventDefault()
+      e.preventDefault();
 
-      stageOptionIndex.value--
+      stageOptionIndex.value--;
       if (stageOptionIndex.value < 0) {
-        stageOptionIndex.value = 0
+        stageOptionIndex.value = 0;
       }
     }
     if (e.code == 'Enter') {
-      e.preventDefault()
-      onClickData(datalist.value[stageOptionIndex.value])
+      e.preventDefault();
+      onClickData(datalist.value[stageOptionIndex.value]);
     }
     if (e.code == 'Tab') {
-      open.value = false
+      open.value = false;
     }
     if (e.code == 'Escape') {
-      e.preventDefault()
-      open.value = false
+      e.preventDefault();
+      open.value = false;
     }
   }
 }
 
 function onFocus() {
-  open.value = true
-  focus.value = true
+  open.value = true;
+  focus.value = true;
 }
 
 function onBlur() {
-  focus.value = false
+  focus.value = false;
 }
 
 const value = computed({
   get() {
-    return props.modelValue
+    return props.modelValue;
   },
   set(value) {
-    emit('update:modelValue', value)
+    emit('update:modelValue', value);
   }
-})
+});
 
 function onClickData(data) {
-  focusInput()
-  let list = new Set(value.value)
-  list.has(data) ? list.delete(data) : list.add(data)
-  value.value = Array.from(list)
+  focusInput();
+  let list = new Set(value.value);
+  list.has(data) ? list.delete(data) : list.add(data);
+  value.value = Array.from(list);
 
-  open.value = true
+  open.value = true;
 }
 
 function onClick(e) {
-  focusInput()
+  focusInput();
 }
 
 function focusInput() {
-  input.value.focus()
+  input.value.focus();
 }
 
 function deleteTag(tag) {
-  value.value = value.value.filter((item) => item !== tag)
+  value.value = value.value.filter((item) => item !== tag);
 }
 
 function editTag(tag) {
-  deleteTag(tag)
-  inputValue.value = tag
-  stageOptionIndex.value = 0
-  focusInput()
+  deleteTag(tag);
+  inputValue.value = tag;
+  stageOptionIndex.value = 0;
+  focusInput();
 }
 
-defineExpose({ focusInput })
+defineExpose({ focusInput });
 </script>
 
 <template>

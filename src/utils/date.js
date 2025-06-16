@@ -1,5 +1,9 @@
 import { DateTime } from 'luxon';
-import { getPersianMonthDays, gregorianToPersian, persianToGregorian } from './persianDate';
+import {
+  getPersianMonthDays,
+  gregorianToPersian,
+  persianToGregorian
+} from './persianDate';
 
 /**
  * Converts a Luxon DateTime object to a Jalaali date object.
@@ -7,11 +11,11 @@ import { getPersianMonthDays, gregorianToPersian, persianToGregorian } from './p
  * @returns {{jy: number, jm: number, jd: number}}
  */
 export function luxonToJalaali(luxonDate) {
-    if (!luxonDate || typeof luxonDate.year !== 'number') {
-        throw new Error('Invalid Luxon DateTime object');
-    }
-    const dateObject = gregorianToPersian(luxonDate.toJSDate());
-    return { jy: dateObject.year, jm: dateObject.month, jd: dateObject.day };
+  if (!luxonDate || typeof luxonDate.year !== 'number') {
+    throw new Error('Invalid Luxon DateTime object');
+  }
+  const dateObject = gregorianToPersian(luxonDate.toJSDate());
+  return { jy: dateObject.year, jm: dateObject.month, jd: dateObject.day };
 }
 
 /**
@@ -22,12 +26,12 @@ export function luxonToJalaali(luxonDate) {
  * @returns {{gy: number, gm: number, gd: number}} Gregorian date object
  */
 export function jalaaliYMDToGregorian(jy, jm, jd) {
-    const dateObject = persianToGregorian(jy, jm, jd);
-    return {
-        gy: dateObject.year,
-        gm: dateObject.month,
-        gd: dateObject.day
-    };
+  const dateObject = persianToGregorian(jy, jm, jd);
+  return {
+    gy: dateObject.year,
+    gm: dateObject.month,
+    gd: dateObject.day
+  };
 }
 
 /**
@@ -38,11 +42,9 @@ export function jalaaliYMDToGregorian(jy, jm, jd) {
  * @returns {number}
  */
 export function getDaysInMonthByType(year, month, persian) {
-    if (persian) {
-        return getPersianMonthDays(year, month);
-    } else {
-        return DateTime.fromObject({ year, month }).daysInMonth;
-    }
+  if (persian) {
+    return getPersianMonthDays(year, month);
+  } else {
+    return DateTime.fromObject({ year, month }).daysInMonth;
+  }
 }
-
-

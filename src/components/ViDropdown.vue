@@ -1,9 +1,9 @@
 <script setup>
-import { computed, ref, useTemplateRef } from 'vue'
-import { onClickOutside } from '@vueuse/core'
-import ViPart from './base/ViPart.vue'
+import { computed, ref, useTemplateRef } from 'vue';
+import { onClickOutside } from '@vueuse/core';
+import ViPart from './base/ViPart.vue';
 
-const emit = defineEmits(['closePopup', 'openPopup'])
+const emit = defineEmits(['closePopup', 'openPopup']);
 const props = defineProps({
   title: {
     type: String,
@@ -13,7 +13,7 @@ const props = defineProps({
     type: String,
     default: null,
     validator: (value) => {
-      return ['error', 'warning', 'true'].includes(value)
+      return ['error', 'warning', 'true'].includes(value);
     }
   },
   disabled: {
@@ -32,80 +32,80 @@ const props = defineProps({
     type: Boolean,
     default: true
   }
-})
+});
 
-const input = useTemplateRef('input')
-const element = useTemplateRef('element')
-const openPopup = ref(false)
-const focus = ref(false)
+const input = useTemplateRef('input');
+const element = useTemplateRef('element');
+const openPopup = ref(false);
+const focus = ref(false);
 
 const focusMode = computed(() => {
-  return (focus.value || openPopup.value) && !props.disabled
-})
+  return (focus.value || openPopup.value) && !props.disabled;
+});
 
 function onBlur() {
-  focus.value = false
+  focus.value = false;
 }
 
 function onFocus() {
-  focus.value = true
+  focus.value = true;
 }
 
 function onClick() {
-  focusInput()
-  toggleList()
+  focusInput();
+  toggleList();
 }
 
 function openList() {
-  openPopup.value = true
-  emit('openPopup')
+  openPopup.value = true;
+  emit('openPopup');
 }
 
 function closeList() {
-  openPopup.value = false
-  emit('closePopup')
+  openPopup.value = false;
+  emit('closePopup');
 }
 
 function toggleList() {
-  openPopup.value ? closeList() : openList()
+  openPopup.value ? closeList() : openList();
 }
 
 function focusInput() {
-  input.value.focus()
+  input.value.focus();
 }
 
 function blurInput() {
-  input.value.blur()
+  input.value.blur();
 }
 
 onClickOutside(element, () => {
-  closeList()
-})
+  closeList();
+});
 
 function handleKey(e) {
-  if (!props.actionKeys) return
+  if (!props.actionKeys) return;
   if (e.code == 'Escape') {
-    e.preventDefault()
+    e.preventDefault();
     if (openPopup.value) {
-      closeList()
+      closeList();
     } else {
-      blurInput()
+      blurInput();
     }
   }
   if (e.code == 'Tab') {
-    closeList()
+    closeList();
   }
   if (e.code == 'Enter') {
-    e.preventDefault()
-    closeList()
+    e.preventDefault();
+    closeList();
   }
   if (e.code == 'Space') {
-    e.preventDefault()
-    toggleList()
+    e.preventDefault();
+    toggleList();
   }
 }
 
-defineExpose({ focusInput, openList, closeList, toggleList, blurInput })
+defineExpose({ focusInput, openList, closeList, toggleList, blurInput });
 </script>
 
 <template>

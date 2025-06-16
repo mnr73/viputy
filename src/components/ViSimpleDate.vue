@@ -1,19 +1,19 @@
 <script setup>
-import ViDropdown from './ViDropdown.vue'
-import { DateTime } from 'luxon'
-import { computed, ref, useTemplateRef } from 'vue'
+import ViDropdown from './ViDropdown.vue';
+import { DateTime } from 'luxon';
+import { computed, ref, useTemplateRef } from 'vue';
 import {
   getDaysInMonthByType,
   jalaaliYMDToGregorian,
   luxonToJalaali
-} from '../utils/date'
+} from '../utils/date';
 
 const emit = defineEmits({
   'update:modelValue': {
     type: DateTime
   },
   change: true
-})
+});
 const props = defineProps({
   modelValue: {
     type: DateTime
@@ -22,14 +22,14 @@ const props = defineProps({
     type: String,
     default: 'gregorian',
     validator: (value) => {
-      return ['gregorian', 'persian', 'both'].includes(value)
+      return ['gregorian', 'persian', 'both'].includes(value);
     }
   },
   activeCalender: {
     type: String,
     default: 'gregorian',
     validator: (value) => {
-      return ['gregorian', 'persian'].includes(value)
+      return ['gregorian', 'persian'].includes(value);
     }
   },
   min: {
@@ -53,7 +53,7 @@ const props = defineProps({
     type: String,
     default: null,
     validator: (value) => {
-      return ['error', 'warning', 'true'].includes(value)
+      return ['error', 'warning', 'true'].includes(value);
     }
   },
   disabled: {
@@ -91,17 +91,17 @@ const props = defineProps({
       persian: 'Persian'
     })
   }
-})
+});
 
-const showDateStatus = ref(null)
-const element = useTemplateRef('element')
-const dayBox = useTemplateRef('dayBox')
-const monthBox = useTemplateRef('monthBox')
-const yearBox = useTemplateRef('yearBox')
-const focusDayInput = ref(false)
-const focusMonthInput = ref(false)
-const focusYearInput = ref(false)
-const autoSet = ref(new Set([]))
+const showDateStatus = ref(null);
+const element = useTemplateRef('element');
+const dayBox = useTemplateRef('dayBox');
+const monthBox = useTemplateRef('monthBox');
+const yearBox = useTemplateRef('yearBox');
+const focusDayInput = ref(false);
+const focusMonthInput = ref(false);
+const focusYearInput = ref(false);
+const autoSet = ref(new Set([]));
 const monthNames = {
   1: { persian: 'فروردین', gregorian: 'January' },
   2: { persian: 'اردیبهشت', gregorian: 'February' },
@@ -115,35 +115,35 @@ const monthNames = {
   10: { persian: 'دی', gregorian: 'October' },
   11: { persian: 'بهمن', gregorian: 'November' },
   12: { persian: 'اسفند', gregorian: 'December' }
-}
-const activeCalender = ref(props.activeCalender)
+};
+const activeCalender = ref(props.activeCalender);
 const minYear = computed(() => {
   if (activeCalender.value == 'gregorian') {
-    return props.min.year
+    return props.min.year;
   } else {
-    return luxonToJalaali(props.min).jy
+    return luxonToJalaali(props.min).jy;
   }
-})
+});
 const maxYear = computed(() => {
   if (activeCalender.value == 'gregorian') {
-    return props.max.year
+    return props.max.year;
   } else {
-    return luxonToJalaali(props.max).jy
+    return luxonToJalaali(props.max).jy;
   }
-})
-const year = ref(props.modelValue?.year)
-const month = ref(props.modelValue?.month)
-const day = ref(props.modelValue?.day)
-const dayLength = ref(31)
+});
+const year = ref(props.modelValue?.year);
+const month = ref(props.modelValue?.month);
+const day = ref(props.modelValue?.day);
+const dayLength = ref(31);
 
 const value = computed({
   get() {
-    return props.modelValue
+    return props.modelValue;
   },
   set(value) {
-    emit('update:modelValue', value)
+    emit('update:modelValue', value);
   }
-})
+});
 
 const signedDate = computed(() => {
   if (!props.signedDate) {
@@ -151,24 +151,24 @@ const signedDate = computed(() => {
       year: null,
       month: null,
       day: null
-    }
+    };
   }
   if (activeCalender.value == 'gregorian') {
-    let d = props.signedDate
+    let d = props.signedDate;
     return {
       year: d.year,
       month: d.month,
       day: d.day
-    }
+    };
   } else {
-    let d = luxonToJalaali(props.signedDate)
+    let d = luxonToJalaali(props.signedDate);
     return {
       year: d.jy,
       month: d.jm,
       day: d.jd
-    }
+    };
   }
-})
+});
 
 const scrollDate = computed(() => {
   if (!props.scrollDate) {
@@ -176,146 +176,149 @@ const scrollDate = computed(() => {
       year: null,
       month: null,
       day: null
-    }
+    };
   }
   if (activeCalender.value == 'gregorian') {
-    let d = props.scrollDate
+    let d = props.scrollDate;
     return {
       year: d.year,
       month: d.month,
       day: d.day
-    }
+    };
   } else {
-    let d = luxonToJalaali(props.scrollDate)
+    let d = luxonToJalaali(props.scrollDate);
     return {
       year: d.jy,
       month: d.jm,
       day: d.jd
-    }
+    };
   }
-})
+});
 
 function setMonthLength() {
   dayLength.value = getDaysInMonthByType(
     year.value,
     month.value,
     activeCalender.value == 'persian'
-  )
+  );
   if (day.value > dayLength.value) {
-    setDay(dayLength.value, false)
+    setDay(dayLength.value, false);
   }
 }
 
 function setScroll(signed = false) {
   setTimeout(() => {
     if (signedDate.value.day || day.value) {
-      scrollToMid(dayBox.value, signed ? signedDate.value.day : day.value)
+      scrollToMid(dayBox.value, signed ? signedDate.value.day : day.value);
     } else {
-      scrollToMid(dayBox.value, scrollDate.value.day)
+      scrollToMid(dayBox.value, scrollDate.value.day);
     }
 
     if (signedDate.value.day || day.value) {
-      scrollToMid(monthBox.value, signed ? signedDate.value.month : month.value)
+      scrollToMid(
+        monthBox.value,
+        signed ? signedDate.value.month : month.value
+      );
     } else {
-      scrollToMid(monthBox.value, scrollDate.value.month)
+      scrollToMid(monthBox.value, scrollDate.value.month);
     }
 
     if (signedDate.value.day || day.value) {
-      scrollToMid(yearBox.value, signed ? signedDate.value.year : year.value)
+      scrollToMid(yearBox.value, signed ? signedDate.value.year : year.value);
     } else {
-      scrollToMid(yearBox.value, scrollDate.value.year)
+      scrollToMid(yearBox.value, scrollDate.value.year);
     }
-  }, 60)
+  }, 60);
 }
 
 function scrollToMid(box, number) {
   if (box && number !== null) {
-    let el = box.querySelector(`[data-value="${number}"]`)
+    let el = box.querySelector(`[data-value="${number}"]`);
     if (el) {
-      box.scrollTo(0, el.offsetTop - 70)
+      box.scrollTo(0, el.offsetTop - 70);
     }
   }
 }
 
 function setDay(value, auto = false) {
-  if (auto) autoSet.value.add('day')
-  day.value = value
-  scrollToMid(dayBox.value, value)
-  change()
+  if (auto) autoSet.value.add('day');
+  day.value = value;
+  scrollToMid(dayBox.value, value);
+  change();
 }
 
 function setMonth(value, auto = false) {
-  if (auto) autoSet.value.add('month')
-  month.value = value
-  scrollToMid(monthBox.value, value)
-  change()
+  if (auto) autoSet.value.add('month');
+  month.value = value;
+  scrollToMid(monthBox.value, value);
+  change();
 }
 
 function setYear(value, auto = false) {
-  if (auto) autoSet.value.add('year')
-  year.value = value
-  scrollToMid(yearBox.value, value)
-  change()
+  if (auto) autoSet.value.add('year');
+  year.value = value;
+  scrollToMid(yearBox.value, value);
+  change();
 }
 
 function open() {
   if (props.modelValue) {
     if (activeCalender.value == 'gregorian') {
-      year.value = props.modelValue?.year
-      month.value = props.modelValue?.month
-      day.value = props.modelValue?.day
+      year.value = props.modelValue?.year;
+      month.value = props.modelValue?.month;
+      day.value = props.modelValue?.day;
     } else {
-      let persian = luxonToJalaali(props.modelValue)
+      let persian = luxonToJalaali(props.modelValue);
 
-      year.value = persian.jy
-      month.value = persian.jm
-      day.value = persian.jd
+      year.value = persian.jy;
+      month.value = persian.jm;
+      day.value = persian.jd;
     }
   }
 
-  setScroll()
+  setScroll();
 }
 function close() {
-  autoSet.value.clear()
+  autoSet.value.clear();
 }
 
 function change() {
   if (year.value && month.value) {
-    setMonthLength()
+    setMonthLength();
   }
   if (autoSet.value.size >= 3) {
-    setValue()
+    setValue();
   }
 }
 
 function setValue() {
-  element.value.closeList()
+  element.value.closeList();
   if (year.value && month.value && day.value) {
     if (activeCalender.value == 'gregorian') {
       value.value = DateTime.fromObject({
         year: year.value,
         month: month.value,
         day: day.value
-      })
+      });
     } else {
       const { gy, gm, gd } = jalaaliYMDToGregorian(
         year.value,
         month.value,
         day.value
-      )
+      );
       value.value = DateTime.fromObject({
         year: gy,
         month: gm,
         day: gd
-      })
+      });
     }
   }
 }
 
 function changeCalenderToPersian() {
-  if (activeCalender.value == 'persian') return
+  if (activeCalender.value == 'persian') return;
 
-  activeCalender.value = 'persian'
+  activeCalender.value = 'persian';
 
   let persianDate = luxonToJalaali(
     DateTime.fromObject({
@@ -323,69 +326,73 @@ function changeCalenderToPersian() {
       month: month.value,
       day: day.value
     })
-  )
+  );
 
-  year.value = persianDate.jy
-  month.value = persianDate.jm
-  day.value = persianDate.jd
+  year.value = persianDate.jy;
+  month.value = persianDate.jm;
+  day.value = persianDate.jd;
 
-  setMonthLength()
-  setScroll()
+  setMonthLength();
+  setScroll();
 }
 
 function changeCalenderToGregorian() {
-  if (activeCalender.value == 'gregorian') return
-  activeCalender.value = 'gregorian'
+  if (activeCalender.value == 'gregorian') return;
+  activeCalender.value = 'gregorian';
 
-  let { gy, gm, gd } = jalaaliYMDToGregorian(year.value, month.value, day.value)
+  let { gy, gm, gd } = jalaaliYMDToGregorian(
+    year.value,
+    month.value,
+    day.value
+  );
 
-  year.value = gy
-  month.value = gm
-  day.value = gd
-  setMonthLength()
-  setScroll()
+  year.value = gy;
+  month.value = gm;
+  day.value = gd;
+  setMonthLength();
+  setScroll();
 }
 
 function handleKey(e) {
   if (e.code == 'Escape') {
-    e.preventDefault()
-    element.value.closeList()
-    element.value.blurInput()
+    e.preventDefault();
+    element.value.closeList();
+    element.value.blurInput();
   }
   if (e.code == 'Space') {
-    e.preventDefault()
-    element.value.toggleList()
+    e.preventDefault();
+    element.value.toggleList();
   }
   if (e.code == 'Enter') {
     if (year.value && month.value && day.value) {
-      setValue()
+      setValue();
     }
   }
   if (e.code === 'Delete') {
-    clearInput()
+    clearInput();
   }
   if (e.code == 'Tab') {
     if (focusYearInput.value == true) {
-      element.value.closeList()
+      element.value.closeList();
     }
   }
 }
 
 function clearInput() {
-  value.value = null
-  year.value = null
-  month.value = null
-  day.value = null
-  emit('change')
+  value.value = null;
+  year.value = null;
+  month.value = null;
+  day.value = null;
+  emit('change');
 }
 
 function showDate() {
   if (showDateStatus.value !== 'signed' && props.signedDate) {
-    showDateStatus.value = 'signed'
-    setScroll(true)
+    showDateStatus.value = 'signed';
+    setScroll(true);
   } else if (value.value) {
-    showDateStatus.value = 'value'
-    setScroll()
+    showDateStatus.value = 'value';
+    setScroll();
   }
 }
 </script>

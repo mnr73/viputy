@@ -1,8 +1,8 @@
 <script setup>
-import { computed, ref, useTemplateRef } from 'vue'
-import ViPopup from './ViPopup.vue'
+import { computed, ref, useTemplateRef } from 'vue';
+import ViPopup from './ViPopup.vue';
 
-const emit = defineEmits(['update:modelValue', 'search', 'change'])
+const emit = defineEmits(['update:modelValue', 'search', 'change']);
 const props = defineProps({
   modelValue: {
     type: [String, Number, Object, Array]
@@ -22,102 +22,102 @@ const props = defineProps({
     type: Boolean,
     default: false
   }
-})
+});
 
-const element = useTemplateRef('element')
-const stageOptionIndex = ref(-1)
+const element = useTemplateRef('element');
+const stageOptionIndex = ref(-1);
 
 const selectedOption = computed({
   get() {
-    return props.modelValue
+    return props.modelValue;
   },
   set(value) {
-    emit('update:modelValue', value)
+    emit('update:modelValue', value);
   }
-})
+});
 
 function checkSelected(val) {
-  let selected = selectedOption.value
+  let selected = selectedOption.value;
 
   if (props.multiple && Array.isArray(selected)) {
     if (typeof val === 'object' && val !== null) {
       return selected.some(
         (item) => item && item[props.compareKey] === val[props.compareKey]
-      )
+      );
     } else {
-      return selected.includes(val)
+      return selected.includes(val);
     }
   }
   return props.compareKey && val?.[props.compareKey] != undefined
     ? val?.[props.compareKey] == selected?.[props.compareKey]
-    : val == selected
+    : val == selected;
 }
 
 function onOptionClick(option) {
   if (props.multiple) {
     let selected = Array.isArray(selectedOption.value)
       ? [...selectedOption.value]
-      : []
+      : [];
     let exists =
       props.compareKey && typeof option === 'object'
         ? selected.some(
             (item) =>
               item && item[props.compareKey] === option[props.compareKey]
           )
-        : selected.includes(option)
+        : selected.includes(option);
 
     if (!exists) {
-      selected.push(option)
+      selected.push(option);
     } else {
       selected = selected.filter((item) =>
         props.compareKey && typeof option === 'object'
           ? item && item[props.compareKey] !== option[props.compareKey]
           : item !== option
-      )
+      );
     }
-    selectedOption.value = selected
+    selectedOption.value = selected;
   } else {
-    selectedOption.value = option
-    element.value.closeList()
+    selectedOption.value = option;
+    element.value.closeList();
   }
-  emit('change')
+  emit('change');
 }
 
 function handleKey(e) {
   if (props.options?.length) {
     if (e.code == 'ArrowDown') {
-      e.preventDefault()
-      element.value.openList()
-      stageOptionIndex.value++
+      e.preventDefault();
+      element.value.openList();
+      stageOptionIndex.value++;
       if (stageOptionIndex.value >= props.options?.length) {
-        stageOptionIndex.value = props.options?.length - 1
+        stageOptionIndex.value = props.options?.length - 1;
       }
     }
     if (e.code == 'ArrowUp') {
-      e.preventDefault()
-      element.value.openList()
-      stageOptionIndex.value--
+      e.preventDefault();
+      element.value.openList();
+      stageOptionIndex.value--;
       if (stageOptionIndex.value < 0) {
-        stageOptionIndex.value = 0
+        stageOptionIndex.value = 0;
       }
     }
     if (e.code == 'Enter' && stageOptionIndex.value >= 0) {
-      onOptionClick(props.options[stageOptionIndex.value])
+      onOptionClick(props.options[stageOptionIndex.value]);
     }
     if (e.code == 'Space') {
-      e.preventDefault()
-      element.value.toggleList()
+      e.preventDefault();
+      element.value.toggleList();
     }
     if (e.code === 'Delete') {
-      element.value.closeList()
+      element.value.closeList();
     }
   }
 }
 
 function closePopup() {
   setTimeout(() => {
-    stageOptionIndex.value = -1
-  }, 100)
+    stageOptionIndex.value = -1;
+  }, 100);
 }
 </script>
 

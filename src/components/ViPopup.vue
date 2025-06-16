@@ -1,46 +1,46 @@
 <script setup>
-import { ref, useTemplateRef } from 'vue'
-import { onClickOutside } from '@vueuse/core'
+import { ref, useTemplateRef } from 'vue';
+import { onClickOutside } from '@vueuse/core';
 
-const element = useTemplateRef('element')
-const openPopup = ref(false)
-const focus = ref(false)
+const element = useTemplateRef('element');
+const openPopup = ref(false);
+const focus = ref(false);
 
-const emit = defineEmits(['closePopup', 'openPopup'])
+const emit = defineEmits(['closePopup', 'openPopup']);
 const props = defineProps({
   icon: {
     type: Boolean,
     default: true
   }
-})
+});
 
 onClickOutside(element, () => {
-  closeList()
-})
+  closeList();
+});
 
 function openList() {
-  openPopup.value = true
-  emit('openPopup')
+  openPopup.value = true;
+  emit('openPopup');
 }
 
 function closeList() {
-  openPopup.value = false
-  emit('closePopup')
+  openPopup.value = false;
+  emit('closePopup');
 }
 
 function toggleList() {
-  openPopup.value ? closeList() : openList()
+  openPopup.value ? closeList() : openList();
 }
 
 function onBlur() {
-  focus.value = false
+  focus.value = false;
 }
 
 function onFocus() {
-  focus.value = true
+  focus.value = true;
 }
 
-defineExpose({ openList, closeList, toggleList })
+defineExpose({ openList, closeList, toggleList });
 </script>
 
 <template>
