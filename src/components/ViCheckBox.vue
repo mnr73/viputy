@@ -1,7 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-// نوع پراپرتی‌ها
 type ModelValue = boolean | Array<string | number | null>;
 type CheckboxValue = number | string | null;
 
