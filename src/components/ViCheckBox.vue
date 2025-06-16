@@ -44,7 +44,7 @@ const on = computed(() => {
 
 <template>
   <label
-    class="flex gap-2 select-none items-center cursor-pointer"
+    class="inline-flex gap-2 select-none items-center cursor-pointer"
     :class="{ '!cursor-not-allowed': props.disabled }"
   >
     <div
