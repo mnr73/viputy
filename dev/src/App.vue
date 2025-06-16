@@ -9,7 +9,9 @@ const checkbox = ref(false)
 <template>
   <div class="bg-white mx-auto p-5 w-[800px]">
     <div class="p-2 grid gap-5">
-      <ViCheckBox v-model="checkbox"></ViCheckBox>
+      <div>
+        <ViCheckBox v-model="checkbox">click on me</ViCheckBox>
+      </div>
       <ViInput></ViInput>
     </div>
   </div>
