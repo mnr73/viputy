@@ -1,109 +1,77 @@
-<script setup>
-import { computed, ref, useTemplateRef } from 'vue';
+<script setup lang="ts">
+import { computed, ref } from 'vue';
 import ViPart from './base/ViPart.vue';
 import { formatNumber } from '../utils/formatters';
 import { deFormatNumber } from '../utils/formatters';
 
-const emit = defineEmits(['update:modelValue']);
-const props = defineProps({
-  modelValue: {
-    type: [String, Number]
-  },
-  datalist: {
-    type: Array,
-    default: null
-  },
-  title: {
-    type: String,
-    default: null
-  },
-  placeholder: {
-    type: String,
-    default: null
-  },
-  type: {
-    type: String,
-    default: 'text',
-    validator: (value) => {
-      return [
-        'number',
-        'password',
-        'search',
-        'tel',
-        'text',
-        'email',
-        'url',
-        'date',
-        'datetime-local',
-        'month',
-        'time'
-      ].includes(value);
-    }
-  },
-  accept: {
-    type: [String, RegExp]
-  },
-  status: {
-    type: String,
-    default: null,
-    validator: (value) => {
-      return ['error', 'warning', 'true'].includes(value);
-    }
-  },
-  format: {
-    type: Boolean,
-    default: false
-  },
-  disabled: {
-    type: Boolean,
-    default: false
-  },
-  readonly: {
-    type: Boolean,
-    default: false
-  },
-  required: {
-    type: Boolean,
-    default: undefined
-  },
-  list: {
-    type: String,
-    default: null
-  },
-  noFrame: {
-    type: Boolean,
-    default: false
-  },
-  inputDir: {
-    type: String,
-    default: null,
-    validator: (value) => {
-      return ['rtl', 'ltr'].includes(value);
-    }
-  },
-  min: {
-    type: [String, Number, Date],
-    default: null
-  },
-  max: {
-    type: [String, Number, Date],
-    default: null
-  },
-  minlength: {
-    type: Number,
-    default: null
-  },
-  maxlength: {
-    type: Number,
-    default: null
-  }
-});
+type InputType =
+  | 'number'
+  | 'password'
+  | 'search'
+  | 'tel'
+  | 'text'
+  | 'email'
+  | 'url'
+  | 'date'
+  | 'datetime-local'
+  | 'month'
+  | 'time';
 
-const input = useTemplateRef('input');
+type InputStatus = 'error' | 'warning' | 'true';
+
+type AcceptType = string | RegExp;
+
+const props = withDefaults(
+  defineProps<{
+    modelValue?: string | number;
+    datalist?: Array<string | number> | null;
+    title?: string | null;
+    placeholder?: string | null;
+    type?: InputType;
+    accept?: AcceptType;
+    status?: InputStatus | null;
+    format?: boolean;
+    disabled?: boolean;
+    readonly?: boolean;
+    required?: boolean;
+    list?: string | null;
+    noFrame?: boolean;
+    inputDir?: 'rtl' | 'ltr' | null;
+    min?: string | number | Date | null;
+    max?: string | number | Date | null;
+    minlength?: number | null;
+    maxlength?: number | null;
+  }>(),
+  {
+    datalist: null,
+    title: null,
+    placeholder: null,
+    type: 'text',
+    status: null,
+    format: false,
+    disabled: false,
+    readonly: false,
+    required: undefined,
+    list: null,
+    noFrame: false,
+    inputDir: null,
+    min: null,
+    max: null,
+    minlength: null,
+    maxlength: null
+  }
+);
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: string | number): void;
+}>();
+
+const input = ref<HTMLInputElement | null>(null);
 const focus = ref(false);
 const showPassword = ref(false);
 const openPopup = ref(false);
 const stageOptionIndex = ref(0);
+
 const focusMode = computed(() => {
   return focus.value && !props.disabled;
 });
@@ -112,16 +80,14 @@ const value = computed({
   get() {
     return formatEncode(props.modelValue);
   },
-  set(value) {
-    emit('update:modelValue', formatDecode(value.value));
+  set(val: string | number) {
+    emit('update:modelValue', formatDecode(val));
   }
 });
 
 const type = computed(() => {
-  if (props.type == 'password' && showPassword.value) {
-    return 'text';
-  }
-  return props.type;
+  if (props.type === 'password' && showPassword.value) return 'text';
+  return props.type || 'text';
 });
 
 const dataListFiltered = computed(() => {
@@ -135,45 +101,42 @@ const dataListFiltered = computed(() => {
   });
 });
 
-function formatEncode(val) {
-  if (!props.format) {
-    return val;
-  }
+function formatEncode(val: string | number | undefined) {
+  if (!props.format) return val;
   if (props.accept === 'number' && val) {
     return formatNumber(val);
   }
   return val;
 }
 
-function formatDecode(val) {
-  if (!props.format) {
-    return val;
-  }
+function formatDecode(val: string | number | undefined) {
+  if (!props.format) return val;
   if (props.accept === 'number' && val) {
     return deFormatNumber(val);
   }
   return val;
 }
 
-function handleKey(e) {
+function handleKey(e: KeyboardEvent) {
   openPopup.value = true;
 
-  if (dataListFiltered.value?.length && openPopup.value == true) {
-    if (e.code == 'ArrowDown') {
+  if (dataListFiltered.value?.length) {
+    if (e.code === 'ArrowDown') {
       stageOptionIndex.value++;
-      if (stageOptionIndex.value >= dataListFiltered.value?.length) {
-        stageOptionIndex.value = dataListFiltered.value?.length - 1;
+      if (stageOptionIndex.value >= dataListFiltered.value.length) {
+        stageOptionIndex.value = dataListFiltered.value.length - 1;
       }
     }
-    if (e.code == 'ArrowUp') {
+    if (e.code === 'ArrowUp') {
       stageOptionIndex.value--;
       if (stageOptionIndex.value < 0) {
         stageOptionIndex.value = 0;
       }
     }
-    if (e.code == 'Enter') {
-      input.value.value = value.value =
-        dataListFiltered.value[stageOptionIndex.value];
+    if (e.code === 'Enter') {
+      input.value!.value = String(
+        (value.value = dataListFiltered.value[stageOptionIndex.value])
+      );
     }
   }
 }
@@ -190,32 +153,44 @@ function onBlur() {
   }, 100);
 }
 
-function onClickData(data) {
+function onClickData(data: string | number) {
   focusInput();
-  input.value.value = value.value = data;
+  input.value!.value = String((value.value = data));
   openPopup.value = true;
 }
 
-function onClick(e) {
+function onClick(e: MouseEvent) {
   focusInput();
 }
 
 function focusInput() {
-  input.value.focus();
+  input.value?.focus();
 }
 
-function onBeforeInput(e) {
-  if (e.data === null) return;
+function onBeforeInput(e: Event) {
+  const inputEvent = e as InputEvent;
+  if (inputEvent.data === null) return;
   if (
     props.accept === 'number' &&
-    (!/^[\d\.]+$/.test(e.data) || // Only allow digits and dot
-      (e.data.includes('.') && e.target.value.includes('.'))) // Prevent second dot
+    (!/^[\d.]+$/.test(inputEvent.data) ||
+      (inputEvent.data.includes('.') &&
+        (inputEvent.target as HTMLInputElement).value.includes('.')))
   ) {
-    return e.preventDefault();
+    inputEvent.preventDefault();
   }
 }
 
 defineExpose({ focusInput });
+
+function formatMinMax(
+  val: string | number | Date | null | undefined
+): string | number | undefined {
+  if (val === null) return undefined;
+  if (val instanceof Date) {
+    return val.toISOString().split('T')[0];
+  }
+  return val;
+}
 </script>
 
 <template>
@@ -280,7 +255,7 @@ defineExpose({ focusInput });
         ref="input"
         v-model="value"
         :type="type"
-        :list="list"
+        :list="list || undefined"
         class="outline-0 w-full min-w-0 placeholder:text-slate-400 h-full"
         :class="{
           'opacity-0': props.title !== null && !(input?.value || focusMode),
@@ -291,12 +266,12 @@ defineExpose({ focusInput });
         :required="props.required"
         :disabled="props.disabled"
         :readonly="props.readonly"
-        :placeholder="props.placeholder"
-        :min="props.min"
-        :max="props.max"
-        :minlength="props.minlength"
-        :maxlength="props.maxlength"
-        :dir="inputDir"
+        :placeholder="props.placeholder || undefined"
+        :min="formatMinMax(props.min)"
+        :max="formatMinMax(props.max)"
+        :minlength="props.minlength || undefined"
+        :maxlength="props.maxlength || undefined"
+        :dir="inputDir || undefined"
         @focus="onFocus"
         @blur="onBlur"
       />

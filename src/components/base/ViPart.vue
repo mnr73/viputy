@@ -1,42 +1,39 @@
-<script setup>
+<script setup lang="ts">
 import { computed, ref, useSlots } from 'vue';
 import ViFrame from './ViFrame.vue';
 import ViNoFrame from './ViNoFrame.vue';
 
-const emit = defineEmits(['clickOnBox']);
-const slots = useSlots();
-const props = defineProps({
-  status: {
-    type: String,
-    default: null,
-    validator: (value) => {
-      return ['error', 'warning', 'true'].includes(value);
-    }
-  },
-  disabled: {
-    type: Boolean,
-    default: false
-  },
-  noFrame: {
-    type: Boolean,
-    default: false
-  },
-  focused: {
-    type: Boolean,
-    default: false
-  },
-  openPopup: {
-    type: Boolean,
-    default: false
+type StatusType = 'error' | 'warning' | 'true' | null;
+
+const props = withDefaults(
+  defineProps<{
+    status?: StatusType;
+    disabled?: boolean;
+    noFrame?: boolean;
+    focused?: boolean;
+    openPopup?: boolean;
+  }>(),
+  {
+    status: null,
+    disabled: false,
+    noFrame: false,
+    focused: false,
+    openPopup: false
   }
-});
+);
+
+const emit = defineEmits<{
+  (e: 'clickOnBox', event: MouseEvent): void;
+}>();
+
+const slots = useSlots();
 
 const hover = ref(false);
 const hoverMode = computed(() => {
   return hover.value && !props.focused && !props.disabled;
 });
 
-function onClick(e) {
+function onClick(e: MouseEvent) {
   emit('clickOnBox', e);
 }
 </script>
@@ -49,7 +46,7 @@ function onClick(e) {
     <template #bottom>
       <slot name="bottom"></slot>
     </template>
-    <div class="relative w-full h-full" @keydown="handleKey" ref="element">
+    <div class="relative w-full h-full" ref="element">
       <div
         class="w-full h-full"
         :class="{
