@@ -1,74 +1,57 @@
-<script setup>
+<script setup lang="ts">
 import { computed, ref, useTemplateRef } from 'vue';
 import ViDropdown from './ViDropdown.vue';
 
-const emit = defineEmits(['update:modelValue', 'search', 'change']);
-const props = defineProps({
-  modelValue: {
-    type: [String, Number, Object, Array]
-  },
-  options: {
-    type: Array
-  },
-  title: {
-    type: String,
-    default: null
-  },
-  placeholder: {
-    type: String,
-    default: null
-  },
-  status: {
-    type: String,
-    default: null,
-    validator: (value) => {
-      return ['error', 'warning', 'true'].includes(value);
-    }
-  },
-  disabled: {
-    type: Boolean,
-    default: false
-  },
-  readonly: {
-    type: Boolean,
-    default: false
-  },
-  required: {
-    type: Boolean,
-    default: undefined
-  },
-  noFrame: {
-    type: Boolean,
-    default: false
-  },
-  compareKey: {
-    type: String,
-    default: 'id'
-  },
-  filter: {
-    type: [Boolean, Array],
-    default: false
-  },
-  search: {
-    type: Boolean,
-    default: false
-  },
-  multiple: {
-    type: Boolean,
-    default: false
-  }
-});
+interface Option {
+  [key: string]: any;
+}
 
-const element = useTemplateRef('element');
-const searchInput = useTemplateRef('searchInput');
-const stageOptionIndex = ref(-1);
-const filterText = ref(null);
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: any): void;
+  (e: 'search', value: string | null): void;
+  (e: 'change'): void;
+}>();
+
+const props = withDefaults(
+  defineProps<{
+    modelValue: string | number | object | null | Array<any>;
+    options?: (string | number | object)[];
+    title?: string | null;
+    placeholder?: string | null;
+    status?: 'error' | 'warning' | 'true' | null;
+    disabled?: boolean;
+    readonly?: boolean;
+    required?: boolean;
+    noFrame?: boolean;
+    compareKey: string;
+    filter?: boolean | string[];
+    search?: boolean;
+    multiple?: boolean;
+  }>(),
+  {
+    title: null,
+    placeholder: null,
+    status: null,
+    disabled: false,
+    readonly: false,
+    required: false,
+    noFrame: false,
+    compareKey: 'id',
+    filter: false,
+    search: false,
+    multiple: false
+  }
+);
+
+const element = useTemplateRef<typeof ViDropdown>('element');
+const searchInput = useTemplateRef<HTMLInputElement>('searchInput');
+
+const stageOptionIndex = ref<number>(-1);
+const filterText = ref<string | null>(null);
 
 const selectedOption = computed({
-  get() {
-    return props.modelValue;
-  },
-  set(value) {
+  get: () => props.modelValue,
+  set: (value) => {
     emit('update:modelValue', value);
   }
 });
@@ -77,43 +60,45 @@ const optionsFiltered = computed(() => {
   stageOptionIndex.value = -1;
   if (!props.options) return [];
   if (!filterText.value) return props.options;
+
   if (props.filter !== false) {
     return props.options.filter((item) => {
       stageOptionIndex.value = 0;
+
       if (typeof item === 'object' && item !== null) {
         if (props.filter === true) {
           return Object.values(item)
             .join(' ')
             .toLowerCase()
-            .includes(String(filterText.value).toLowerCase());
+            .includes(filterText.value!.toLowerCase());
         } else if (Array.isArray(props.filter)) {
           return props.filter
-            .map((key) => {
-              // this line for support key separator by .
-              return key
+            .map((key) =>
+              key
                 .split('.')
                 .reduce(
-                  (acc, k) => (acc && acc[k] !== undefined ? acc[k] : ''),
-                  item
-                );
-            })
+                  (acc: Record<string, any>, k: string) =>
+                    acc && acc[k] !== undefined ? acc[k] : '',
+                  item as Record<string, any>
+                )
+            )
             .join(' ')
             .toLowerCase()
-            .includes(String(filterText.value).toLowerCase());
+            .includes(filterText.value!.toLowerCase());
         }
-        return [];
+        return false;
       } else {
         return String(item)
           .toLowerCase()
-          .includes(String(filterText.value).toLowerCase());
+          .includes(filterText.value!.toLowerCase());
       }
     });
   }
   return props.options;
 });
 
-function checkSelected(val) {
-  let selected = selectedOption.value;
+function checkSelected(val: any): boolean {
+  const selected = selectedOption.value;
 
   if (props.multiple && Array.isArray(selected)) {
     if (typeof val === 'object' && val !== null) {
@@ -124,18 +109,21 @@ function checkSelected(val) {
       return selected.includes(val);
     }
   }
+
   return props.compareKey && val?.[props.compareKey] != undefined
-    ? val?.[props.compareKey] == selected?.[props.compareKey]
+    ? val?.[props.compareKey] == (selected as any)?.[props.compareKey]
     : val == selected;
 }
 
-function onOptionClick(option) {
+function onOptionClick(option: any) {
   filterText.value = null;
+
   if (props.multiple) {
     let selected = Array.isArray(selectedOption.value)
       ? [...selectedOption.value]
       : [];
-    let exists =
+
+    const exists =
       props.compareKey && typeof option === 'object'
         ? selected.some(
             (item) =>
@@ -152,48 +140,49 @@ function onOptionClick(option) {
           : item !== option
       );
     }
+
     selectedOption.value = selected;
   } else {
     selectedOption.value = option;
-    element.value.closeList();
+    element.value?.closeList();
   }
-  element.value.focusInput();
+
+  element.value?.focusInput();
   emit('change');
 }
 
-function handleKey(e) {
+function handleKey(e: KeyboardEvent) {
   if (optionsFiltered.value?.length) {
-    if (e.code == 'ArrowDown') {
+    if (e.code === 'ArrowDown') {
       e.preventDefault();
-      element.value.openList();
-      stageOptionIndex.value++;
-      if (stageOptionIndex.value >= optionsFiltered.value?.length) {
-        stageOptionIndex.value = optionsFiltered.value?.length - 1;
-      }
+      element.value?.openList();
+      stageOptionIndex.value = Math.min(
+        stageOptionIndex.value + 1,
+        optionsFiltered.value.length - 1
+      );
     }
-    if (e.code == 'ArrowUp') {
+
+    if (e.code === 'ArrowUp') {
       e.preventDefault();
-      element.value.openList();
-      stageOptionIndex.value--;
-      if (stageOptionIndex.value < 0) {
-        stageOptionIndex.value = 0;
-      }
+      element.value?.openList();
+      stageOptionIndex.value = Math.max(stageOptionIndex.value - 1, 0);
     }
-    if (e.code == 'Enter' && stageOptionIndex.value >= 0) {
+
+    if (e.code === 'Enter' && stageOptionIndex.value >= 0) {
       onOptionClick(optionsFiltered.value[stageOptionIndex.value]);
     }
+
     if (e.code === 'Delete') {
       clearInput();
     }
+
     if (
-      (e.code == 'Tab' || (e.code == 'KeyF' && e.ctrlKey == true)) &&
+      (e.code === 'Tab' || (e.code === 'KeyF' && e.ctrlKey)) &&
       (props.filter !== false || props.search)
     ) {
       e.preventDefault();
-      element.value.openList();
-      setTimeout(() => {
-        searchInput.value.focus();
-      }, 10);
+      element.value?.openList();
+      setTimeout(() => searchInput.value?.focus(), 10);
     }
   }
 }
@@ -205,11 +194,7 @@ function closePopup() {
 }
 
 function clearInput() {
-  if (props.multiple) {
-    selectedOption.value = [];
-  } else {
-    selectedOption.value = null;
-  }
+  selectedOption.value = props.multiple ? [] : null;
   emit('change');
 }
 </script>
@@ -231,7 +216,9 @@ function clearInput() {
         @click="clearInput"
         v-show="
           (selectedOption && !props.multiple) ||
-          (selectedOption?.length && props.multiple)
+          (Array.isArray(selectedOption) &&
+            props.multiple &&
+            selectedOption.length)
         "
       >
         <svg

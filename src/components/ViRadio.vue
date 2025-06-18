@@ -1,35 +1,33 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 
-const props = defineProps({
-  modelValue: {
-    type: [Boolean, Array]
-  },
-  value: {
-    type: [Number, String],
-    default: 'no-value'
-  },
-  name: {
-    type: String
-  },
-  disabled: {
-    type: Boolean,
-    default: false
-  }
-});
-const emit = defineEmits(['update:modelValue', 'on', 'off']);
+type ModelValue = boolean | string | number | null;
 
-const value = computed({
+interface Props {
+  modelValue?: ModelValue;
+  value?: ModelValue;
+  name?: string;
+  disabled?: boolean;
+}
+
+const props = defineProps<Props>();
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: ModelValue): void;
+  (e: 'on'): void;
+  (e: 'off'): void;
+}>();
+
+const value = computed<ModelValue>({
   get() {
-    return props.modelValue;
+    return props.modelValue!;
   },
-  set(value) {
-    if (value) {
+  set(val) {
+    if (val) {
       emit('on');
     } else {
       emit('off');
     }
-    emit('update:modelValue', value);
+    emit('update:modelValue', val);
   }
 });
 

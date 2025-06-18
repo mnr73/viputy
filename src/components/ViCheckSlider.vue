@@ -1,43 +1,47 @@
-<script setup>
+<script setup lang="ts">
 import { computed } from 'vue';
 
-const props = defineProps({
-  modelValue: {
-    type: [Boolean, Array]
-  },
-  value: {
-    type: [Number, String],
-    default: 'no-value'
-  },
-  name: {
-    type: String
-  },
-  disabled: {
-    type: Boolean,
-    default: false
-  }
-});
-const emit = defineEmits(['update:modelValue', 'on', 'off']);
+type ModelValue = boolean | Array<string | number | null>;
+type CheckboxValue = number | string | null;
 
-const value = computed({
+const props = withDefaults(
+  defineProps<{
+    modelValue: ModelValue;
+    value: CheckboxValue;
+    name?: string;
+    disabled?: boolean;
+  }>(),
+  {
+    value: null,
+    disabled: false
+  }
+);
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: ModelValue): void;
+  (e: 'on'): void;
+  (e: 'off'): void;
+}>();
+
+const value = computed<ModelValue>({
   get() {
     return props.modelValue;
   },
-  set(value) {
-    if (value) {
+  set(newValue) {
+    if (newValue) {
       emit('on');
     } else {
       emit('off');
     }
-    emit('update:modelValue', value);
+    emit('update:modelValue', newValue);
   }
 });
 
 const on = computed(() => {
   if (Array.isArray(props.modelValue)) {
-    return value.value.includes(props.value);
+    return props.modelValue.includes(props.value);
   } else {
-    return value.value;
+    return props.modelValue;
   }
 });
 </script>

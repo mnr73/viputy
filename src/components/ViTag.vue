@@ -1,91 +1,44 @@
-<script setup>
+<script setup lang="ts">
 import { computed, ref, useTemplateRef } from 'vue';
 import ViPart from './base/ViPart.vue';
 import ViTagComponent from './parts/ViTagComponent.vue';
 import { onClickOutside } from '@vueuse/core';
 
-const emit = defineEmits(['update:modelValue']);
-const props = defineProps({
-  modelValue: {
-    type: [Array]
-  },
-  datalist: {
-    type: Array,
-    default: null
-  },
-  title: {
-    type: String,
-    default: null
-  },
-  placeholder: {
-    type: String,
-    default: null
-  },
-  status: {
-    type: String,
-    default: null,
-    validator: (value) => {
-      return ['error', 'warning', 'true'].includes(value);
-    }
-  },
-  disabled: {
-    type: Boolean,
-    default: false
-  },
-  readonly: {
-    type: Boolean,
-    default: false
-  },
-  required: {
-    type: Boolean,
-    default: undefined
-  },
-  noFrame: {
-    type: Boolean,
-    default: false
-  },
-  inputDir: {
-    type: String,
-    default: null,
-    validator: (value) => {
-      return ['rtl', 'ltr'].includes(value);
-    }
-  },
-  min: {
-    type: [String, Number, Date],
-    default: null
-  },
-  max: {
-    type: [String, Number, Date],
-    default: null
-  },
-  minlength: {
-    type: Number,
-    default: null
-  },
-  maxlength: {
-    type: Number,
-    default: null
-  },
-  hideTags: {
-    type: Boolean,
-    default: false
-  }
-});
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: (string | number | undefined)[]): void;
+}>();
 
-const input = useTemplateRef('input');
-const element = useTemplateRef('element');
-const focus = ref(false);
+const props = defineProps<{
+  modelValue?: (string | number)[];
+  datalist?: string[] | null;
+  title?: string | null;
+  placeholder?: string;
+  status?: 'error' | 'warning' | 'true' | null;
+  disabled: boolean;
+  readonly: boolean;
+  required?: boolean;
+  noFrame: boolean;
+  inputDir?: 'rtl' | 'ltr';
+  min?: number;
+  max?: number;
+  minlength?: number;
+  maxlength?: number;
+  hideTags: boolean;
+}>();
+
+const input = useTemplateRef<HTMLInputElement>('input');
+const element = useTemplateRef<HTMLElement>('element');
+const focus = ref<boolean>(false);
 const openPopup = ref(false);
 const stageOptionIndex = ref(0);
-const inputValue = ref();
-const focusMode = computed(() => {
+const inputValue = ref<string | number | undefined>();
+
+const focusMode = computed<boolean>(() => {
   return focus.value && !props.disabled;
 });
 
 const datalist = computed(() => {
-  let data = props.datalist || [];
-
+  const data = props.datalist || [];
   return inputValue.value ? [inputValue.value, ...data] : data;
 });
 
@@ -93,55 +46,54 @@ const open = computed({
   get() {
     return openPopup.value;
   },
-  set(value) {
+  set(value: boolean) {
     if (value) {
       openPopup.value = true;
     } else {
-      inputValue.value = null;
+      inputValue.value = undefined;
       openPopup.value = false;
     }
   }
 });
 
 function blurInput() {
-  input.value.blur();
+  input.value?.blur();
 }
 
 onClickOutside(element, () => {
   open.value = false;
 });
 
-function handleKey(e) {
+function handleKey(e: KeyboardEvent) {
   open.value = true;
 
-  if (e.code == 'Escape') {
+  if (e.code === 'Escape') {
     blurInput();
   }
 
-  if (datalist.value?.length && openPopup.value == true) {
-    if (e.code == 'ArrowDown') {
+  if (datalist.value.length && openPopup.value) {
+    if (e.code === 'ArrowDown') {
       stageOptionIndex.value++;
       e.preventDefault();
-      if (stageOptionIndex.value >= datalist.value?.length) {
-        stageOptionIndex.value = datalist.value?.length - 1;
+      if (stageOptionIndex.value >= datalist.value.length) {
+        stageOptionIndex.value = datalist.value.length - 1;
       }
     }
-    if (e.code == 'ArrowUp') {
+    if (e.code === 'ArrowUp') {
       e.preventDefault();
-
       stageOptionIndex.value--;
       if (stageOptionIndex.value < 0) {
         stageOptionIndex.value = 0;
       }
     }
-    if (e.code == 'Enter') {
+    if (e.code === 'Enter') {
       e.preventDefault();
       onClickData(datalist.value[stageOptionIndex.value]);
     }
-    if (e.code == 'Tab') {
+    if (e.code === 'Tab') {
       open.value = false;
     }
-    if (e.code == 'Escape') {
+    if (e.code === 'Escape') {
       e.preventDefault();
       open.value = false;
     }
@@ -157,37 +109,36 @@ function onBlur() {
   focus.value = false;
 }
 
-const value = computed({
+const value = computed<(string | number)[]>({
   get() {
-    return props.modelValue;
+    return props.modelValue || [];
   },
-  set(value) {
-    emit('update:modelValue', value);
+  set(val: (string | number)[]) {
+    emit('update:modelValue', val);
   }
 });
 
-function onClickData(data) {
+function onClickData(data: string | number) {
   focusInput();
-  let list = new Set(value.value);
+  const list = new Set(value.value);
   list.has(data) ? list.delete(data) : list.add(data);
   value.value = Array.from(list);
-
   open.value = true;
 }
 
-function onClick(e) {
+function onClick(e: MouseEvent) {
   focusInput();
 }
 
 function focusInput() {
-  input.value.focus();
+  input.value?.focus();
 }
 
-function deleteTag(tag) {
+function deleteTag(tag: string | number) {
   value.value = value.value.filter((item) => item !== tag);
 }
 
-function editTag(tag) {
+function editTag(tag: string | number) {
   deleteTag(tag);
   inputValue.value = tag;
   stageOptionIndex.value = 0;
@@ -199,7 +150,7 @@ defineExpose({ focusInput });
 
 <template>
   <ViPart
-    :focused="props.focusMode"
+    :focused="focusMode"
     :status="props.status"
     :disabled="props.disabled"
     :noFrame="props.noFrame"
@@ -294,8 +245,6 @@ defineExpose({ focusInput });
         :disabled="props.disabled"
         :readonly="props.readonly"
         :placeholder="props.placeholder"
-        :min="props.min"
-        :max="props.max"
         :minlength="props.minlength"
         :maxlength="props.maxlength"
         :dir="inputDir"

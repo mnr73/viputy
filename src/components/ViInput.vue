@@ -66,7 +66,12 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: string | number): void;
 }>();
 
-const input = ref<HTMLInputElement | null>(null);
+const slots = defineSlots<{
+  before?: () => any;
+  after?: () => any;
+}>();
+
+const input = ref<HTMLInputElement>();
 const focus = ref(false);
 const showPassword = ref(false);
 const openPopup = ref(false);
@@ -109,10 +114,10 @@ function formatEncode(val: string | number | undefined) {
   return val;
 }
 
-function formatDecode(val: string | number | undefined) {
+function formatDecode(val: string | number) {
   if (!props.format) return val;
   if (props.accept === 'number' && val) {
-    return deFormatNumber(val);
+    return deFormatNumber(val as string);
   }
   return val;
 }

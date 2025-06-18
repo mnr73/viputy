@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, useSlots } from 'vue';
+import { computed, ref } from 'vue';
 import ViFrame from './ViFrame.vue';
 import ViNoFrame from './ViNoFrame.vue';
 
@@ -25,8 +25,6 @@ const props = withDefaults(
 const emit = defineEmits<{
   (e: 'clickOnBox', event: MouseEvent): void;
 }>();
-
-const slots = useSlots();
 
 const hover = ref(false);
 const hoverMode = computed(() => {
@@ -78,7 +76,7 @@ function onClick(e: MouseEvent) {
       </div>
       <div
         class="h-0 w-fit max-w-full absolute -bottom-1 start-0 z-10"
-        v-if="slots.popup"
+        v-if="$slots.popup"
         v-show="props.openPopup"
       >
         <div

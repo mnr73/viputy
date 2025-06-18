@@ -5,9 +5,13 @@
     "moduleResolution": "Node",
     "strict": true,
     "baseUrl": "./",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "types": ["node"],
     "paths": {
       "@/*": ["src/*"],
       "@dev/*": ["src/*"]
     }
-  }
+  },
+  "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"]
 }

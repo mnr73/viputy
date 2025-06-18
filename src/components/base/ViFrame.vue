@@ -1,7 +1,7 @@
-<script>
-export default {
+<script setup lang="ts">
+defineOptions({
   inheritAttrs: false
-};
+});
 </script>
 
 <template>

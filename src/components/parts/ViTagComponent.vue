@@ -1,15 +1,23 @@
-<script setup>
+<script setup lang="ts">
 import { ref } from 'vue';
 
-const emit = defineEmits(['delete', 'edit']);
-const props = defineProps({
-  text: {
-    type: String
-  }
-});
-const mode = ref();
+const emit = defineEmits<{
+  (e: 'delete', payload: string | number): void;
+  (e: 'edit', payload: string | number): void;
+}>();
+
+const props = defineProps<{
+  text: string | number;
+}>();
+
+const mode = ref<'edit' | 'delete' | null>();
+
 function onClick() {
-  emit(mode.value, props.text);
+  if (mode.value === 'edit') {
+    emit('edit', props.text);
+  } else if (mode.value === 'delete') {
+    emit('delete', props.text);
+  }
 }
 </script>
 
@@ -22,14 +30,14 @@ function onClick() {
   >
     <div
       class="bg-red-500 rounded-full text-white w-5 aspect-square"
-      :class="{ '!bg-sky-500': mode == 'edit' }"
+      :class="{ '!bg-sky-500': mode === 'edit' }"
       @mouseover.stop="mode = 'delete'"
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
         class="w-full"
         viewBox="0 0 24 24"
-        v-show="mode == 'edit'"
+        v-show="mode === 'edit'"
       >
         <path
           fill="none"
@@ -45,7 +53,7 @@ function onClick() {
         xmlns="http://www.w3.org/2000/svg"
         class="w-full"
         viewBox="0 0 24 24"
-        v-show="mode != 'edit'"
+        v-show="mode !== 'edit'"
       >
         <path
           fill="none"

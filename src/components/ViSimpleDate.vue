@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 import ViDropdown from './ViDropdown.vue';
 import { DateTime } from 'luxon';
 import { computed, ref, useTemplateRef } from 'vue';
@@ -8,80 +8,58 @@ import {
   luxonToJalaali
 } from '../utils/date';
 
-const emit = defineEmits({
-  'update:modelValue': {
-    type: DateTime
-  },
-  change: true
-});
-const props = defineProps({
-  modelValue: {
-    type: DateTime
-  },
-  calender: {
-    type: String,
-    default: 'gregorian',
-    validator: (value) => {
-      return ['gregorian', 'persian', 'both'].includes(value);
-    }
-  },
-  activeCalender: {
-    type: String,
-    default: 'gregorian',
-    validator: (value) => {
-      return ['gregorian', 'persian'].includes(value);
-    }
-  },
-  min: {
-    type: DateTime,
-    default: DateTime.now().minus({ year: 100 })
-  },
-  max: {
-    type: DateTime,
-    default: DateTime.now().plus({ year: 20 })
-  },
-  scrollDate: {
-    type: DateTime,
-    default: DateTime.now()
-  },
-  //props of parent
-  title: {
-    type: String,
-    default: null
-  },
-  status: {
-    type: String,
-    default: null,
-    validator: (value) => {
-      return ['error', 'warning', 'true'].includes(value);
-    }
-  },
-  disabled: {
-    type: Boolean,
-    default: false
-  },
-  required: {
-    type: Boolean,
-    default: undefined
-  },
-  noFrame: {
-    type: Boolean,
-    default: false
-  },
-  signedDate: {
-    type: DateTime
-  },
-  persianIntl: {
-    type: String,
-    default: 'fa-IR-u-nu-latn'
-  },
-  gregorianIntl: {
-    type: String,
-    default: 'en-us'
-  },
-  translate: {
-    type: Object,
-    default: () => ({
+type CalendarType = 'gregorian' | 'persian' | 'both';
+type ActiveCalendarType = 'gregorian' | 'persian';
+type StatusType = 'error' | 'warning' | 'true' | null;
+
+interface TranslateType {
+  day: string;
+  month: string;
+  year: string;
+  set: string;
+  selectDate: string;
+  gregorian: string;
+  persian: string;
+}
+
+const emit = defineEmits<{
+  (e: 'update:modelValue', value: DateTime | null): void;
+  (e: 'change'): void;
+}>();
+
+const props = withDefaults(
+  defineProps<{
+    modelValue?: DateTime | null;
+    calender?: CalendarType;
+    activeCalender?: ActiveCalendarType;
+    min?: DateTime;
+    max?: DateTime;
+    scrollDate?: DateTime;
+    title?: string | null;
+    status?: StatusType;
+    disabled?: boolean;
+    required?: boolean;
+    noFrame?: boolean;
+    signedDate?: DateTime | null;
+    persianIntl?: string;
+    gregorianIntl?: string;
+    translate?: TranslateType;
+  }>(),
+  {
+    calender: 'gregorian',
+    activeCalender: 'gregorian',
+    min: () => DateTime.now().minus({ year: 100 }),
+    max: () => DateTime.now().plus({ year: 20 }),
+    scrollDate: () => DateTime.now(),
+    title: null,
+    status: null,
+    disabled: false,
+    required: undefined,
+    noFrame: false,
+    signedDate: null,
+    persianIntl: 'fa-IR-u-nu-latn',
+    gregorianIntl: 'en-us',
+    translate: () => ({
       day: 'day',
       month: 'month',
       year: 'year',
@@ -91,18 +69,18 @@ const props = defineProps({
       persian: 'Persian'
     })
   }
-});
+);
 
-const showDateStatus = ref(null);
-const element = useTemplateRef('element');
-const dayBox = useTemplateRef('dayBox');
-const monthBox = useTemplateRef('monthBox');
-const yearBox = useTemplateRef('yearBox');
+const showDateStatus = ref<string | null>(null);
+const element = useTemplateRef<InstanceType<typeof ViDropdown>>('element');
+const dayBox = useTemplateRef<HTMLElement>('dayBox');
+const monthBox = useTemplateRef<HTMLElement>('monthBox');
+const yearBox = useTemplateRef<HTMLElement>('yearBox');
 const focusDayInput = ref(false);
 const focusMonthInput = ref(false);
 const focusYearInput = ref(false);
-const autoSet = ref(new Set([]));
-const monthNames = {
+const autoSet = ref(new Set<string>([]));
+const monthNames: Record<number, { persian: string; gregorian: string }> = {
   1: { persian: 'فروردین', gregorian: 'January' },
   2: { persian: 'اردیبهشت', gregorian: 'February' },
   3: { persian: 'خرداد', gregorian: 'March' },
@@ -116,36 +94,41 @@ const monthNames = {
   11: { persian: 'بهمن', gregorian: 'November' },
   12: { persian: 'اسفند', gregorian: 'December' }
 };
-const activeCalender = ref(props.activeCalender);
-const minYear = computed(() => {
+const activeCalender = ref<ActiveCalendarType>(props.activeCalender);
+
+const minYear = computed<number>(() => {
   if (activeCalender.value == 'gregorian') {
     return props.min.year;
   } else {
     return luxonToJalaali(props.min).jy;
   }
 });
-const maxYear = computed(() => {
+const maxYear = computed<number>(() => {
   if (activeCalender.value == 'gregorian') {
     return props.max.year;
   } else {
     return luxonToJalaali(props.max).jy;
   }
 });
-const year = ref(props.modelValue?.year);
-const month = ref(props.modelValue?.month);
-const day = ref(props.modelValue?.day);
-const dayLength = ref(31);
+const year = ref<number | null>(props.modelValue?.year ?? null);
+const month = ref<number | null>(props.modelValue?.month ?? null);
+const day = ref<number | null>(props.modelValue?.day ?? null);
+const dayLength = ref<number>(31);
 
-const value = computed({
+const value = computed<DateTime | null>({
   get() {
-    return props.modelValue;
+    return props.modelValue ?? null;
   },
-  set(value) {
-    emit('update:modelValue', value);
+  set(val) {
+    emit('update:modelValue', val);
   }
 });
 
-const signedDate = computed(() => {
+const signedDate = computed<{
+  year: number | null;
+  month: number | null;
+  day: number | null;
+}>(() => {
   if (!props.signedDate) {
     return {
       year: null,
@@ -170,7 +153,11 @@ const signedDate = computed(() => {
   }
 });
 
-const scrollDate = computed(() => {
+const scrollDate = computed<{
+  year: number | null;
+  month: number | null;
+  day: number | null;
+}>(() => {
   if (!props.scrollDate) {
     return {
       year: null,
@@ -196,13 +183,16 @@ const scrollDate = computed(() => {
 });
 
 function setMonthLength() {
-  dayLength.value = getDaysInMonthByType(
-    year.value,
-    month.value,
-    activeCalender.value == 'persian'
-  );
-  if (day.value > dayLength.value) {
-    setDay(dayLength.value, false);
+  if (year.value && month.value) {
+    dayLength.value =
+      getDaysInMonthByType(
+        year.value,
+        month.value,
+        activeCalender.value == 'persian'
+      ) ?? 31;
+    if (day.value && day.value > dayLength.value) {
+      setDay(dayLength.value, false);
+    }
   }
 }
 
@@ -231,42 +221,42 @@ function setScroll(signed = false) {
   }, 60);
 }
 
-function scrollToMid(box, number) {
+function scrollToMid(box: HTMLElement | null, number: number | null) {
   if (box && number !== null) {
-    let el = box.querySelector(`[data-value="${number}"]`);
+    let el = box.querySelector<HTMLElement>(`[data-value="${number}"]`);
     if (el) {
       box.scrollTo(0, el.offsetTop - 70);
     }
   }
 }
 
-function setDay(value, auto = false) {
+function setDay(val: number | null, auto = false) {
   if (auto) autoSet.value.add('day');
-  day.value = value;
-  scrollToMid(dayBox.value, value);
+  day.value = val;
+  scrollToMid(dayBox.value, val);
   change();
 }
 
-function setMonth(value, auto = false) {
+function setMonth(val: number | null, auto = false) {
   if (auto) autoSet.value.add('month');
-  month.value = value;
-  scrollToMid(monthBox.value, value);
+  month.value = val;
+  scrollToMid(monthBox.value, val);
   change();
 }
 
-function setYear(value, auto = false) {
+function setYear(val: number | null, auto = false) {
   if (auto) autoSet.value.add('year');
-  year.value = value;
-  scrollToMid(yearBox.value, value);
+  year.value = val;
+  scrollToMid(yearBox.value, val);
   change();
 }
 
 function open() {
   if (props.modelValue) {
     if (activeCalender.value == 'gregorian') {
-      year.value = props.modelValue?.year;
-      month.value = props.modelValue?.month;
-      day.value = props.modelValue?.day;
+      year.value = props.modelValue?.year ?? null;
+      month.value = props.modelValue?.month ?? null;
+      day.value = props.modelValue?.day ?? null;
     } else {
       let persian = luxonToJalaali(props.modelValue);
 
@@ -292,7 +282,7 @@ function change() {
 }
 
 function setValue() {
-  element.value.closeList();
+  element.value?.closeList();
   if (year.value && month.value && day.value) {
     if (activeCalender.value == 'gregorian') {
       value.value = DateTime.fromObject({
@@ -320,17 +310,18 @@ function changeCalenderToPersian() {
 
   activeCalender.value = 'persian';
 
-  let persianDate = luxonToJalaali(
-    DateTime.fromObject({
-      year: year.value,
-      month: month.value,
-      day: day.value
-    })
-  );
-
-  year.value = persianDate.jy;
-  month.value = persianDate.jm;
-  day.value = persianDate.jd;
+  if (year.value && month.value && day.value) {
+    let persianDate = luxonToJalaali(
+      DateTime.fromObject({
+        year: year.value,
+        month: month.value,
+        day: day.value
+      })
+    );
+    year.value = persianDate.jy;
+    month.value = persianDate.jm;
+    day.value = persianDate.jd;
+  }
 
   setMonthLength();
   setScroll();
@@ -340,28 +331,30 @@ function changeCalenderToGregorian() {
   if (activeCalender.value == 'gregorian') return;
   activeCalender.value = 'gregorian';
 
-  let { gy, gm, gd } = jalaaliYMDToGregorian(
-    year.value,
-    month.value,
-    day.value
-  );
+  if (year.value && month.value && day.value) {
+    let { gy, gm, gd } = jalaaliYMDToGregorian(
+      year.value,
+      month.value,
+      day.value
+    );
 
-  year.value = gy;
-  month.value = gm;
-  day.value = gd;
+    year.value = gy;
+    month.value = gm;
+    day.value = gd;
+  }
   setMonthLength();
   setScroll();
 }
 
-function handleKey(e) {
+function handleKey(e: KeyboardEvent) {
   if (e.code == 'Escape') {
     e.preventDefault();
-    element.value.closeList();
-    element.value.blurInput();
+    element.value?.closeList();
+    element.value?.blurInput();
   }
   if (e.code == 'Space') {
     e.preventDefault();
-    element.value.toggleList();
+    element.value?.toggleList();
   }
   if (e.code == 'Enter') {
     if (year.value && month.value && day.value) {
@@ -373,7 +366,7 @@ function handleKey(e) {
   }
   if (e.code == 'Tab') {
     if (focusYearInput.value == true) {
-      element.value.closeList();
+      element.value?.closeList();
     }
   }
 }

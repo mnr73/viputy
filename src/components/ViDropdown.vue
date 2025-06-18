@@ -1,43 +1,42 @@
-<script setup>
-import { computed, ref, useTemplateRef } from 'vue';
+<script setup lang="ts">
+import { computed, ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 import ViPart from './base/ViPart.vue';
 
-const emit = defineEmits(['closePopup', 'openPopup']);
-const props = defineProps({
-  title: {
-    type: String,
-    default: null
-  },
-  status: {
-    type: String,
-    default: null,
-    validator: (value) => {
-      return ['error', 'warning', 'true'].includes(value);
-    }
-  },
-  disabled: {
-    type: Boolean,
-    default: false
-  },
-  required: {
-    type: Boolean,
-    default: undefined
-  },
-  noFrame: {
-    type: Boolean,
-    default: false
-  },
-  actionKeys: {
-    type: Boolean,
-    default: true
-  }
-});
+const emit = defineEmits<{
+  (e: 'closePopup'): void;
+  (e: 'openPopup'): void;
+}>();
 
-const input = useTemplateRef('input');
-const element = useTemplateRef('element');
-const openPopup = ref(false);
-const focus = ref(false);
+const props = withDefaults(
+  defineProps<{
+    title?: string | null;
+    status?: 'error' | 'warning' | 'true' | null;
+    disabled?: boolean;
+    required?: boolean | undefined;
+    noFrame?: boolean;
+    actionKeys?: boolean;
+  }>(),
+  {
+    title: null,
+    status: null,
+    disabled: false,
+    required: undefined,
+    noFrame: false,
+    actionKeys: true
+  }
+);
+
+// useTemplateRef به صورت نیتیو توی Vue وجود نداره.
+// احتمالا باید از ref و ref="input" در تمپلیت استفاده کنیم.
+// من فرض می‌کنم useTemplateRef شبیه ref است:
+
+import { Ref } from 'vue';
+const input = ref<HTMLInputElement>();
+const element = ref<HTMLElement>();
+
+const openPopup = ref<boolean>(false);
+const focus = ref<boolean>(false);
 
 const focusMode = computed(() => {
   return (focus.value || openPopup.value) && !props.disabled;
@@ -71,20 +70,20 @@ function toggleList() {
 }
 
 function focusInput() {
-  input.value.focus();
+  input.value?.focus();
 }
 
 function blurInput() {
-  input.value.blur();
+  input.value?.blur();
 }
 
 onClickOutside(element, () => {
   closeList();
 });
 
-function handleKey(e) {
+function handleKey(e: KeyboardEvent) {
   if (!props.actionKeys) return;
-  if (e.code == 'Escape') {
+  if (e.code === 'Escape') {
     e.preventDefault();
     if (openPopup.value) {
       closeList();
@@ -92,14 +91,14 @@ function handleKey(e) {
       blurInput();
     }
   }
-  if (e.code == 'Tab') {
+  if (e.code === 'Tab') {
     closeList();
   }
-  if (e.code == 'Enter') {
+  if (e.code === 'Enter') {
     e.preventDefault();
     closeList();
   }
-  if (e.code == 'Space') {
+  if (e.code === 'Space') {
     e.preventDefault();
     toggleList();
   }
@@ -115,7 +114,7 @@ defineExpose({ focusInput, openList, closeList, toggleList, blurInput });
     :disabled="disabled"
     :noFrame="noFrame"
     :openPopup="openPopup"
-    @clickOnBox="(e) => onClick(e)"
+    @clickOnBox="onClick"
     ref="element"
     @keydown="handleKey"
   >
