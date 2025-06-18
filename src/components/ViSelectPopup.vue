@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, useTemplateRef } from 'vue';
+import { computed, ref } from 'vue';
 import ViPopup from './ViPopup.vue';
 
 type Option = Record<string, any> | string | number | null;
@@ -26,7 +26,7 @@ const props = withDefaults(
   }
 );
 
-const element = useTemplateRef<typeof ViPopup>('element');
+const element = ref<typeof ViPopup>();
 const stageOptionIndex = ref(-1);
 
 const selectedOption = computed<Option>({

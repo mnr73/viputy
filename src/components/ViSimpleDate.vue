@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import ViDropdown from './ViDropdown.vue';
 import { DateTime } from 'luxon';
-import { computed, ref, useTemplateRef } from 'vue';
+import { computed, ref } from 'vue';
 import {
   getDaysInMonthByType,
   jalaaliYMDToGregorian,
@@ -72,10 +72,10 @@ const props = withDefaults(
 );
 
 const showDateStatus = ref<string | null>(null);
-const element = useTemplateRef<InstanceType<typeof ViDropdown>>('element');
-const dayBox = useTemplateRef<HTMLElement>('dayBox');
-const monthBox = useTemplateRef<HTMLElement>('monthBox');
-const yearBox = useTemplateRef<HTMLElement>('yearBox');
+const element = ref<InstanceType<typeof ViDropdown>>();
+const dayBox = ref<HTMLElement>();
+const monthBox = ref<HTMLElement>();
+const yearBox = ref<HTMLElement>();
 const focusDayInput = ref(false);
 const focusMonthInput = ref(false);
 const focusYearInput = ref(false);
@@ -221,7 +221,7 @@ function setScroll(signed = false) {
   }, 60);
 }
 
-function scrollToMid(box: HTMLElement | null, number: number | null) {
+function scrollToMid(box: HTMLElement | undefined, number: number | null) {
   if (box && number !== null) {
     let el = box.querySelector<HTMLElement>(`[data-value="${number}"]`);
     if (el) {

@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, useTemplateRef } from 'vue';
+import { computed, ref } from 'vue';
 import ViPart from './base/ViPart.vue';
 import ViTagComponent from './parts/ViTagComponent.vue';
 import { onClickOutside } from '@vueuse/core';
@@ -26,8 +26,8 @@ const props = defineProps<{
   hideTags: boolean;
 }>();
 
-const input = useTemplateRef<HTMLInputElement>('input');
-const element = useTemplateRef<HTMLElement>('element');
+const input = ref<HTMLInputElement>();
+const element = ref<HTMLElement>();
 const focus = ref<boolean>(false);
 const openPopup = ref(false);
 const stageOptionIndex = ref(0);

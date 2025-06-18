@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, useTemplateRef } from 'vue';
+import { ref } from 'vue';
 import { onClickOutside } from '@vueuse/core';
 
-const element = useTemplateRef<HTMLElement>('element');
+const element = ref<HTMLElement>();
 const openPopup = ref(false);
 const focus = ref(false);
 

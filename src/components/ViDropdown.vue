@@ -27,11 +27,6 @@ const props = withDefaults(
   }
 );
 
-// useTemplateRef به صورت نیتیو توی Vue وجود نداره.
-// احتمالا باید از ref و ref="input" در تمپلیت استفاده کنیم.
-// من فرض می‌کنم useTemplateRef شبیه ref است:
-
-import { Ref } from 'vue';
 const input = ref<HTMLInputElement>();
 const element = ref<HTMLElement>();
 

@@ -1,6 +1,6 @@
 {
   "name": "@mnr73/viputy",
-  "version": "0.1.18-beta",
+  "version": "0.2.9-beta",
   "type": "module",
   "description": "vue and tailwind useful component for form inputs",
   "main": "index.js",
@@ -36,16 +36,18 @@
     "vite-plugin-dts": "^4.5.4"
   },
   "files": [
-    "src",
+    "dist",
     "index.ts",
     "datePicker.ts"
   ],
   "exports": {
     ".": {
-      "import": "./src/index.ts"
+      "import": "./dist/index.es.js",
+      "types": "./dist/index.d.ts"
     },
     "./datePicker": {
-      "import": "./src/datePicker.ts"
+      "import": "./dist/datePicker.es.js",
+      "types": "./dist/datePicker.d.ts"
     }
   },
   "repository": {

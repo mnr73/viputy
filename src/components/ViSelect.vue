@@ -1,10 +1,6 @@
 <script setup lang="ts">
-import { computed, ref, useTemplateRef } from 'vue';
+import { computed, ref } from 'vue';
 import ViDropdown from './ViDropdown.vue';
-
-interface Option {
-  [key: string]: any;
-}
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: any): void;
@@ -23,7 +19,7 @@ const props = withDefaults(
     readonly?: boolean;
     required?: boolean;
     noFrame?: boolean;
-    compareKey: string;
+    compareKey?: string;
     filter?: boolean | string[];
     search?: boolean;
     multiple?: boolean;
@@ -43,8 +39,8 @@ const props = withDefaults(
   }
 );
 
-const element = useTemplateRef<typeof ViDropdown>('element');
-const searchInput = useTemplateRef<HTMLInputElement>('searchInput');
+const element = ref<typeof ViDropdown>();
+const searchInput = ref<HTMLInputElement>();
 
 const stageOptionIndex = ref<number>(-1);
 const filterText = ref<string | null>(null);
@@ -241,6 +237,7 @@ function clearInput() {
     <template #label>
       <slot name="label" :selected="selectedOption"> select your option </slot>
     </template>
+
     <template #popup>
       <div v-if="props.filter !== false || props.search === true">
         <input
