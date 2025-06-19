@@ -8,6 +8,7 @@ export default defineConfig({
   plugins: [
     vue(),
     dts({
+      outDir: 'dist/types',
       insertTypesEntry: true,
       include: ['src']
     })

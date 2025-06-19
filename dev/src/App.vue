@@ -39,7 +39,7 @@ const select1 = ref('');
         >
       </div>
       <ViInput v-model="inputVal1">
-        <template #before></template>
+        <template #after></template>
       </ViInput>
       <div>{{ inputVal1 }}</div>
       <ViSelect v-model="select1" :options="['ali', 'milad']">

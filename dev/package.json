@@ -9,7 +9,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
-    "@mnr73/viputy": "^0.2.9-beta",
+    "@mnr73/viputy": "^0.2.13-beta",
     "@tailwindcss/vite": "^4.1.10",
     "tailwindcss": "^4.1.10",
     "vue": "^3.5.13"
