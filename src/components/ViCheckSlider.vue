@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-type ModelValue = boolean | Array<string | number | null>;
+type ModelValue = undefined | boolean | Array<string | number | null>;
 type CheckboxValue = number | string | null;
 
 const props = withDefaults(
   defineProps<{
-    modelValue: ModelValue;
-    value: CheckboxValue;
+    modelValue?: ModelValue;
+    value?: CheckboxValue;
     name?: string;
     disabled?: boolean;
   }>(),

@@ -10,7 +10,7 @@ const emit = defineEmits<{
 
 const props = withDefaults(
   defineProps<{
-    modelValue: string | number | object | null | Array<any>;
+    modelValue?: string | number | object | null | Array<any>;
     options?: (string | number | object)[];
     title?: string | null;
     placeholder?: string | null;

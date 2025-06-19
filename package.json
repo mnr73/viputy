@@ -3,7 +3,7 @@
   "version": "0.2.13-beta",
   "type": "module",
   "description": "vue and tailwind useful component for form inputs",
-  "main": "index.js",
+  "main": "./dist/index.es.js",
   "keywords": [
     "vue",
     "input",

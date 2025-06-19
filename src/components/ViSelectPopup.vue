@@ -14,9 +14,9 @@ const props = withDefaults(
   defineProps<{
     modelValue?: Option | Option[];
     options?: Option[];
-    disabled: boolean;
-    compareKey: string;
-    multiple: boolean;
+    disabled?: boolean;
+    compareKey?: string;
+    multiple?: boolean;
   }>(),
   {
     modelValue: null,

@@ -14,16 +14,16 @@ const props = defineProps<{
   title?: string | null;
   placeholder?: string;
   status?: 'error' | 'warning' | 'true' | null;
-  disabled: boolean;
-  readonly: boolean;
+  disabled?: boolean;
+  readonly?: boolean;
   required?: boolean;
-  noFrame: boolean;
+  noFrame?: boolean;
   inputDir?: 'rtl' | 'ltr';
   min?: number;
   max?: number;
   minlength?: number;
   maxlength?: number;
-  hideTags: boolean;
+  hideTags?: boolean;
 }>();
 
 const input = ref<HTMLInputElement>();
