@@ -64,6 +64,7 @@ const props = withDefaults(
 
 const emit = defineEmits<{
   (e: 'update:modelValue', value: string | number): void;
+  (e: 'input', value: string | number): void;
 }>();
 
 const slots = defineSlots<{
@@ -196,6 +197,10 @@ function formatMinMax(
   }
   return val;
 }
+
+function onInput(e: Event) {
+  emit('input', (e.target as HTMLInputElement).value);
+}
 </script>
 
 <template>
@@ -212,6 +217,44 @@ function formatMinMax(
     </template>
     <template #after>
       <slot name="after"></slot>
+      <span
+        v-if="props.type == 'password'"
+        class="cursor-pointer h-full px-1 flex items-center"
+        @click="showPassword = !showPassword"
+      >
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          viewBox="0 0 24 24"
+          v-show="showPassword == false"
+        >
+          <g
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+          >
+            <path d="M3 13c3.6-8 14.4-8 18 0" />
+            <path d="M12 17a3 3 0 1 1 0-6a3 3 0 0 1 0 6" />
+          </g>
+        </svg>
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-6 w-6"
+          viewBox="0 0 24 24"
+          v-show="showPassword == true"
+        >
+          <path
+            fill="none"
+            stroke="currentColor"
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="1.5"
+            d="m19.5 16l-2.475-3.396M12 17.5V14m-7.5 2l2.469-3.388M3 8c3.6 8 14.4 8 18 0"
+          />
+        </svg>
+      </span>
       <span class="h-full flex items-center" v-if="datalist !== null">
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -268,6 +311,7 @@ function formatMinMax(
         }"
         @keydown="handleKey"
         @beforeinput="onBeforeInput"
+        @input="onInput"
         :required="props.required"
         :disabled="props.disabled"
         :readonly="props.readonly"

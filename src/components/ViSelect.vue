@@ -172,6 +172,11 @@ function handleKey(e: KeyboardEvent) {
       clearInput();
     }
 
+    if (e.code === 'Space') {
+      e.preventDefault();
+      element.value?.openList();
+    }
+
     if (
       (e.code === 'Tab' || (e.code === 'KeyF' && e.ctrlKey)) &&
       (props.filter !== false || props.search)
@@ -205,6 +210,7 @@ function clearInput() {
     @keydown="handleKey"
     ref="element"
     @closePopup="closePopup"
+    :actionKeys="false"
   >
     <template #after>
       <span
@@ -249,7 +255,10 @@ function clearInput() {
           @keyup="emit('search', filterText)"
         />
       </div>
-      <div class="grid gap-1">
+      <div
+        class="max-h-[300px] overflow-y-auto grid gap-1"
+        style="scrollbar-width: thin"
+      >
         <div
           v-for="(option, index) in optionsFiltered"
           :key="index"
