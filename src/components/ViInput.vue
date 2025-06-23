@@ -67,7 +67,7 @@ const emit = defineEmits<{
   (e: 'input', value: string | number): void;
 }>();
 
-const slots = defineSlots<{
+defineSlots<{
   before?: () => any;
   after?: () => any;
 }>();
