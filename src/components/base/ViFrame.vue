@@ -5,11 +5,11 @@ defineOptions({
 </script>
 
 <template>
-  <div class="grid">
+  <div class="grid w-full">
     <slot name="top"></slot>
     <div
       v-bind="$attrs"
-      class="border-[.115rem] border-slate-100 bg-white flex h-12 rounded-sm text-slate-700"
+      class="border-[.115rem] border-slate-200 bg-white flex h-12 rounded-sm text-slate-700"
     >
       <slot> </slot>
     </div>
