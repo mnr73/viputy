@@ -1,8 +1,20 @@
-<script setup lang="ts"></script>
+<script setup lang="ts">
+const props = withDefaults(
+  defineProps<{
+    autoHeight?: boolean;
+  }>(),
+  {
+    autoHeight: false
+  }
+);
+</script>
 
 <template>
   <div
-    class="border-[.115rem] border-slate-200 bg-white flex h-12 rounded-sm text-slate-700"
+    class="border-[.115rem] border-slate-200 bg-white flex rounded-sm text-slate-700"
+    :class="{
+      'h-12': !props.autoHeight
+    }"
   >
     <slot> </slot>
   </div>

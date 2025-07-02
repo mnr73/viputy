@@ -13,6 +13,7 @@ const props = withDefaults(
     focused?: boolean;
     openPopup?: boolean;
     fullPopup?: boolean;
+    autoHeight?: boolean;
   }>(),
   {
     status: null,
@@ -20,7 +21,8 @@ const props = withDefaults(
     noFrame: false,
     focused: false,
     openPopup: false,
-    fullPopup: false
+    fullPopup: false,
+    autoHeight: false
   }
 );
 
@@ -39,7 +41,10 @@ function onClick(e: MouseEvent) {
 </script>
 
 <template>
-  <component :is="noFrame === true ? ViNoFrame : ViFrame">
+  <component
+    :is="noFrame === true ? ViNoFrame : ViFrame"
+    :autoHeight="props.autoHeight"
+  >
     <template #top>
       <slot name="top"></slot>
     </template>

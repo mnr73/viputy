@@ -2,6 +2,7 @@
 // import { ViCheckBox, ViCheckSlider, ViInput } from '../../dist/index.es.js';
 import ViInput from '@/components/ViInput.vue';
 import ViTag from '@/components/ViTag.vue';
+import ViText from '@/components/ViText.vue';
 import ViSelect from '@/components/ViSelect.vue';
 // import ViSimpleDate from '@/components/ViSimpleDate.vue';
 // import ViCheckSlider from '@/components/ViCheckSlider.vue';
@@ -55,6 +56,10 @@ function test(value) {
       <ViDropdown></ViDropdown>
       <ViInput type="password"></ViInput>
       <ViTag v-model="tag1"></ViTag>
+      <ViText title="test">
+        <template #before>a</template>
+      </ViText>
+      <ViText></ViText>
     </div>
   </div>
 </template>
