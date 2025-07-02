@@ -37,6 +37,7 @@ const props = withDefaults(
     list?: string | null;
     noFrame?: boolean;
     inputDir?: 'rtl' | 'ltr' | null;
+    step?: string | number;
     min?: string | number | Date | null;
     max?: string | number | Date | null;
     minlength?: number | null;
@@ -316,6 +317,7 @@ function onInput(e: Event) {
         :disabled="props.disabled"
         :readonly="props.readonly"
         :placeholder="props.placeholder || undefined"
+        :step="props.step"
         :min="formatMinMax(props.min)"
         :max="formatMinMax(props.max)"
         :minlength="props.minlength || undefined"
