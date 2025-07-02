@@ -1,6 +1,8 @@
 <script setup>
 // import { ViCheckBox, ViCheckSlider, ViInput } from '../../dist/index.es.js';
 import ViInput from '@/components/ViInput.vue';
+import ViTag from '@/components/ViTag.vue';
+import ViSelect from '@/components/ViSelect.vue';
 // import ViSimpleDate from '@/components/ViSimpleDate.vue';
 // import ViCheckSlider from '@/components/ViCheckSlider.vue';
 // import ViSelect from '@/components/ViSelect.vue';
@@ -13,7 +15,7 @@ import ViInput from '@/components/ViInput.vue';
 //   ViDropdown
 // } from '../../dist/index.es.js';
 // import { ViSimpleDate } from '../../dist/datePicker.es.js';
-import { ViCheckBox, ViCheckSlider, ViSelect, ViDropdown } from '@mnr73/viputy';
+import { ViCheckBox, ViCheckSlider, ViDropdown } from '@mnr73/viputy';
 import { ViSimpleDate } from '@mnr73/viputy/datePicker';
 import { ref } from 'vue';
 
@@ -21,6 +23,7 @@ const checkbox = ref([]);
 const inputVal1 = ref();
 const date1 = ref();
 const select1 = ref('');
+const tag1 = ref([]);
 
 function test(value) {
   console.log('t', value);
@@ -48,9 +51,10 @@ function test(value) {
           {{ option }}
         </template>
       </ViSelect>
-      <ViSimpleDate v-model="date1"></ViSimpleDate>
+      <ViSimpleDate v-model="date1" calender="both"></ViSimpleDate>
       <ViDropdown></ViDropdown>
       <ViInput type="password"></ViInput>
+      <ViTag v-model="tag1"></ViTag>
     </div>
   </div>
 </template>
