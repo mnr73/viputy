@@ -25,6 +25,7 @@ const inputVal1 = ref();
 const date1 = ref();
 const select1 = ref('');
 const tag1 = ref([]);
+const text1 = ref([]);
 
 function test(value) {
   console.log('t', value);
@@ -56,10 +57,10 @@ function test(value) {
       <ViDropdown></ViDropdown>
       <ViInput type="password"></ViInput>
       <ViTag v-model="tag1"></ViTag>
-      <ViText title="test">
+      <ViText title="test" :showDetails="true" v-model="text1" :maxlength="10">
         <template #before>a</template>
       </ViText>
-      <ViText></ViText>
+      <ViText v-model="text1"></ViText>
     </div>
   </div>
 </template>

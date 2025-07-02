@@ -20,6 +20,7 @@ const props = withDefaults(
     rows?: number;
     cols?: number;
     resize?: 'none' | 'both' | 'horizontal' | 'vertical';
+    showDetails?: boolean;
   }>(),
   {
     title: null,
@@ -33,7 +34,8 @@ const props = withDefaults(
     minlength: null,
     maxlength: null,
     rows: 3,
-    resize: 'vertical'
+    resize: 'vertical',
+    showDetails: false
   }
 );
 
@@ -61,6 +63,10 @@ const value = computed({
   set(val: string) {
     emit('update:modelValue', val);
   }
+});
+
+const currentLength = computed(() => {
+  return value.value.length;
 });
 
 function onFocus() {
@@ -135,6 +141,12 @@ defineExpose({ focusInput });
         @focus="onFocus"
         @blur="onBlur"
       ></textarea>
+      <div
+        v-if="props.showDetails"
+        class="text-xs text-slate-500 my-1 text-end"
+      >
+        {{ currentLength }}{{ props.maxlength ? ` / ${props.maxlength}` : '' }}
+      </div>
     </template>
   </ViPart>
 </template>
