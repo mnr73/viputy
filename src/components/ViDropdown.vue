@@ -16,6 +16,7 @@ const props = withDefaults(
     required?: boolean | undefined;
     noFrame?: boolean;
     actionKeys?: boolean;
+    fullPopup?: boolean;
   }>(),
   {
     title: null,
@@ -23,7 +24,8 @@ const props = withDefaults(
     disabled: false,
     required: undefined,
     noFrame: false,
-    actionKeys: true
+    actionKeys: true,
+    fullPopup: false
   }
 );
 
@@ -109,6 +111,7 @@ defineExpose({ focusInput, openList, closeList, toggleList, blurInput });
     :disabled="disabled"
     :noFrame="noFrame"
     :openPopup="openPopup"
+    :fullPopup="fullPopup"
     @clickOnBox="onClick"
     ref="element"
     @keydown="handleKey"

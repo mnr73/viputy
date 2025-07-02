@@ -36,6 +36,7 @@ const props = withDefaults(
     required?: boolean;
     list?: string | null;
     noFrame?: boolean;
+    fullPopup?: boolean;
     inputDir?: 'rtl' | 'ltr' | null;
     step?: string | number;
     min?: string | number | Date | null;
@@ -55,6 +56,7 @@ const props = withDefaults(
     required: undefined,
     list: null,
     noFrame: false,
+    fullPopup: false,
     inputDir: null,
     min: null,
     max: null,
@@ -207,10 +209,11 @@ function onInput(e: Event) {
 <template>
   <ViPart
     :focused="focusMode"
-    :status="status"
-    :disabled="disabled"
-    :noFrame="noFrame"
+    :status="props.status"
+    :disabled="props.disabled"
+    :noFrame="props.noFrame"
     :openPopup="!!(openPopup && dataListFiltered.length)"
+    :fullPopup="props.fullPopup"
     @clickOnBox="(e) => onClick(e)"
   >
     <template #before>

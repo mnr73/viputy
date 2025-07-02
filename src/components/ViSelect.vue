@@ -19,6 +19,7 @@ const props = withDefaults(
     readonly?: boolean;
     required?: boolean;
     noFrame?: boolean;
+    fullPopup?: boolean;
     compareKey?: string;
     filter?: boolean | string[];
     search?: boolean;
@@ -32,6 +33,7 @@ const props = withDefaults(
     readonly: false,
     required: false,
     noFrame: false,
+    fullPopup: false,
     compareKey: 'id',
     filter: false,
     search: false,
@@ -207,6 +209,7 @@ function clearInput() {
     :disabled="props.disabled"
     :required="props.required"
     :noFrame="props.noFrame"
+    :fullPopup="props.fullPopup"
     @keydown="handleKey"
     ref="element"
     @closePopup="closePopup"

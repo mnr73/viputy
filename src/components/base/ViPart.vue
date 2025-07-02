@@ -12,13 +12,15 @@ const props = withDefaults(
     noFrame?: boolean;
     focused?: boolean;
     openPopup?: boolean;
+    fullPopup?: boolean;
   }>(),
   {
     status: null,
     disabled: false,
     noFrame: false,
     focused: false,
-    openPopup: false
+    openPopup: false,
+    fullPopup: false
   }
 );
 
@@ -75,12 +77,16 @@ function onClick(e: MouseEvent) {
         </div>
       </div>
       <div
-        class="h-0 w-fit max-w-full absolute -bottom-1 start-0 z-10"
+        class="h-0 w-full absolute -bottom-1 start-0 z-10"
         v-if="$slots.popup"
         v-show="props.openPopup"
       >
         <div
-          class="bg-white shadow-md border-slate-100 border rounded-md p-2 w-fit min-w-60 max-w-full top-0 start-0"
+          class="bg-white shadow-md border-slate-100 border rounded-md p-2 min-w-60 top-0 start-0"
+          :class="{
+            'w-full': props.fullPopup,
+            'w-fit': !props.fullPopup
+          }"
         >
           <slot name="popup">there is no options</slot>
         </div>
