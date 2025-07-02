@@ -121,7 +121,6 @@ defineExpose({ focusInput });
         v-model="value"
         class="outline-0 w-full min-w-0 placeholder:text-slate-400 min-h-[3rem] resize-none"
         :class="{
-          'opacity-0': props.title !== null && !(textarea?.value || focusMode),
           'pt-1': props.title,
           'resize-none': props.resize === 'none',
           resize: props.resize === 'both',

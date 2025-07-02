@@ -57,7 +57,13 @@ function test(value) {
       <ViDropdown></ViDropdown>
       <ViInput type="password"></ViInput>
       <ViTag v-model="tag1"></ViTag>
-      <ViText title="test" :showDetails="true" v-model="text1" :maxlength="10">
+      <ViText
+        title="test"
+        :showDetails="true"
+        v-model="text1"
+        :maxlength="10"
+        placeholder="type here"
+      >
         <template #before>a</template>
       </ViText>
       <ViText v-model="text1"></ViText>
