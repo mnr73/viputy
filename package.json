@@ -13,6 +13,9 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Milad Nazari",
@@ -33,7 +36,8 @@
     "eslint-plugin-vue": "^10.1.0",
     "prettier": "3.5.3",
     "vite": "^6.3.5",
-    "vite-plugin-dts": "^4.5.4"
+    "vite-plugin-dts": "^4.5.4",
+    "vitepress": "^1.6.3"
   },
   "files": [
     "dist",
