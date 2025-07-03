@@ -94,7 +94,9 @@ const monthNames: Record<number, { persian: string; gregorian: string }> = {
   11: { persian: 'بهمن', gregorian: 'November' },
   12: { persian: 'اسفند', gregorian: 'December' }
 };
-const activeCalender = ref<ActiveCalendarType>(props.activeCalender);
+const activeCalender = ref<ActiveCalendarType>(
+  props.calender === 'both' ? props.activeCalender : props.calender
+);
 
 const minYear = computed<number>(() => {
   if (activeCalender.value == 'gregorian') {
