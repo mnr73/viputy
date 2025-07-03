@@ -29,7 +29,9 @@ export default defineConfig({
             { text: 'ViInput', link: '/components/input' },
             { text: 'ViSelect', link: '/components/select' },
             { text: 'ViSelectPopup', link: '/components/selectpopup' },
-            { text: 'Checkbox & Radio', link: '/components/checkbox-radio' }
+            { text: 'Checkbox & Radio', link: '/components/checkbox-radio' },
+            { text: 'ViTag', link: '/components/tag' },
+            { text: 'ViText', link: '/components/text' }
           ]
         }
       ]

@@ -70,17 +70,45 @@ function test(value) {
     </div>
   </div>
 
-  <ViInput
-    v-model="phoneInput"
-    title="Phone Number"
-    type="tel"
-    inputDir="ltr"
-    placeholder="+1 (555) 000-0000"
-  >
-    <template #before>
-      <span>📞</span>
-    </template>
-  </ViInput>
+  <div class="space-y-4">
+    <div class="bg-white border border-gray-200 rounded-lg p-4">
+      <h4 class="font-medium mb-3">🛍️ Product: "Wireless Headphones"</h4>
+
+      <ViTag
+        v-model="productTags"
+        title="Product Tags"
+        :showTags="false"
+        placeholder="Add product features..."
+      />
+
+      <!-- Custom product tag display -->
+      <div class="mt-3">
+        <h5 class="text-sm font-medium mb-2">Product Features:</h5>
+        <div class="flex flex-wrap gap-2">
+          <span
+            v-for="tag in productTags"
+            :key="tag"
+            class="inline-flex items-center gap-1 px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded border"
+          >
+            ⭐ {{ tag }}
+            <button
+              @click="productTags = productTags.filter((t) => t !== tag)"
+              class="hover:bg-yellow-200 rounded px-1"
+            >
+              ×
+            </button>
+          </span>
+          <span v-if="!productTags.length" class="text-gray-400 text-xs italic">
+            No features tagged yet
+          </span>
+        </div>
+      </div>
+
+      <div class="mt-3 text-xs text-gray-500">
+        💡 Add features like "wireless", "noise-cancelling", "bluetooth", etc.
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped></style>
