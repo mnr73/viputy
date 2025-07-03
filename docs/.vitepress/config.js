@@ -24,7 +24,10 @@ export default defineConfig({
       ],
       '/components/': [
         {
-          items: [{ text: 'component design', link: '/components' }]
+          items: [
+            { text: 'Component Architecture', link: '/components' },
+            { text: 'ViInput Examples', link: '/components/input' }
+          ]
         }
       ]
     },

@@ -69,6 +69,18 @@ function test(value) {
       <ViText v-model="text1"></ViText>
     </div>
   </div>
+
+  <ViInput
+    v-model="phoneInput"
+    title="Phone Number"
+    type="tel"
+    inputDir="ltr"
+    placeholder="+1 (555) 000-0000"
+  >
+    <template #before>
+      <span>📞</span>
+    </template>
+  </ViInput>
 </template>
 
 <style scoped></style>
