@@ -1,14 +1,16 @@
 import { defineConfig } from 'vitepress';
+import tailwindcss from '@tailwindcss/vite';
 
 // https://vitepress.dev/reference/site-config
 export default defineConfig({
+  vite: { plugins: [tailwindcss()] },
   title: 'Viputy',
   description: 'Simple and useful input components for vue3 + tailwind4',
   themeConfig: {
     // https://vitepress.dev/reference/default-theme-config
     nav: [
-      { text: 'Examples', link: '/markdown-examples' },
-      { text: 'Guide', link: '/guide' }
+      { text: 'Guide', link: '/guide' },
+      { text: 'Components', link: '/components' }
     ],
 
     sidebar: {
@@ -18,6 +20,11 @@ export default defineConfig({
             { text: 'What is Viputy', link: '/guide' },
             { text: 'Installation', link: '/guide/installation' }
           ]
+        }
+      ],
+      '/components/': [
+        {
+          items: [{ text: 'component design', link: '/components' }]
         }
       ]
     },
