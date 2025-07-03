@@ -26,7 +26,8 @@ export default defineConfig({
         {
           items: [
             { text: 'Component Architecture', link: '/components' },
-            { text: 'ViInput Examples', link: '/components/input' }
+            { text: 'ViInput', link: '/components/input' },
+            { text: 'ViSelect', link: '/components/select' }
           ]
         }
       ]
