@@ -32,7 +32,8 @@ export default defineConfig({
             { text: 'Checkbox & Radio', link: '/components/checkbox-radio' },
             { text: 'ViTag', link: '/components/tag' },
             { text: 'ViText', link: '/components/text' },
-            { text: 'ViSimpleDate', link: '/components/simpledate' }
+            { text: 'ViSimpleDate', link: '/components/simpledate' },
+            { text: 'ViDropdown', link: '/components/dropdown' }
           ]
         }
       ]
