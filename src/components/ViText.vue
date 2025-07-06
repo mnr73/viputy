@@ -102,7 +102,10 @@ defineExpose({ focusInput });
     @clickOnBox="(e) => onClick(e)"
   >
     <template #main="{ hoverMode }">
-      <div v-if="props.title" class="flex gap-2 items-start transition-all">
+      <div
+        v-if="props.title"
+        class="flex gap-2 items-start transition-all py-1"
+      >
         <slot name="before"></slot>
         <span
           class="text-slate-400"
@@ -115,7 +118,7 @@ defineExpose({ focusInput });
         >
         <slot name="after"></slot>
       </div>
-      <hr class="border-slate-200" v-if="props.title" />
+      <hr class="border-slate-200 my-0" v-if="props.title" />
       <textarea
         ref="textarea"
         v-model="value"
