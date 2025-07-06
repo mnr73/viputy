@@ -90,7 +90,7 @@ function selectColor(color) {
 
 ## What is ViDropdown?
 
-This is the **foundational components** used to build custom dropdown interfaces in Viputy. They provide the base functionality that powers components like ViSelect, ViSelectPopup, and ViSimpleDate.
+This is the **foundational components** used to build custom dropdown interfaces in Viputy. They provide the base functionality that powers components like ViSelect, ViSimpleSelect, and ViSimpleDate.
 
 ### Component Architecture
 

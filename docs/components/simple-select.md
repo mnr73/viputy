@@ -1,10 +1,10 @@
-# ViSelectPopup Examples
+# ViSimpleSelect Examples
 
-Interactive examples demonstrating the ViSelectPopup component features.
+Interactive examples demonstrating the ViSimpleSelect component features.
 
 <script setup>
 import { ref } from 'vue'
-import ViSelectPopup from '../../src/components/ViSelectPopup.vue'
+import ViSimpleSelect from '../../src/components/ViSimpleSelect.vue'
 import { Icon } from "@iconify/vue";
 
 // Basic examples
@@ -52,10 +52,7 @@ const products = [
 Basic popup select with string options.
 
 ::: raw
-<ViSelectPopup 
-  v-model="simpleSelect" 
-  :options="basicOptions"
->
+<ViSimpleSelect v-model="simpleSelect" :options="basicOptions">
   <template #text="{ selected }">
     <span v-if="selected">Selected: {{ selected }}</span>
     <span v-else class="text-gray-400">Choose an option</span>
@@ -63,14 +60,11 @@ Basic popup select with string options.
   <template #option="{ option }">
     <div class="p-2">{{ option }}</div>
   </template>
-</ViSelectPopup>
+</ViSimpleSelect>
 :::
 
 ```vue
-<ViSelectPopup 
-  v-model="value" 
-  :options="options"
->
+<ViSimpleSelect v-model="value" :options="options">
   <template #text="{ selected }">
     <span v-if="selected">Selected: {{ selected }}</span>
     <span v-else>Choose an option</span>
@@ -78,7 +72,7 @@ Basic popup select with string options.
   <template #option="{ option }">
     <div class="p-2">{{ option }}</div>
   </template>
-</ViSelectPopup>
+</ViSimpleSelect>
 ```
 
 ### With Custom Icon
@@ -86,15 +80,9 @@ Basic popup select with string options.
 Using custom icon slot instead of default dropdown arrow.
 
 ::: raw
-<ViSelectPopup 
-  v-model="countrySelect" 
-  :options="countries"
->
+<ViSimpleSelect v-model="countrySelect" :options="countries">
   <template #icon="{ open }">
-    <Icon 
-      :icon="open ? 'mdi:chevron-up' : 'mdi:chevron-down'" 
-      class="w-5 h-5 text-blue-500" 
-    />
+    <Icon :icon="open ? 'mdi:chevron-up' : 'mdi:chevron-down'" class="w-5 h-5 text-blue-500" />
   </template>
   <template #text="{ selected }">
     <span v-if="selected" class="flex items-center gap-2">
@@ -105,14 +93,11 @@ Using custom icon slot instead of default dropdown arrow.
   <template #option="{ option }">
     <div class="p-2 hover:bg-blue-50">🌍 {{ option }}</div>
   </template>
-</ViSelectPopup>
+</ViSimpleSelect>
 :::
 
 ```vue
-<ViSelectPopup 
-  v-model="value" 
-  :options="countries"
->
+<ViSimpleSelect v-model="value" :options="countries">
   <template #icon="{ open }">
     <Icon :icon="open ? 'chevron-up' : 'chevron-down'" />
   </template>
@@ -123,7 +108,7 @@ Using custom icon slot instead of default dropdown arrow.
   <template #option="{ option }">
     <div class="p-2">🌍 {{ option }}</div>
   </template>
-</ViSelectPopup>
+</ViSimpleSelect>
 ```
 
 ## Single Selection with Objects
@@ -133,11 +118,7 @@ Using custom icon slot instead of default dropdown arrow.
 Single user selection with object comparison.
 
 ::: raw
-<ViSelectPopup 
-  v-model="userSelect" 
-  :options="users"
-  compareKey="id"
->
+<ViSimpleSelect v-model="userSelect" :options="users" compareKey="id">
   <template #text="{ selected }">
     <div v-if="selected" class="flex items-center gap-3">
       <div class="w-8 h-8 bg-blue-500 rounded-full flex items-center justify-center text-white text-sm">
@@ -162,15 +143,11 @@ Single user selection with object comparison.
       </div>
     </div>
   </template>
-</ViSelectPopup>
+</ViSimpleSelect>
 :::
 
 ```vue
-<ViSelectPopup 
-  v-model="selectedUser" 
-  :options="users"
-  compareKey="id"
->
+<ViSimpleSelect v-model="selectedUser" :options="users" compareKey="id">
   <template #text="{ selected }">
     <div v-if="selected" class="flex items-center gap-2">
       <div class="avatar">{{ selected.name.charAt(0) }}</div>
@@ -187,7 +164,7 @@ Single user selection with object comparison.
       </div>
     </div>
   </template>
-</ViSelectPopup>
+</ViSimpleSelect>
 ```
 
 ### Product Selection
@@ -195,11 +172,7 @@ Single user selection with object comparison.
 Product selection with detailed display.
 
 ::: raw
-<ViSelectPopup 
-  v-model="productSelect" 
-  :options="products"
-  compareKey="id"
->
+<ViSimpleSelect v-model="productSelect" :options="products" compareKey="id">
   <template #text="{ selected }">
     <div v-if="selected" class="flex items-center justify-between w-full">
       <div>
@@ -224,15 +197,11 @@ Product selection with detailed display.
       </div>
     </div>
   </template>
-</ViSelectPopup>
+</ViSimpleSelect>
 :::
 
 ```vue
-<ViSelectPopup 
-  v-model="selectedProduct" 
-  :options="products"
-  compareKey="id"
->
+<ViSimpleSelect v-model="selectedProduct" :options="products" compareKey="id">
   <template #text="{ selected }">
     <div v-if="selected" class="flex justify-between">
       <span>{{ selected.name }}</span>
@@ -251,7 +220,7 @@ Product selection with detailed display.
       </div>
     </div>
   </template>
-</ViSelectPopup>
+</ViSimpleSelect>
 ```
 
 ## Multiple Selection
@@ -261,11 +230,7 @@ Product selection with detailed display.
 Multiple selection with string options.
 
 ::: raw
-<ViSelectPopup 
-  v-model="multipleCountries" 
-  :options="countries"
-  multiple
->
+<ViSimpleSelect v-model="multipleCountries" :options="countries" multiple>
   <template #text="{ selected }">
     <div v-if="selected && selected.length" class="flex items-center gap-2">
       <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded-full text-sm">
@@ -280,18 +245,14 @@ Multiple selection with string options.
   <template #option="{ option }">
     <div class="p-2 hover:bg-gray-50">{{ option }}</div>
   </template>
-</ViSelectPopup>
+</ViSimpleSelect>
 <div class="mt-2 text-sm text-gray-600">
   Selected: {{ multipleCountries.length ? multipleCountries.join(', ') : 'None' }}
 </div>
 :::
 
 ```vue
-<ViSelectPopup 
-  v-model="selectedCountries" 
-  :options="countries"
-  multiple
->
+<ViSimpleSelect v-model="selectedCountries" :options="countries" multiple>
   <template #text="{ selected }">
     <div v-if="selected && selected.length">
       <span>{{ selected.length }} countries selected</span>
@@ -301,7 +262,7 @@ Multiple selection with string options.
   <template #option="{ option }">
     <div class="p-2">{{ option }}</div>
   </template>
-</ViSelectPopup>
+</ViSimpleSelect>
 ```
 
 ### Multiple Users Selection
@@ -309,26 +270,14 @@ Multiple selection with string options.
 Multiple user selection with object comparison.
 
 ::: raw
-<ViSelectPopup 
-  v-model="multipleUsers" 
-  :options="users"
-  compareKey="id"
-  multiple
->
+<ViSimpleSelect v-model="multipleUsers" :options="users" compareKey="id" multiple>
   <template #text="{ selected }">
     <div v-if="selected && selected.length" class="flex items-center gap-2">
       <div class="flex -space-x-2">
-        <div 
-          v-for="(user, index) in selected.slice(0, 3)" 
-          :key="user.id"
-          class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs border-2 border-white"
-        >
+        <div v-for="(user, index) in selected.slice(0, 3)" :key="user.id" class="w-6 h-6 bg-blue-500 rounded-full flex items-center justify-center text-white text-xs border-2 border-white">
           {{ user.name.charAt(0) }}
         </div>
-        <div 
-          v-if="selected.length > 3"
-          class="w-6 h-6 bg-gray-500 rounded-full flex items-center justify-center text-white text-xs border-2 border-white"
-        >
+        <div v-if="selected.length > 3" class="w-6 h-6 bg-gray-500 rounded-full flex items-center justify-center text-white text-xs border-2 border-white">
           +{{ selected.length - 3 }}
         </div>
       </div>
@@ -349,19 +298,14 @@ Multiple user selection with object comparison.
       </div>
     </div>
   </template>
-</ViSelectPopup>
+</ViSimpleSelect>
 <div class="mt-2 text-sm text-gray-600">
   Selected: {{ multipleUsers.map(u => u.name).join(', ') || 'None' }}
 </div>
 :::
 
 ```vue
-<ViSelectPopup 
-  v-model="selectedUsers" 
-  :options="users"
-  compareKey="id"
-  multiple
->
+<ViSimpleSelect v-model="selectedUsers" :options="users" compareKey="id" multiple>
   <template #text="{ selected }">
     <div v-if="selected && selected.length">
       <span>{{ selected.length }} users selected</span>
@@ -377,7 +321,7 @@ Multiple user selection with object comparison.
       </div>
     </div>
   </template>
-</ViSelectPopup>
+</ViSimpleSelect>
 ```
 
 ### Multiple Products Selection
@@ -385,12 +329,7 @@ Multiple user selection with object comparison.
 Multiple product selection with detailed view.
 
 ::: raw
-<ViSelectPopup 
-  v-model="multipleProducts" 
-  :options="products"
-  compareKey="id"
-  multiple
->
+<ViSimpleSelect v-model="multipleProducts" :options="products" compareKey="id" multiple>
   <template #text="{ selected }">
     <div v-if="selected && selected.length" class="flex items-center justify-between w-full">
       <div class="flex items-center gap-2">
@@ -418,19 +357,14 @@ Multiple product selection with detailed view.
       </div>
     </div>
   </template>
-</ViSelectPopup>
+</ViSimpleSelect>
 <div class="mt-2 text-sm text-gray-600">
   Cart: {{ multipleProducts.length }} items, Total: ${{ multipleProducts.reduce((sum, p) => sum + p.price, 0) }}
 </div>
 :::
 
 ```vue
-<ViSelectPopup 
-  v-model="selectedProducts" 
-  :options="products"
-  compareKey="id"
-  multiple
->
+<ViSimpleSelect v-model="selectedProducts" :options="products" compareKey="id" multiple>
   <template #text="{ selected }">
     <div v-if="selected && selected.length">
       <span>{{ selected.length }} products selected</span>
@@ -445,7 +379,7 @@ Multiple product selection with detailed view.
       </div>
     </div>
   </template>
-</ViSelectPopup>
+</ViSimpleSelect>
 ```
 
 ## Disabled State
@@ -455,11 +389,7 @@ Multiple product selection with detailed view.
 Selection in disabled state.
 
 ::: raw
-<ViSelectPopup 
-  v-model="disabledSelect" 
-  :options="basicOptions"
-  disabled
->
+<ViSimpleSelect v-model="disabledSelect" :options="basicOptions" disabled>
   <template #text="{ selected }">
     <span v-if="selected" class="text-gray-500">{{ selected }}</span>
     <span v-else class="text-gray-400">Disabled selection</span>
@@ -467,15 +397,11 @@ Selection in disabled state.
   <template #option="{ option }">
     <div class="p-2">{{ option }}</div>
   </template>
-</ViSelectPopup>
+</ViSimpleSelect>
 :::
 
 ```vue
-<ViSelectPopup 
-  v-model="value" 
-  :options="options"
-  disabled
->
+<ViSimpleSelect v-model="value" :options="options" disabled>
   <template #text="{ selected }">
     <span v-if="selected">{{ selected }}</span>
     <span v-else>Disabled selection</span>
@@ -483,7 +409,7 @@ Selection in disabled state.
   <template #option="{ option }">
     <div class="p-2">{{ option }}</div>
   </template>
-</ViSelectPopup>
+</ViSimpleSelect>
 ```
 
 ## Event Handling
@@ -494,11 +420,7 @@ Handling selection changes.
 
 ::: raw
 <div>
-  <ViSelectPopup 
-    v-model="simpleSelect" 
-    :options="basicOptions"
-    @change="() => console.log('Selection changed to:', simpleSelect)"
-  >
+  <ViSimpleSelect v-model="simpleSelect" :options="basicOptions" @change="() => console.log('Selection changed to:', simpleSelect)">
     <template #text="{ selected }">
       <span v-if="selected">{{ selected }}</span>
       <span v-else class="text-gray-400">Select with change event</span>
@@ -506,7 +428,7 @@ Handling selection changes.
     <template #option="{ option }">
       <div class="p-2 hover:bg-blue-50">{{ option }}</div>
     </template>
-  </ViSelectPopup>
+  </ViSimpleSelect>
   <div class="mt-2 text-sm text-gray-600">
     Current selection: {{ simpleSelect || 'None' }}
   </div>
@@ -514,11 +436,7 @@ Handling selection changes.
 :::
 
 ```vue
-<ViSelectPopup 
-  v-model="value" 
-  :options="options"
-  @change="handleSelectionChange"
->
+<ViSimpleSelect v-model="value" :options="options" @change="handleSelectionChange">
   <template #text="{ selected }">
     <span v-if="selected">{{ selected }}</span>
     <span v-else>Select option</span>
@@ -526,7 +444,7 @@ Handling selection changes.
   <template #option="{ option }">
     <div class="p-2">{{ option }}</div>
   </template>
-</ViSelectPopup>
+</ViSimpleSelect>
 ```
 
 ## Advanced Styling
@@ -536,11 +454,7 @@ Handling selection changes.
 Options with advanced styling and interactions.
 
 ::: raw
-<ViSelectPopup 
-  v-model="userSelect" 
-  :options="users"
-  compareKey="id"
->
+<ViSimpleSelect v-model="userSelect" :options="users" compareKey="id">
   <template #text="{ selected }">
     <div v-if="selected" class="flex items-center gap-2 bg-gradient-to-r from-blue-50 to-purple-50 p-2 rounded">
       <div class="w-6 h-6 bg-gradient-to-r from-blue-500 to-purple-500 rounded-full flex items-center justify-center text-white text-xs">
@@ -568,15 +482,11 @@ Options with advanced styling and interactions.
       </div>
     </div>
   </template>
-</ViSelectPopup>
+</ViSimpleSelect>
 :::
 
 ```vue
-<ViSelectPopup 
-  v-model="selectedUser" 
-  :options="users"
-  compareKey="id"
->
+<ViSimpleSelect v-model="selectedUser" :options="users" compareKey="id">
   <template #text="{ selected }">
     <div v-if="selected" class="styled-selection">
       <div class="avatar">{{ selected.name.charAt(0) }}</div>
@@ -593,7 +503,7 @@ Options with advanced styling and interactions.
       </div>
     </div>
   </template>
-</ViSelectPopup>
+</ViSimpleSelect>
 ```
 
 ## Tips

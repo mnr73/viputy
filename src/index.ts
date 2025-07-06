@@ -10,7 +10,7 @@ import ViInput from './components/ViInput.vue';
 import ViSimpleDropdown from './components/ViSimpleDropdown.vue';
 import ViRadio from './components/ViRadio.vue';
 import ViSelect from './components/ViSelect.vue';
-import ViSelectPopup from './components/ViSelectPopup.vue';
+import ViSimpleSelect from './components/ViSimpleSelect.vue';
 import ViText from './components/ViText.vue';
 import ViTag from './components/ViTag.vue';
 
@@ -27,7 +27,7 @@ export {
   ViSimpleDropdown,
   ViRadio,
   ViSelect,
-  ViSelectPopup,
+  ViSimpleSelect,
   ViText,
   ViTag
 };
