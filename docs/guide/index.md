@@ -26,7 +26,7 @@ Viputy is a collection of Vue 3 components designed to make form building easier
 - **ViRadio** - Radio button with animations
 - **ViTag** - Tag input for multiple values
 - **ViDropdown** - General purpose dropdown
-- **ViPopup** - Popup component for dialogs
+- **ViSimpleDropdown** - General purpose dropdown
 - **ViSimpleDate** - Date picker with dual calendar support
 - **Layout Components** - ViFrame, ViPart, ViDivider for structure
 

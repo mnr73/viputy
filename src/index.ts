@@ -7,7 +7,7 @@ import ViCheckBox from './components/ViCheckBox.vue';
 import ViCheckSlider from './components/ViCheckSlider.vue';
 import ViDropdown from './components/ViDropdown.vue';
 import ViInput from './components/ViInput.vue';
-import ViPopup from './components/ViPopup.vue';
+import ViSimpleDropdown from './components/ViSimpleDropdown.vue';
 import ViRadio from './components/ViRadio.vue';
 import ViSelect from './components/ViSelect.vue';
 import ViSelectPopup from './components/ViSelectPopup.vue';
@@ -24,7 +24,7 @@ export {
   ViCheckSlider,
   ViDropdown,
   ViInput,
-  ViPopup,
+  ViSimpleDropdown,
   ViRadio,
   ViSelect,
   ViSelectPopup,

@@ -1,11 +1,10 @@
 # ViDropdown Examples
 
-Interactive examples demonstrating ViDropdown and ViPopup components - the building blocks for custom dropdown components.
+Interactive examples demonstrating ViDropdown component - the building blocks for custom dropdown components.
 
 <script setup>
 import { ref, computed } from 'vue'
 import ViDropdown from '../../src/components/ViDropdown.vue'
-import ViPopup from '../../src/components/ViPopup.vue'
 
 // Basic examples
 const basicDropdown = ref('')
@@ -89,20 +88,18 @@ function selectColor(color) {
 }
 </script>
 
-## What are ViDropdown & ViPopup?
+## What is ViDropdown?
 
-These are the **foundational components** used to build custom dropdown and popup interfaces in Viputy. They provide the base functionality that powers components like ViSelect, ViSelectPopup, and ViSimpleDate.
+This is the **foundational components** used to build custom dropdown interfaces in Viputy. They provide the base functionality that powers components like ViSelect, ViSelectPopup, and ViSimpleDate.
 
 ### Component Architecture
 
 - **ViDropdown** - Creates dropdown interfaces with input field and collapsible content
-- **ViPopup** - Creates overlay popups and modal-like interfaces
 - **Building Blocks** - Both components provide slots and events for complete customization
 
 ### Built with These Components
 
 - ✅ **ViSelect** - Uses ViDropdown as its foundation
-- ✅ **ViSelectPopup** - Uses ViPopup for selection interfaces
 - ✅ **ViSimpleDate** - Uses ViDropdown for date picker functionality
 - ✅ **Custom Components** - Build your own dropdowns and popups
 

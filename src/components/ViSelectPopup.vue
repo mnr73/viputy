@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { computed, ref } from 'vue';
-import ViPopup from './ViPopup.vue';
+import ViSimpleDropdown from './ViSimpleDropdown.vue';
 
 type Option = Record<string, any> | string | number | null;
 
@@ -26,7 +26,7 @@ const props = withDefaults(
   }
 );
 
-const element = ref<typeof ViPopup>();
+const element = ref<typeof ViSimpleDropdown>();
 const stageOptionIndex = ref(-1);
 
 const selectedOption = computed<Option>({
@@ -158,7 +158,7 @@ function closePopup() {
 </script>
 
 <template>
-  <ViPopup
+  <ViSimpleDropdown
     :disabled="props.disabled"
     @keydown="handleKey"
     ref="element"
@@ -191,5 +191,5 @@ function closePopup() {
         </div>
       </div>
     </template>
-  </ViPopup>
+  </ViSimpleDropdown>
 </template>
