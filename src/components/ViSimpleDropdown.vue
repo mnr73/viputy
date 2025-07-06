@@ -89,7 +89,7 @@ defineExpose({ openList, closeList, toggleList });
         </div>
       </slot>
     </div>
-    <div class="bg-blue-100 w-full absolute z-10 bottom-0 start-0">
+    <div class="w-full absolute z-10 bottom-0 start-0">
       <div class="absolute top-1 start-0" v-show="openPopup">
         <slot name="popup">
           <div
