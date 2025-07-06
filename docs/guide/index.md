@@ -54,8 +54,6 @@ import { ViInput } from '@mnr73/viputy';
 
 1. **[Installation](./installation.md)** - Set up Viputy in your project
 2. **[Components](/components/)** - Explore all available components
-3. **[Examples](/examples/)** - See real-world usage examples
-4. **[API Reference](/api/)** - Detailed component documentation
 
 ## Community & Support
 

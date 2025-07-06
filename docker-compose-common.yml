@@ -1,0 +1,6 @@
+services:
+    nginx:
+        image: nginx
+        volumes:
+            - ./docs/.vitepress/dist:/usr/share/nginx/html:ro
+            - ./nginx_config:/etc/nginx/conf.d
