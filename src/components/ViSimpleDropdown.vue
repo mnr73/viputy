@@ -95,7 +95,7 @@ defineExpose({ openList, closeList, toggleList });
           <div
             class="bg-white min-fit shadow-md border border-slate-200 rounded-md"
           >
-            <slot name="popupContent">
+            <slot name="content">
               <div class="w-40 p-2">place your drop down content here</div>
             </slot>
           </div>

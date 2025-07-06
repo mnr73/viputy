@@ -174,7 +174,7 @@ function closePopup() {
       </slot>
     </template>
 
-    <template #popupContent>
+    <template #content>
       <div class="grid gap-1 p-2">
         <div
           v-for="(option, index) in props.options"
