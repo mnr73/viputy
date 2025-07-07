@@ -179,10 +179,11 @@ function closePopup() {
         <div
           v-for="(option, index) in props.options"
           :key="index"
-          class="block bg-white hover:bg-slate-50 hover:border-e-slate-200 hover:border-e-4 p-2 cursor-pointer rounded-sm relative"
+          class="block bg-white hover:bg-slate-50 hover:border-e-slate-200 hover:border-e-4 p-2 cursor-pointer rounded-sm relative dark:hover:bg-zinc-600 dark:bg-zinc-700"
           :class="{
-            '!bg-slate-50 border-s-4 border-s-sky-400': checkSelected(option),
-            '!bg-slate-50 border-e-slate-200 border-e-4':
+            '!bg-slate-50 border-s-4 border-s-sky-400 dark:!bg-zinc-800':
+              checkSelected(option),
+            '!bg-slate-50 border-e-slate-200 border-e-4 dark:!bg-zinc-700':
               stageOptionIndex === index
           }"
           @click="onOptionClick(option)"
