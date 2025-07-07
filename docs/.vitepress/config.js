@@ -33,7 +33,8 @@ export default defineConfig({
             { text: 'ViTag', link: '/components/tag' },
             { text: 'ViText', link: '/components/text' },
             { text: 'ViSimpleDate', link: '/components/simpledate' },
-            { text: 'ViDropdown', link: '/components/dropdown' }
+            { text: 'ViDropdown', link: '/components/dropdown' },
+            { text: 'ViFrame', link: '/components/frame' }
           ]
         }
       ]
