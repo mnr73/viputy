@@ -538,7 +538,7 @@ function showDate() {
           >
             <div class="grid gap-1 my-[100px]">
               <div
-                class="p-1 bg-slate-50 rounded-md cursor-pointer relative"
+                class="p-1 bg-slate-50 dark:bg-zinc-600 rounded-md cursor-pointer relative"
                 v-for="dayNumber in dayLength"
                 :key="dayNumber"
                 :class="{
@@ -562,7 +562,7 @@ function showDate() {
           >
             <div class="grid gap-1 my-[100px]">
               <div
-                class="p-1 bg-slate-50 rounded-md cursor-pointer relative"
+                class="p-1 bg-slate-50 dark:bg-zinc-600 rounded-md cursor-pointer relative"
                 v-for="(monthName, monthNumber) in monthNames"
                 :key="monthNumber"
                 :class="{ '!bg-sky-300': month == monthNumber }"
@@ -584,7 +584,7 @@ function showDate() {
           >
             <div class="grid gap-1 my-[100px]">
               <div
-                class="p-1 bg-slate-50 rounded-md cursor-pointer relative"
+                class="p-1 bg-slate-50 dark:bg-zinc-600 rounded-md cursor-pointer relative"
                 v-for="yearNumber in Array.from(
                   { length: maxYear - minYear + 1 },
                   (_, i) => minYear + i
@@ -606,14 +606,14 @@ function showDate() {
         <hr class="border-slate-200 my-2" />
         <div class="flex gap-2">
           <button
-            class="bg-slate-100 rounded-md w-full py-1"
+            class="bg-slate-100 dark:bg-zinc-800 rounded-md w-full py-1"
             type="button"
             @click="setValue"
           >
             {{ props.translate.set }}
           </button>
           <button
-            class="bg-slate-100 rounded-md w-10 py-1 px-2 text-slate-500"
+            class="bg-slate-100 dark:bg-zinc-800 rounded-md w-10 py-1 px-2 text-slate-500"
             type="button"
             @click="showDate"
           >
