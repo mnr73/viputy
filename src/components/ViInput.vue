@@ -275,11 +275,13 @@ function onInput(e: Event) {
     <template #popup>
       <div class="max-h-[300px] overflow-y-auto" style="scrollbar-width: thin">
         <div
-          class="hover:bg-slate-200 p-1 rounded-sm"
+          class="hover:bg-slate-200 p-1 rounded-sm dark:hover:bg-zinc-600"
           v-for="(item, index) in dataListFiltered"
           :key="index"
           @click="onClickData(item)"
-          :class="{ 'bg-slate-200': stageOptionIndex == index }"
+          :class="{
+            'bg-slate-200 dark:bg-zinc-800': stageOptionIndex == index
+          }"
         >
           {{ item }}
         </div>
@@ -294,7 +296,7 @@ function onInput(e: Event) {
         }"
       >
         <span
-          class="text-slate-400"
+          class="text-slate-400 dark:text-zinc-400"
           :class="{
             'text-slate-500': hoverMode,
             'text-slate-600': focusMode || input?.value

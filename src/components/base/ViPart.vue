@@ -73,7 +73,8 @@ function onClick(e: MouseEvent) {
             class="block h-[.15rem] w-full absolute bottom-0 transition-all"
             :class="{
               'bg-sky-500': props.focused && props.status == null,
-              'bg-slate-500': hoverMode && props.status == null,
+              'bg-slate-500 dark:bg-zinc-500':
+                hoverMode && props.status == null,
               'bg-red-400': props.status == 'error',
               'bg-yellow-500': props.status == 'warning',
               'bg-green-500': props.status == 'true'
@@ -87,7 +88,7 @@ function onClick(e: MouseEvent) {
         v-show="props.openPopup"
       >
         <div
-          class="bg-white shadow-md border-slate-100 border rounded-md p-2 min-w-60 top-0 start-0"
+          class="bg-white dark:bg-zinc-700 shadow-md border-slate-100 dark:border-zinc-500 border rounded-md p-2 min-w-60 top-0 start-0"
           :class="{
             'w-full': props.fullPopup,
             'w-fit': !props.fullPopup
