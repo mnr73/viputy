@@ -52,7 +52,7 @@ const on = computed(() => {
     :class="{ '!cursor-not-allowed': props.disabled }"
   >
     <div
-      class="bg-slate-100 border border-slate-200 h-6 w-10 rounded-full p-[1.6px] relative"
+      class="bg-slate-100 border border-slate-200 h-6 w-10 rounded-full p-[1.6px] relative dark:bg-zinc-700 dark:border-zinc-600"
       :class="{
         'opacity-60 bg-slate-300': props.disabled
       }"

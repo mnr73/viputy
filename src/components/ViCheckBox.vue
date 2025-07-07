@@ -52,7 +52,7 @@ const on = computed(() => {
     :class="{ '!cursor-not-allowed': props.disabled }"
   >
     <div
-      class="bg-slate-100 border-3 border-slate-200 h-7 w-7 rounded-md p-[1.6px] relative"
+      class="bg-slate-100 border-3 border-slate-200 h-7 w-7 rounded-md p-[1.6px] relative dark:bg-zinc-700 dark:border-zinc-600"
       :class="{
         'opacity-60 bg-slate-300': props.disabled,
         '!border-sky-400': on
@@ -71,7 +71,7 @@ const on = computed(() => {
         xmlns="http://www.w3.org/2000/svg"
         width="100%"
         class="text-slate-400"
-        :class="{ '!text-sky-500': on }"
+        :class="{ '!text-sky-500 dark:!text-sky-400': on }"
         viewBox="0 0 16 16"
       >
         <path

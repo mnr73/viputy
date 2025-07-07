@@ -42,7 +42,7 @@ const on = computed(() => {
     :class="{ '!cursor-not-allowed': props.disabled }"
   >
     <div
-      class="bg-slate-100 border border-slate-200 h-7 w-7 rounded-full p-[1.6px] relative flex items-center justify-center"
+      class="bg-slate-100 border border-slate-200 h-7 w-7 rounded-full p-[1.6px] relative flex items-center justify-center dark:bg-zinc-700 dark:border-zinc-600"
       :class="{
         'opacity-60 bg-slate-200': props.disabled
       }"
@@ -57,7 +57,7 @@ const on = computed(() => {
         :disabled="props.disabled"
       />
       <div
-        class="border-6 rounded-full w-full aspect-square border-slate-300"
+        class="border-6 rounded-full w-full aspect-square border-slate-300 dark:border-zinc-500"
         :class="{
           '!border-sky-400 slide-on': on
         }"
