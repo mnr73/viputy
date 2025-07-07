@@ -153,7 +153,7 @@ defineExpose({ focusInput });
     <div
       v-if="!props.hideTags"
       v-show="value?.length"
-      class="p-1 flex flex-wrap border border-slate-200 bg-slate-100 mb-1 rounded-md gap-1"
+      class="p-1 flex flex-wrap border border-slate-200 bg-slate-100 dark:bg-zinc-700 dark:border-zinc-500 mb-1 rounded-md gap-1"
     >
       <ViTagComponent
         v-for="(item, index) in value"
@@ -196,16 +196,14 @@ defineExpose({ focusInput });
           style="scrollbar-width: thin"
         >
           <div
-            class="hover:bg-slate-200 p-1 rounded-sm cursor-pointer"
+            class="hover:bg-slate-200 dark:hover:bg-zinc-600 p-1 rounded-sm cursor-pointer"
             v-for="(item, index) in datalist"
             :key="index"
             @click="onClickData(item)"
             :class="{
-              '!bg-slate-50 border-s-4 border-s-sky-400': (Array.isArray(value)
-                ? value
-                : []
-              ).includes(item),
-              '!bg-slate-50 border-e-slate-200 border-e-4':
+              '!bg-slate-50 border-s-4 border-s-sky-400 dark:!bg-zinc-800':
+                (Array.isArray(value) ? value : []).includes(item),
+              '!bg-slate-50 border-e-slate-200 border-e-4 dark:!bg-zinc-800':
                 stageOptionIndex == index
             }"
           >

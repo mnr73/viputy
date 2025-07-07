@@ -23,7 +23,7 @@ function onClick() {
 
 <template>
   <div
-    class="bg-white border-slate-200 border rounded-md p-1 flex items-center gap-1 cursor-pointer"
+    class="bg-white dark:bg-zinc-800 dark:border-zinc-500 border-slate-200 border rounded-md p-1 flex items-center gap-1 cursor-pointer"
     @mouseover="mode = 'edit'"
     @mouseleave="mode = null"
     @click="onClick"
