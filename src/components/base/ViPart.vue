@@ -43,7 +43,7 @@ function onClick(e: MouseEvent) {
 <template>
   <component
     :is="noFrame === true ? ViNoFrame : ViFrame"
-    :autoHeight="props.autoHeight"
+    v-bind="noFrame === false ? { autoHeight: props.autoHeight } : {}"
   >
     <template #top>
       <slot name="top"></slot>
