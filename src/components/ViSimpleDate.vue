@@ -530,8 +530,8 @@ function showDate() {
                 type="number"
                 class="min-w-0 w-0 outline-0"
                 :class="{ 'w-full': focusYearInput }"
-                :min="min.year"
-                :max="max.year"
+                :min="minYear"
+                :max="maxYear"
                 @change="setYear(year)"
                 @keydown.enter.prevent="setYear(year)"
             /></label>
