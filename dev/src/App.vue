@@ -4,7 +4,7 @@ import ViInput from '@/components/ViInput.vue';
 import ViTag from '@/components/ViTag.vue';
 import ViText from '@/components/ViText.vue';
 import ViSelect from '@/components/ViSelect.vue';
-// import ViSimpleDate from '@/components/ViSimpleDate.vue';
+import ViSimpleDate from '@/components/ViSimpleDate.vue';
 // import ViCheckSlider from '@/components/ViCheckSlider.vue';
 // import ViSelect from '@/components/ViSelect.vue';
 // import {
@@ -17,7 +17,7 @@ import ViSelect from '@/components/ViSelect.vue';
 // } from '../../dist/index.es.js';
 // import { ViSimpleDate } from '../../dist/datePicker.es.js';
 import { ViCheckBox, ViCheckSlider, ViDropdown } from '@mnr73/viputy';
-import { ViSimpleDate } from '@mnr73/viputy/datePicker';
+// import { ViSimpleDate } from '@mnr73/viputy/datePicker';
 import { ref } from 'vue';
 
 const checkbox = ref([]);
@@ -67,46 +67,6 @@ function test(value) {
         <template #before>a</template>
       </ViText>
       <ViText v-model="text1"></ViText>
-    </div>
-  </div>
-
-  <div class="space-y-4">
-    <div class="bg-white border border-gray-200 rounded-lg p-4">
-      <h4 class="font-medium mb-3">🛍️ Product: "Wireless Headphones"</h4>
-
-      <ViTag
-        v-model="productTags"
-        title="Product Tags"
-        :showTags="false"
-        placeholder="Add product features..."
-      />
-
-      <!-- Custom product tag display -->
-      <div class="mt-3">
-        <h5 class="text-sm font-medium mb-2">Product Features:</h5>
-        <div class="flex flex-wrap gap-2">
-          <span
-            v-for="tag in productTags"
-            :key="tag"
-            class="inline-flex items-center gap-1 px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded border"
-          >
-            ⭐ {{ tag }}
-            <button
-              @click="productTags = productTags.filter((t) => t !== tag)"
-              class="hover:bg-yellow-200 rounded px-1"
-            >
-              ×
-            </button>
-          </span>
-          <span v-if="!productTags.length" class="text-gray-400 text-xs italic">
-            No features tagged yet
-          </span>
-        </div>
-      </div>
-
-      <div class="mt-3 text-xs text-gray-500">
-        💡 Add features like "wireless", "noise-cancelling", "bluetooth", etc.
-      </div>
     </div>
   </div>
 </template>
