@@ -448,7 +448,7 @@ function showDate() {
           </template>
           <template v-else>
             <bdi>{{
-              value.toFormat(props.gregorianFormat, {
+              value.toFormat(props.persianFormat, {
                 locale: props.persianIntl
               })
             }}</bdi>
