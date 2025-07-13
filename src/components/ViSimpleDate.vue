@@ -43,6 +43,8 @@ const props = withDefaults(
     signedDate?: DateTime | null;
     persianIntl?: string;
     gregorianIntl?: string;
+    persianFormat?: string;
+    gregorianFormat?: string;
     translate?: TranslateType;
   }>(),
   {
@@ -59,6 +61,8 @@ const props = withDefaults(
     signedDate: null,
     persianIntl: 'fa-IR-u-nu-latn',
     gregorianIntl: 'en-us',
+    persianFormat: 'dd MMMM yyyy',
+    gregorianFormat: 'dd MMMM yyyy',
     translate: () => ({
       day: 'day',
       month: 'month',
@@ -437,12 +441,16 @@ function showDate() {
         <span v-if="value">
           <template v-if="activeCalender === 'gregorian'">
             <bdi>{{
-              value.toFormat('dd MMMM yyyy', { locale: props.gregorianIntl })
+              value.toFormat(props.gregorianFormat, {
+                locale: props.gregorianIntl
+              })
             }}</bdi>
           </template>
           <template v-else>
             <bdi>{{
-              value.toFormat('dd MMMM yyyy', { locale: props.persianIntl })
+              value.toFormat(props.gregorianFormat, {
+                locale: props.persianIntl
+              })
             }}</bdi>
           </template>
         </span>
