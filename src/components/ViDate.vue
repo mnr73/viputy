@@ -472,7 +472,7 @@ const showHint = computed(() => {
           </button>
         </div>
         <div class="flex gap-2 justify-between items-center">
-          <button class="w-8" @click="showPreviousMonth">
+          <button class="w-8" @click="showPreviousMonth" type="button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
@@ -526,7 +526,7 @@ const showHint = computed(() => {
                 @keydown.enter.prevent="setYearMonth()"
             /></label>
           </div>
-          <button class="w-8" @click="showNextMonth">
+          <button class="w-8" @click="showNextMonth" type="button">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 24 24"
