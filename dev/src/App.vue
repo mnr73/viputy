@@ -5,6 +5,7 @@ import ViTag from '@/components/ViTag.vue';
 import ViText from '@/components/ViText.vue';
 import ViSelect from '@/components/ViSelect.vue';
 import ViSimpleDate from '@/components/ViSimpleDate.vue';
+import ViDate from '@/components/ViDate.vue';
 // import ViCheckSlider from '@/components/ViCheckSlider.vue';
 // import ViSelect from '@/components/ViSelect.vue';
 // import {
@@ -19,13 +20,14 @@ import ViSimpleDate from '@/components/ViSimpleDate.vue';
 import { ViCheckBox, ViCheckSlider, ViDropdown } from '@mnr73/viputy';
 // import { ViSimpleDate } from '@mnr73/viputy/datePicker';
 import { ref } from 'vue';
+import { DateTime } from 'luxon';
 
 const checkbox = ref([]);
 const inputVal1 = ref();
 const date1 = ref();
 const select1 = ref('');
 const tag1 = ref([]);
-const text1 = ref([]);
+const text1 = ref();
 
 function test(value) {
   console.log('t', value);
@@ -35,6 +37,14 @@ function test(value) {
 <template>
   <div class="bg-white mx-auto p-5 w-[800px]">
     <div class="p-2 grid gap-5">
+      <ViDate
+        v-model="date1"
+        :min="DateTime.now().minus({ years: 1 })"
+        :max="DateTime.now().plus({ years: 1 })"
+        calender="both"
+        activeCalender="persian"
+        :signedDate="DateTime.now()"
+      ></ViDate>
       <div>
         <ViCheckBox v-model="checkbox" value="ali">click on me</ViCheckBox>
         <ViCheckSlider v-model="checkbox" value="ali"
@@ -53,7 +63,12 @@ function test(value) {
           {{ option }}
         </template>
       </ViSelect>
-      <ViSimpleDate v-model="date1" calender="both"></ViSimpleDate>
+      <ViSimpleDate
+        v-model="date1"
+        :min="DateTime.now().minus({ years: 1 })"
+        :max="DateTime.now().plus({ years: 1 })"
+        calender="both"
+      ></ViSimpleDate>
       <ViDropdown></ViDropdown>
       <ViInput type="password"></ViInput>
       <ViTag v-model="tag1"></ViTag>
