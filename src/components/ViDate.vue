@@ -296,9 +296,7 @@ function showPreviousMonth() {
 
 function close() {}
 
-function change() {
-  emit('change');
-}
+function change() {}
 
 function setValue(day: number) {
   element.value?.closeList();
@@ -320,6 +318,7 @@ function setValue(day: number) {
       day: gd
     });
   }
+  emit('change');
 }
 
 function changeCalenderToPersian() {
@@ -368,10 +367,7 @@ function handleKey(e: KeyboardEvent) {
 
 function clearInput() {
   value.value = null;
-  // year.value = null;
-  // month.value = null;
-  // day.value = null;
-  change();
+  emit('change');
 }
 
 const showHint = computed(() => {

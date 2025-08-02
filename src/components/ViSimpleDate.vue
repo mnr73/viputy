@@ -285,7 +285,6 @@ function change() {
   if (autoSet.value.size >= 3) {
     setValue();
   }
-  emit('change');
 }
 
 function setValue() {
@@ -309,6 +308,7 @@ function setValue() {
         day: gd
       });
     }
+    emit('change');
   }
 }
 
