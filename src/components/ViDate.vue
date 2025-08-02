@@ -297,9 +297,7 @@ function showPreviousMonth() {
 function close() {}
 
 function change() {
-  // if (year.value && month.value) {
-  //   setMonthLength();
-  // }
+  emit('change');
 }
 
 function setValue(day: number) {
@@ -373,7 +371,7 @@ function clearInput() {
   // year.value = null;
   // month.value = null;
   // day.value = null;
-  emit('change');
+  change();
 }
 
 const showHint = computed(() => {
