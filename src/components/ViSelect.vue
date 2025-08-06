@@ -196,6 +196,12 @@ function closePopup() {
   }, 100);
 }
 
+function openPopup() {
+  if (props.filter !== false || props.search) {
+    setTimeout(() => searchInput.value?.focus(), 10);
+  }
+}
+
 function clearInput() {
   selectedOption.value = props.multiple ? [] : null;
   emit('change');
@@ -213,6 +219,7 @@ function clearInput() {
     @keydown="handleKey"
     ref="element"
     @closePopup="closePopup"
+    @openPopup="openPopup"
     :actionKeys="false"
   >
     <template #after>
