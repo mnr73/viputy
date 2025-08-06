@@ -63,6 +63,14 @@ function test(value) {
           {{ option }}
         </template>
       </ViSelect>
+      <ViSelect v-model="select1" :filter="true" :options="['ali', 'milad']">
+        <template #label>
+          <span class="text-slate-500">{{ select1 }}</span>
+        </template>
+        <template #option="{ option }">
+          {{ option }}
+        </template>
+      </ViSelect>
       <ViSimpleDate
         v-model="date1"
         :min="DateTime.now().minus({ years: 1 })"
