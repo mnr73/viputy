@@ -270,7 +270,7 @@ defineExpose({ focusInput });
           type="text"
           class="bg-slate-50 w-full rounded-md p-1 outline-0 mb-1 border border-slate-100"
           placeholder="search"
-          @keyup="emit('search', filterText)"
+          @input="emit('search', filterText)"
         />
       </div>
       <div
