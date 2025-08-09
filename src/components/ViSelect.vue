@@ -206,6 +206,14 @@ function clearInput() {
   selectedOption.value = props.multiple ? [] : null;
   emit('change');
 }
+
+function focusInput() {
+  element.value?.focusInput();
+  element.value?.openList();
+  openPopup();
+}
+
+defineExpose({ focusInput });
 </script>
 
 <template>
