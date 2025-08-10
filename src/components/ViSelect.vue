@@ -150,6 +150,12 @@ function onOptionClick(option: any) {
 }
 
 function handleKey(e: KeyboardEvent) {
+  console.log(e);
+
+  if (element.value?.isOpen()) {
+    e.stopPropagation();
+  }
+
   if (optionsFiltered.value?.length) {
     if (e.code === 'ArrowDown') {
       e.preventDefault();
@@ -166,7 +172,7 @@ function handleKey(e: KeyboardEvent) {
       stageOptionIndex.value = Math.max(stageOptionIndex.value - 1, 0);
     }
 
-    if (e.code === 'Enter' && stageOptionIndex.value >= 0) {
+    if (e.key === 'Enter' && stageOptionIndex.value >= 0) {
       onOptionClick(optionsFiltered.value[stageOptionIndex.value]);
     }
 
