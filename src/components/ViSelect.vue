@@ -224,6 +224,13 @@ function focusInput() {
   openPopup();
 }
 
+function search() {
+  if (stageOptionIndex.value < 0) {
+    stageOptionIndex.value = 0;
+  }
+  emit('search', filterText.value);
+}
+
 defineExpose({ focusInput });
 </script>
 
@@ -281,7 +288,7 @@ defineExpose({ focusInput });
           type="text"
           class="bg-slate-50 w-full rounded-md p-1 outline-0 mb-1 border border-slate-100"
           placeholder="search"
-          @input="emit('search', filterText)"
+          @input="search"
         />
       </div>
       <div
