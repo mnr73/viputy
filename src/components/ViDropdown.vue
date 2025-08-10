@@ -101,7 +101,18 @@ function handleKey(e: KeyboardEvent) {
   }
 }
 
-defineExpose({ focusInput, openList, closeList, toggleList, blurInput });
+function isOpen() {
+  return openPopup.value;
+}
+
+defineExpose({
+  focusInput,
+  openList,
+  closeList,
+  toggleList,
+  blurInput,
+  isOpen
+});
 </script>
 
 <template>
