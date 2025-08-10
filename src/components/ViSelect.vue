@@ -174,11 +174,6 @@ function handleKey(e: KeyboardEvent) {
       clearInput();
     }
 
-    if (e.code === 'Space') {
-      e.preventDefault();
-      element.value?.openList();
-    }
-
     if (
       (e.code === 'Tab' || (e.code === 'KeyF' && e.ctrlKey)) &&
       (props.filter !== false || props.search)
