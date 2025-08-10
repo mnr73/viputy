@@ -170,6 +170,16 @@ function handleKey(e: KeyboardEvent) {
       onOptionClick(optionsFiltered.value[stageOptionIndex.value]);
     }
 
+    if (e.code == 'Escape') {
+      element.value?.closeList();
+      e.preventDefault();
+    }
+
+    if (e.code == 'Space' && !element.value?.isOpen()) {
+      element.value?.openList();
+      e.preventDefault();
+    }
+
     if (e.code === 'Delete') {
       clearInput();
     }
