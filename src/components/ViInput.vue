@@ -94,6 +94,12 @@ const value = computed({
   }
 });
 
+// Treat any non-empty value (including 0) as having value
+const hasValue = computed(() => {
+  const v = value.value as unknown as string | number | undefined;
+  return v === 0 || (v !== null && v !== undefined && String(v) !== '');
+});
+
 const type = computed(() => {
   if (props.type === 'password' && showPassword.value) return 'text';
   return props.type || 'text';
@@ -292,14 +298,14 @@ function onInput(e: Event) {
         v-if="props.title"
         class="absolute h-full flex items-center transition-all top-0"
         :class="{
-          '!h-fit text-xs': focusMode || input?.value
+          '!h-fit text-xs': focusMode || hasValue
         }"
       >
         <span
           class="text-slate-400 dark:text-zinc-400"
           :class="{
             'text-slate-500': hoverMode,
-            'text-slate-600': focusMode || input?.value
+            'text-slate-600': focusMode || hasValue
           }"
           >{{ props.title }}
           <span class="text-red-500" v-if="props.required">*</span></span
@@ -312,7 +318,7 @@ function onInput(e: Event) {
         :list="list || undefined"
         class="outline-0 w-full min-w-0 placeholder:text-slate-400 h-full"
         :class="{
-          'opacity-0': props.title !== null && !(input?.value || focusMode),
+          'opacity-0': props.title !== null && !(hasValue || focusMode),
           'pt-3': props.title
         }"
         @keydown="handleKey"
