@@ -6,6 +6,7 @@ const emit = defineEmits<{
   (e: 'update:modelValue', value: any): void;
   (e: 'search', value: string | null): void;
   (e: 'change'): void;
+  (e: 'empty'): void;
 }>();
 
 const props = withDefaults(
@@ -215,6 +216,7 @@ function openPopup() {
 function clearInput() {
   selectedOption.value = props.multiple ? [] : null;
   emit('change');
+  emit('empty');
 }
 
 function focusInput() {
