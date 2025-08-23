@@ -150,8 +150,6 @@ function onOptionClick(option: any) {
 }
 
 function handleKey(e: KeyboardEvent) {
-  console.log(e);
-
   if (element.value?.isOpen()) {
     e.stopPropagation();
   }
