@@ -299,7 +299,7 @@ defineExpose({ focusInput });
         <div
           v-for="(option, index) in optionsFiltered"
           :key="index"
-          class="block bg-white hover:bg-slate-100 hover:border-e-slate-200 hover:border-e-4 p-2 cursor-pointer rounded-sm relative dark:hover:bg-zinc-600 dark:bg-zinc-700"
+          class="flex items-center bg-white hover:bg-slate-100 hover:border-e-slate-200 hover:border-e-4 p-2 cursor-pointer rounded-sm relative dark:hover:bg-zinc-600 dark:bg-zinc-700"
           :class="{
             '!bg-slate-100 border-s-4 border-s-sky-400 dark:!bg-zinc-800':
               checkSelected(option),
@@ -308,7 +308,11 @@ defineExpose({ focusInput });
           }"
           @click="onOptionClick(option)"
         >
-          <slot :option="option" name="option" />
+          <span
+            v-show="stageOptionIndex == index"
+            class="block size-2 bg-sky-500 rounded-full me-2"
+          ></span>
+          <span><slot :option="option" name="option" /></span>
         </div>
       </div>
     </template>
