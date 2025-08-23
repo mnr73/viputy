@@ -64,7 +64,7 @@ function onClick(e: MouseEvent) {
       >
         <div class="flex w-full h-full items-center gap-2 relative">
           <slot name="before"></slot>
-          <div class="w-full h-full relative">
+          <div class="w-full h-full relative min-w-0">
             <slot name="main" :hoverMode="hoverMode"></slot>
           </div>
           <slot name="after"></slot>

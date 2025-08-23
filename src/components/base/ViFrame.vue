@@ -11,7 +11,7 @@ const props = withDefaults(
 
 <template>
   <div
-    class="border-[.115rem] border-slate-200 bg-white flex rounded-sm text-slate-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100"
+    class="border-[.115rem] border-slate-200 bg-white flex rounded-sm text-slate-700 dark:border-zinc-700 dark:bg-zinc-800 dark:text-zinc-100 min-w-0"
     :class="{
       'h-12': !props.autoHeight
     }"

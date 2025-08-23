@@ -278,7 +278,11 @@ defineExpose({ focusInput });
       </span>
     </template>
     <template #label>
-      <slot name="label" :selected="selectedOption"> select your option </slot>
+      <div class="whitespace-nowrap overflow-hidden text-ellipsis w-full">
+        <slot name="label" :selected="selectedOption">
+          select your option
+        </slot>
+      </div>
     </template>
 
     <template #popup>
