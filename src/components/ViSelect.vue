@@ -171,6 +171,7 @@ function handleKey(e: KeyboardEvent) {
     }
 
     if (e.key === 'Enter' && stageOptionIndex.value >= 0) {
+      e.preventDefault();
       onOptionClick(optionsFiltered.value[stageOptionIndex.value]);
     }
 
