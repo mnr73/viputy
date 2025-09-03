@@ -59,6 +59,7 @@ const optionsFiltered = computed(() => {
   stageOptionIndex.value = -1;
   if (!props.options) return [];
   if (!filterText.value) return props.options;
+  stageOptionIndex.value = 0;
 
   if (props.filter !== false) {
     return props.options.filter((item) => {
