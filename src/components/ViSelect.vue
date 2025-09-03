@@ -163,20 +163,14 @@ function handleKey(e: KeyboardEvent) {
         stageOptionIndex.value + 1,
         optionsFiltered.value.length - 1
       );
-      if (element.value) {
-        element.value.$el
-          ?.querySelector(`[option-index="${stageOptionIndex.value}"]`)
-          ?.scrollIntoView({
-            behavior: 'smooth',
-            block: 'nearest'
-          });
-      }
+      setViewPort();
     }
 
     if (e.code === 'ArrowUp') {
       e.preventDefault();
       element.value?.openList();
       stageOptionIndex.value = Math.max(stageOptionIndex.value - 1, 0);
+      setViewPort();
     }
 
     if (e.key === 'Enter' && stageOptionIndex.value >= 0) {
@@ -238,6 +232,17 @@ function search() {
     stageOptionIndex.value = 0;
   }
   emit('search', filterText.value);
+}
+
+function setViewPort() {
+  if (element.value) {
+    element.value.$el
+      ?.querySelector(`[option-index="${stageOptionIndex.value}"]`)
+      ?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'nearest'
+      });
+  }
 }
 
 defineExpose({ focusInput });
