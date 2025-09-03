@@ -56,7 +56,7 @@ const selectedOption = computed({
 });
 
 const optionsFiltered = computed(() => {
-  stageOptionIndex.value = 0;
+  stageOptionIndex.value = -1;
   if (!props.options) return [];
   if (!filterText.value) return props.options;
 
