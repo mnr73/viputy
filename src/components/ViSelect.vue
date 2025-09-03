@@ -163,6 +163,14 @@ function handleKey(e: KeyboardEvent) {
         stageOptionIndex.value + 1,
         optionsFiltered.value.length - 1
       );
+      if (element.value) {
+        element.value.$el
+          ?.querySelector(`[option-index="${stageOptionIndex.value}"]`)
+          ?.scrollIntoView({
+            behavior: 'smooth',
+            block: 'nearest'
+          });
+      }
     }
 
     if (e.code === 'ArrowUp') {
@@ -310,6 +318,7 @@ defineExpose({ focusInput });
             '!bg-slate-100 border-e-slate-200 border-e-4 dark:!bg-zinc-700':
               stageOptionIndex == index
           }"
+          :option-index="index"
           @click="onOptionClick(option)"
         >
           <span
