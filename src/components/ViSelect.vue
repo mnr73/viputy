@@ -212,7 +212,10 @@ function closePopup() {
 
 function openPopup() {
   if (props.filter !== false || props.search) {
-    setTimeout(() => searchInput.value?.focus(), 10);
+    setTimeout(() => {
+      searchInput.value?.focus();
+      if (filterText.value) stageOptionIndex.value = 0;
+    }, 10);
   }
 }
 
