@@ -1,6 +1,6 @@
 {
   "name": "@mnr73/viputy",
-  "version": "0.3.26-beta",
+  "version": "0.3.28-beta",
   "type": "module",
   "description": "vue and tailwind useful component for form inputs",
   "main": "./dist/index.es.js",
