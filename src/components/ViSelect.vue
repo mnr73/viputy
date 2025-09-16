@@ -334,7 +334,7 @@ defineExpose({ focusInput });
             v-show="stageOptionIndex == index"
             class="block size-2 bg-sky-500 rounded-full me-2"
           ></span>
-          <span><slot :option="option" name="option" /></span>
+          <div><slot :option="option" name="option" /></div>
         </div>
       </div>
     </template>
