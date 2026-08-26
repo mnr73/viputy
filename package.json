@@ -1,6 +1,6 @@
 {
   "name": "@mnr73/viputy",
-  "version": "0.3.28-beta",
+  "version": "0.3.31-beta",
   "type": "module",
   "description": "vue and tailwind useful component for form inputs",
   "main": "./dist/index.es.js",
@@ -70,6 +70,6 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/mnr73/viputy"
+    "url": "git+https://github.com/mnr73/viputy.git"
   }
 }

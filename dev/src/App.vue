@@ -75,6 +75,7 @@ function test(value) {
         v-model="date1"
         :min="DateTime.now().minus({ years: 1 })"
         :max="DateTime.now().plus({ years: 1 })"
+        day="last"
         calender="both"
       ></ViSimpleDate>
       <ViDropdown></ViDropdown>

@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed } from 'vue';
 
-type ModelValue = boolean | string | number | null;
+type ModelValue = boolean | string | number | object | null;
 
 interface Props {
   modelValue?: ModelValue;

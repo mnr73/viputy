@@ -11,6 +11,7 @@ import {
 type CalendarType = 'gregorian' | 'persian' | 'both';
 type ActiveCalendarType = 'gregorian' | 'persian';
 type StatusType = 'error' | 'warning' | 'true' | null;
+type DayType = 'first' | 'last' | null;
 
 interface TranslateType {
   day: string;
@@ -35,6 +36,7 @@ const props = withDefaults(
     min?: DateTime;
     max?: DateTime;
     scrollDate?: DateTime;
+    day?: DayType;
     title?: string | null;
     status?: StatusType;
     disabled?: boolean;
@@ -53,6 +55,7 @@ const props = withDefaults(
     min: () => DateTime.now().minus({ year: 100 }),
     max: () => DateTime.now().plus({ year: 20 }),
     scrollDate: () => DateTime.now(),
+    day: null,
     title: null,
     status: null,
     disabled: false,
@@ -257,6 +260,10 @@ function setYear(val: number | null, auto = false) {
   change();
 }
 
+function getAutoDay() {
+  return props.day === 'first' ? 1 : dayLength.value;
+}
+
 function open() {
   if (props.modelValue) {
     if (activeCalender.value == 'gregorian') {
@@ -282,25 +289,29 @@ function change() {
   if (year.value && month.value) {
     setMonthLength();
   }
-  if (autoSet.value.size >= 3) {
+  if (props.day && year.value && month.value) {
+    day.value = getAutoDay();
+  }
+  if (autoSet.value.size >= (props.day ? 2 : 3)) {
     setValue();
   }
 }
 
 function setValue() {
   element.value?.closeList();
-  if (year.value && month.value && day.value) {
+  const selectedDay = props.day ? getAutoDay() : day.value;
+  if (year.value && month.value && selectedDay) {
     if (activeCalender.value == 'gregorian') {
       value.value = DateTime.fromObject({
         year: year.value,
         month: month.value,
-        day: day.value
+        day: selectedDay
       });
     } else {
       const { gy, gm, gd } = jalaaliYMDToGregorian(
         year.value,
         month.value,
-        day.value
+        selectedDay
       );
       value.value = DateTime.fromObject({
         year: gy,
@@ -364,7 +375,7 @@ function handleKey(e: KeyboardEvent) {
     element.value?.toggleList();
   }
   if (e.code == 'Enter') {
-    if (year.value && month.value && day.value) {
+    if (year.value && month.value && (props.day || day.value)) {
       setValue();
     }
   }
@@ -482,8 +493,11 @@ function showDate() {
             {{ props.translate.persian }}
           </button>
         </div>
-        <div class="grid grid-cols-4 gap-1 text-center">
-          <div class="">
+        <div
+          class="grid gap-1 text-center"
+          :class="props.day ? 'grid-cols-3' : 'grid-cols-4'"
+        >
+          <div v-if="!props.day" class="">
             <label class="flex gap-1"
               ><span v-show="!focusDayInput" class="w-full">{{
                 props.translate.day
@@ -539,8 +553,12 @@ function showDate() {
           </div>
         </div>
         <hr class="border-slate-200 my-2" />
-        <div class="grid grid-cols-4 gap-1 text-center">
+        <div
+          class="grid gap-1 text-center"
+          :class="props.day ? 'grid-cols-3' : 'grid-cols-4'"
+        >
           <div
+            v-if="!props.day"
             class="h-[200px] overflow-y-auto scroll-smooth relative"
             style="scrollbar-width: none"
             ref="dayBox"
