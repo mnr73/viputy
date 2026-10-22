@@ -282,16 +282,35 @@ function setYearMonth() {
   change();
 }
 
-function showNextMonth() {
-  scrollDateValue.value = scrollDateValue.value.plus({ month: 1 });
+function shiftMonth(delta: 1 | -1) {
+  if (activeCalender.value == 'gregorian') {
+    scrollDateValue.value = scrollDateValue.value
+      .plus({ months: delta })
+      .startOf('month');
+  } else {
+    let { year: y, month: m } = scrollDate.value;
+    m += delta;
+    if (m > 12) {
+      m = 1;
+      y++;
+    }
+    if (m < 1) {
+      m = 12;
+      y--;
+    }
+    scrollDateValue.value = jalaaliYMDToLuxon(y, m, 1);
+  }
   month.value = scrollDate.value.month;
   year.value = scrollDate.value.year;
+  setMonthLength();
+}
+
+function showNextMonth() {
+  shiftMonth(1);
 }
 
 function showPreviousMonth() {
-  scrollDateValue.value = scrollDateValue.value.minus({ month: 1 });
-  month.value = scrollDate.value.month;
-  year.value = scrollDate.value.year;
+  shiftMonth(-1);
 }
 
 function close() {}
