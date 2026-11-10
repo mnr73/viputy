@@ -123,3 +123,9 @@
     transition: none;
   }
 }
+
+/* Thin scrollbars on every popup surface (:where keeps specificity 0 so any rule can override) */
+:where(.vi-panel, .vi-panel *) {
+  scrollbar-width: thin;
+  scrollbar-color: var(--vi-border-strong) transparent;
+}

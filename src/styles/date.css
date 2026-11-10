@@ -301,7 +301,11 @@
   gap: 2px;
   max-height: 220px;
   overflow-y: auto;
-  scrollbar-width: thin;
+  /* wheel/touch/keys still scroll; the bar itself is hidden */
+  scrollbar-width: none;
+}
+.vi-time__col::-webkit-scrollbar {
+  display: none;
 }
 .vi-time__item {
   flex: none;
