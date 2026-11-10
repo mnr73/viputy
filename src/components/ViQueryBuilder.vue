@@ -89,6 +89,8 @@ const inputAttrs = computed(() => {
 });
 
 const { t, locale } = useViputy();
+/** < <= > >= point the wrong way when the row reads right-to-left, so the glyph is mirrored there. */
+const flips = (op?: Operator) => !!op && ["<", "<=", ">", ">="].includes(op);
 const uid = useId();
 const field = ref<InstanceType<typeof ViField>>();
 const input = ref<HTMLInputElement>();
@@ -330,6 +332,7 @@ interface Chip {
   field: string;
   variant?: string;
   sym?: string;
+  flip?: boolean;
   text: string;
   draft?: boolean;
   invalid?: string;
@@ -341,6 +344,7 @@ const chips = computed<Chip[]>(() =>
       return {
         field: it.key,
         sym: opSymbol(it.op),
+        flip: flips(it.op),
         text: String(it.value ?? ""),
         invalid: t("invalidFilter")
       };
@@ -354,6 +358,7 @@ const chips = computed<Chip[]>(() =>
       field: f.label,
       variant: f.variants?.find((v) => v.key === it.variant)?.label,
       sym: opSymbol(it.op),
+      flip: flips(it.op),
       text: valuesText(f, it.op, values, it.display),
       invalid: bad ? errorText(bad) : undefined
     };
@@ -368,6 +373,7 @@ const draftChip = computed<Chip | null>(() => {
     field: f.label,
     variant: f.variants?.find((v) => v.key === x.variant)?.label,
     sym: x.op ? opSymbol(x.op) : undefined,
+    flip: flips(x.op),
     text: (text ? text + " " : "") + "…",
     draft: true
   };
@@ -745,9 +751,11 @@ defineExpose({ focus: focusInput, cancel, el: input });
             <span v-if="draftChip.variant" class="vi-qchip__field">{{
               draftChip.variant
             }}</span>
-            <b v-if="draftChip.sym" dir="ltr" class="vi-qchip__op">{{
-              draftChip.sym
-            }}</b>
+            <b v-if="draftChip.sym" dir="ltr" class="vi-qchip__op"
+              ><span :class="{ 'vi-flip': draftChip.flip }">{{
+                draftChip.sym
+              }}</span></b
+            >
             <b class="vi-qchip__val">{{ draftChip.text }}</b>
           </span>
           <span
@@ -764,7 +772,9 @@ defineExpose({ focus: focusInput, cancel, el: input });
             <span v-if="c.variant" class="vi-qchip__field">{{
               c.variant
             }}</span>
-            <b dir="ltr" class="vi-qchip__op">{{ c.sym }}</b>
+            <b dir="ltr" class="vi-qchip__op"
+              ><span :class="{ 'vi-flip': c.flip }">{{ c.sym }}</span></b
+            >
             <b v-if="c.text" class="vi-qchip__val">{{ c.text }}</b>
             <button
               v-if="!readOnly"
@@ -788,9 +798,11 @@ defineExpose({ focus: focusInput, cancel, el: input });
           <span v-if="draftChip.variant" class="vi-qchip__field">{{
             draftChip.variant
           }}</span>
-          <b v-if="draftChip.sym" dir="ltr" class="vi-qchip__op">{{
-            draftChip.sym
-          }}</b>
+          <b v-if="draftChip.sym" dir="ltr" class="vi-qchip__op"
+            ><span :class="{ 'vi-flip': draftChip.flip }">{{
+              draftChip.sym
+            }}</span></b
+          >
           <b class="vi-qchip__val">{{ draftChip.text }}</b>
         </span>
         <input
@@ -849,7 +861,7 @@ defineExpose({ focus: focusInput, cancel, el: input });
               :aria-label="opLabel(o)"
               @click="changeOp(o)"
             >
-              {{ opSymbol(o) }}
+              <span :class="{ 'vi-flip': flips(o) }">{{ opSymbol(o) }}</span>
             </button>
           </div>
 
@@ -921,7 +933,11 @@ defineExpose({ focus: focusInput, cancel, el: input });
                 @mousemove="nav.active.value = i"
                 @click="pickOp(o)"
               >
-                <span dir="ltr" class="vi-qb__sym">{{ opSymbol(o) }}</span>
+                <span dir="ltr" class="vi-qb__sym"
+                  ><span :class="{ 'vi-flip': flips(o) }">{{
+                    opSymbol(o)
+                  }}</span></span
+                >
                 <span class="vi-option__label">{{ opLabel(o) }}</span>
               </div>
             </div>

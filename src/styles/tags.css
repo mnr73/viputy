@@ -543,3 +543,12 @@
 .vi-qb__opbtn[aria-pressed="true"] {
   opacity: 1;
 }
+
+/* Mirror < <= > >= in right-to-left rows (the chip, the operator list and the operator switch). */
+.vi-flip {
+  display: inline-block;
+}
+.vi-field:dir(rtl) .vi-flip,
+.vi-layer:dir(rtl) .vi-flip {
+  transform: scaleX(-1);
+}
