@@ -19,6 +19,7 @@ const components: Array<[string, string]> = [
     ["ViSimpleDate", "simple-date"],
     ["ViTime", "time"],
     ["ViTag", "tag"],
+    ["ViQueryBuilder", "query-builder"],
     ["ViCheckbox / ViRadio / ViSwitch", "choice"]
 ];
 

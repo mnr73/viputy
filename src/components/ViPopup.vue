@@ -29,6 +29,8 @@ const props = withDefaults(
     /** Title shown in the sheet header. */
     title?: string;
     closeOnOutside?: boolean;
+    /** Escape closes the panel (default). Turn off when the owner handles Escape itself. */
+    closeOnEscape?: boolean;
     /**
      * When the panel fits neither above nor below, scroll the page a little so it fits
      * (default). `false` never moves the page; the panel then scrolls inside itself.
@@ -51,6 +53,7 @@ const props = withDefaults(
     mobile: "sheet",
     breakpoint: 640,
     closeOnOutside: true,
+    closeOnEscape: true,
     autoScroll: true,
     restoreFocus: true,
     teleport: true,
@@ -175,6 +178,7 @@ function onDocPointer(e: PointerEvent) {
 function onDocKey(e: KeyboardEvent) {
   if (!open.value) return;
   if (e.key === "Escape") {
+    if (!props.closeOnEscape) return;
     e.stopPropagation();
     close();
   } else if (e.key === "Tab" && isSheet.value) {

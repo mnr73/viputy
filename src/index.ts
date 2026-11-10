@@ -18,6 +18,7 @@ export { default as ViSimpleDate } from "./components/ViSimpleDate.vue";
 export { default as ViTime } from "./components/ViTime.vue";
 export { default as ViTimePanel } from "./components/ViTimePanel.vue";
 export { default as ViTag } from "./components/ViTag.vue";
+export { default as ViQueryBuilder } from "./components/ViQueryBuilder.vue";
 export type { FieldProps } from "./components/field-props";
 
 export { provideField, useField } from "./composables/useField";
@@ -46,6 +47,20 @@ export type {
 export { createConfig, useViputy, viputy } from "./i18n/config";
 export type { ViputyConfig, ViputyOptions } from "./i18n/config";
 export type { MessageKey, Messages } from "./i18n/messages";
+
+export {
+    allowedOps,
+    fromQueryString,
+    toQueryString,
+    validateItem
+} from "./utils/query";
+export type {
+    Operator,
+    QueryField,
+    QueryItem,
+    QueryType,
+    QueryVariant
+} from "./utils/query";
 
 export { computePlacement } from "./utils/placement";
 export type { Align, Placement, Side } from "./utils/placement";

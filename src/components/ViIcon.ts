@@ -9,7 +9,8 @@ type IconName =
     | "chevron"
     | "search"
     | "calendar"
-    | "clock";
+    | "clock"
+    | "filter";
 
 const paths: Record<IconName, string[]> = {
     close: ["M6 6l12 12M18 6L6 18"],
@@ -19,6 +20,7 @@ const paths: Record<IconName, string[]> = {
     calendar: ["M4 6h16v14H4z", "M4 10h16M8 3v4M16 3v4"],
     clock: ["M12 3a9 9 0 100 18 9 9 0 000-18z", "M12 7v5l3 2"],
     search: ["M11 4a7 7 0 100 14 7 7 0 000-14z", "M20 20l-4-4"],
+    filter: ["M4 5h16l-6 8v5l-4 2v-7z"],
     eye: [
         "M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z",
         "M12 9a3 3 0 100 6 3 3 0 000-6z"

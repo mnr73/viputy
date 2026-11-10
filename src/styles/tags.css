@@ -314,3 +314,232 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+
+/* ---- ViQueryBuilder */
+.vi-qb__control {
+  padding-block: 6px;
+  padding-inline: 12px 8px;
+}
+.vi-qb__icon {
+  flex: none;
+  margin-inline-end: 8px;
+  color: var(--vi-muted);
+}
+.vi-qb {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  cursor: text;
+}
+.vi-qb__input {
+  flex: 1;
+  width: auto;
+  min-width: 80px;
+  height: 30px;
+}
+.vi-qchip {
+  gap: 6px;
+  padding-block: 3px;
+  cursor: pointer;
+  transition:
+    background-color 0.12s,
+    box-shadow 0.12s;
+}
+.vi-qchip__field {
+  opacity: 0.8;
+}
+.vi-qchip__op {
+  font-family: var(--vi-mono, ui-monospace, "JetBrains Mono", monospace);
+  font-size: 12px;
+}
+.vi-qchip[data-draft] {
+  border: 1.5px dashed var(--vi-accent);
+  padding-block: 1.5px;
+  background: transparent;
+  color: var(--vi-accent);
+  cursor: default;
+}
+.vi-qchip[data-selected] {
+  background: var(--vi-accent);
+  color: var(--vi-accent-fg);
+  box-shadow: 0 0 0 3px var(--vi-ring);
+}
+.vi-qchip[data-invalid] {
+  border: 1.5px solid var(--vi-danger);
+  padding-block: 1.5px;
+  background: var(--vi-danger-soft);
+  color: var(--vi-danger);
+}
+.vi-qchip:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 3px var(--vi-ring);
+}
+.vi-qb__panel {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.vi-qb__title,
+.vi-qb__note {
+  padding: 4px 10px;
+  font-size: 11px;
+  color: var(--vi-muted);
+}
+.vi-qb__title {
+  font-weight: 700;
+}
+.vi-qb__glyph {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 26px;
+  height: 26px;
+  border-radius: 8px;
+  background: var(--vi-field);
+  color: var(--vi-muted);
+  font-size: 12px;
+  font-weight: 700;
+}
+.vi-option[data-active] .vi-qb__glyph,
+.vi-option[data-active] .vi-qb__sym {
+  background: var(--vi-accent);
+  color: var(--vi-accent-fg);
+}
+.vi-qb__sym {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 24px;
+  border-radius: 7px;
+  background: var(--vi-field);
+  font-family: var(--vi-mono, ui-monospace, "JetBrains Mono", monospace);
+  font-size: 12px;
+}
+.vi-qb__ops {
+  display: grid;
+  grid-auto-flow: column;
+  grid-auto-columns: 1fr;
+  gap: 4px;
+  padding: 3px;
+  border-radius: 10px;
+  background: var(--vi-field);
+}
+.vi-qb__opbtn {
+  padding: 4px 0;
+  border: 0;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--vi-muted);
+  font-family: var(--vi-mono, ui-monospace, "JetBrains Mono", monospace);
+  font-size: 13px;
+  cursor: pointer;
+}
+.vi-qb__opbtn[aria-pressed="true"] {
+  background: var(--vi-surface);
+  color: var(--vi-fg);
+  font-weight: 700;
+}
+.vi-qb__hint {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 10px;
+  border-radius: 10px;
+  background: var(--vi-field);
+  font-size: 12px;
+  color: var(--vi-muted);
+}
+.vi-qb__hint kbd {
+  padding: 1px 6px;
+  border-radius: 5px;
+  background: var(--vi-surface);
+  font: inherit;
+  font-size: 11px;
+}
+.vi-qb__err {
+  padding: 6px 10px;
+  border-radius: 10px;
+  background: var(--vi-danger);
+  color: var(--vi-surface);
+  font-size: 12px;
+}
+.vi-qb__loading {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  height: 30px;
+  padding: 0 10px;
+  font-size: 12px;
+  color: var(--vi-muted);
+}
+.vi-qb__spin {
+  width: 14px;
+  height: 14px;
+  box-sizing: border-box;
+  border: 2px solid var(--vi-border);
+  border-top-color: var(--vi-accent);
+  border-radius: 50%;
+  animation: vi-spin 0.7s linear infinite;
+}
+.vi-qb__foot {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 4px;
+  padding: 6px 4px 2px;
+  border-top: 1px solid var(--vi-border);
+}
+
+/* 15px glyph, 28px hit area (touch) without making the chip taller */
+.vi-qchip .vi-chip__x {
+  position: relative;
+}
+.vi-qchip .vi-chip__x::after {
+  content: "";
+  position: absolute;
+  inset: -7px;
+}
+
+.vi-qb__kbd {
+  margin-inline-start: 8px;
+  padding: 0 5px;
+  border-radius: 5px;
+  background: rgb(255 255 255 / 0.2);
+  font: inherit;
+  font-size: 10px;
+  opacity: 0.85;
+}
+
+/* The date step is a calendar, not a list: give it a calendar's width, but never more than the screen. */
+.vi-qb__panel:has(.vi-cal) {
+  width: min(320px, calc(100vw - 32px));
+}
+
+/* not colour alone: an invalid chip also gets a warning mark */
+.vi-qchip[data-invalid]::before {
+  content: "!";
+  display: inline-flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 14px;
+  height: 14px;
+  border-radius: 50%;
+  background: var(--vi-danger);
+  color: var(--vi-surface);
+  font-size: 10px;
+  font-weight: 800;
+}
+.vi-qb__opbtn {
+  color: var(--vi-fg);
+  opacity: 0.72;
+}
+.vi-qb__opbtn[aria-pressed="true"] {
+  opacity: 1;
+}
