@@ -75,10 +75,11 @@ export function usePopup(o: PopupOptions) {
         let r = computePlacement(input);
 
         // Neither side fits: scroll the PAGE so the whole panel is visible instead of giving it an
-        // inner scrollbar. A top panel needs the anchor to sink by the deficit, a bottom panel needs it
-        // to rise. Seeing the panel matters more than seeing the field, so the field may slide mostly
-        // out of view; a sliver (`keep`) always stays. A panel taller than the viewport gets the most
-        // room possible and scrolls inside itself for the rest.
+        // inner scrollbar. Which way we can scroll decides the side: a top panel needs the page to
+        // scroll up (impossible at scrollTop 0), a bottom panel needs it to scroll down. So score both
+        // sides by the room they would have after scrolling as far as the page allows, and take the best.
+        // The field may slide mostly out of view (a `keep` sliver stays); a panel taller than the
+        // viewport gets the most room possible and scrolls inside itself for the rest.
         if (
             r.deficit > input.overflowTolerance &&
             o.autoScroll?.value &&
@@ -87,28 +88,37 @@ export function usePopup(o: PopupOptions) {
             scrolled = true;
             const margin = 8;
             const keep = 12;
-            const need = r.deficit + margin;
-            const limit =
-                r.side === "bottom"
-                    ? Math.max(0, a.bottom - keep)
-                    : Math.max(0, input.viewport.height - a.top - keep);
-            const by = Math.min(need, limit);
+            const gap = o.offset.value + margin;
+            const vh = input.viewport.height;
+            const sp = scrollParentOf(anchor);
+            const el =
+                sp === window ? document.documentElement : (sp as HTMLElement);
+            const pos = sp === window ? window.scrollY : el.scrollTop;
+            const avail = {
+                top: pos,
+                bottom: Math.max(0, el.scrollHeight - el.clientHeight - pos)
+            };
+            const score = (s: "top" | "bottom") => {
+                const room = s === "bottom" ? vh - a.bottom - gap : a.top - gap;
+                const need = Math.max(0, input.panel.height - room) + margin;
+                const limit =
+                    s === "bottom" ? a.bottom - keep : vh - a.top - keep;
+                const by = Math.max(0, Math.min(need, limit, avail[s]));
+                return { by, room: room + by };
+            };
+            const sides = { top: score("top"), bottom: score("bottom") };
+            const best = sides.top.room > sides.bottom.room ? "top" : "bottom";
+            const by = sides[best].by;
             if (by > 0) {
-                const sp = scrollParentOf(anchor);
-                const read = () =>
-                    sp === window
-                        ? window.scrollY
-                        : (sp as HTMLElement).scrollTop;
-                const prev = read();
                 sp.scrollBy({
-                    top: r.side === "bottom" ? by : -by,
+                    top: best === "bottom" ? by : -by,
                     behavior: "instant" as ScrollBehavior
                 });
-                if (read() !== prev)
-                    r = computePlacement({
-                        ...input,
-                        anchor: anchor.getBoundingClientRect()
-                    });
+                r = computePlacement({
+                    ...input,
+                    side: best,
+                    anchor: anchor.getBoundingClientRect()
+                });
             }
         }
 
