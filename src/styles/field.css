@@ -1,0 +1,122 @@
+.vi-field {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 0;
+  font-family: var(--vi-font);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--vi-fg);
+}
+.vi-field__head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+}
+.vi-field__label {
+  font-size: 13px;
+  font-weight: 600;
+}
+.vi-field__req {
+  margin-inline-start: 4px;
+  color: var(--vi-danger);
+}
+.vi-field__control {
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: var(--vi-height);
+  padding: 0 14px;
+  border: 1.5px solid transparent;
+  border-radius: var(--vi-radius);
+  background: var(--vi-field);
+  transition:
+    background-color 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.vi-field__control:hover {
+  border-color: var(--vi-border);
+  background: var(--vi-field-hover);
+}
+.vi-field__control:focus-within,
+.vi-field__control[data-active] {
+  border-color: var(--vi-accent);
+  background: var(--vi-surface);
+  box-shadow: 0 0 0 4px var(--vi-ring);
+}
+.vi-field__main {
+  display: flex;
+  flex: 1;
+  align-items: center;
+  min-width: 0;
+}
+.vi-field__msg {
+  font-size: 12px;
+  color: var(--vi-muted);
+}
+
+.vi-field[data-status="error"] .vi-field__control {
+  border-color: var(--vi-danger);
+  background: var(--vi-danger-soft);
+}
+.vi-field[data-status="warning"] .vi-field__control {
+  border-color: var(--vi-warning);
+  background: var(--vi-warning-soft);
+}
+.vi-field[data-status="success"] .vi-field__control {
+  border-color: var(--vi-success);
+  background: var(--vi-success-soft);
+}
+.vi-field[data-status="error"] .vi-field__msg {
+  color: var(--vi-danger);
+  font-weight: 500;
+}
+.vi-field[data-status="warning"] .vi-field__msg {
+  color: var(--vi-warning);
+  font-weight: 500;
+}
+.vi-field[data-status="success"] .vi-field__msg {
+  color: var(--vi-success);
+  font-weight: 500;
+}
+.vi-field[data-status] .vi-field__control:focus-within {
+  box-shadow: 0 0 0 4px var(--vi-ring);
+}
+
+.vi-field[data-disabled] {
+  color: var(--vi-muted);
+}
+.vi-field[data-disabled] .vi-field__control {
+  border: 1.5px dashed var(--vi-border);
+  background: var(--vi-disabled-bg);
+  cursor: not-allowed;
+}
+
+.vi-field[data-bare] .vi-field__control {
+  min-height: 0;
+  padding: 0;
+  border-color: transparent;
+  background: transparent;
+  box-shadow: none;
+}
+
+/* Use on a native <input>/<textarea> inside a ViField. */
+.vi-native {
+  box-sizing: border-box;
+  flex: 1;
+  width: 100%;
+  min-width: 0;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+}
+.vi-native::placeholder {
+  color: var(--vi-muted);
+  opacity: 0.75;
+}

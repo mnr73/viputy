@@ -1,0 +1,17 @@
+.demo {
+  display: grid;
+  gap: 16px;
+  padding: 20px;
+  margin: 16px 0;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 12px;
+}
+.demo-btn {
+  padding: 8px 16px;
+  border: 0;
+  border-radius: 10px;
+  background: var(--vi-accent);
+  color: var(--vi-accent-fg);
+  font: inherit;
+  cursor: pointer;
+}

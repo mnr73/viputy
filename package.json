@@ -32,12 +32,11 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
-    "./style.css": "./dist/viputy.css",
-    "./tokens.css": "./src/styles/tokens.css"
+    "./style.css": "./dist/viputy.css"
   },
   "scripts": {
     "dev": "vitepress dev docs",
-    "build": "vite build",
+    "build": "vite build && vue-tsc -p tsconfig.build.json",
     "typecheck": "vue-tsc --noEmit",
     "test": "vitest run",
     "test:watch": "vitest",

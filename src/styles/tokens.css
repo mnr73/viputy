@@ -1,33 +1,61 @@
-:root,
-.vi-theme-light {
-  --vi-font: "Vazirmatn", system-ui, sans-serif;
-  --vi-radius: 0.625rem;
-  --vi-height: 2.75rem;
-  --vi-gap: 0.5rem;
-  --vi-bg: #f4f5f8;
-  --vi-bg-hover: #eceef3;
+/* Design tokens. Override any of these on :root or on a wrapper element. */
+:root {
+  --vi-font: "Vazirmatn", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --vi-radius: 12px;
+  --vi-radius-sm: 10px;
+  --vi-radius-lg: 14px;
+  --vi-height: 46px;
+  --vi-z: 1000;
+
+  --vi-bg: #f5f7fb;
   --vi-surface: #ffffff;
-  --vi-fg: #131722;
-  --vi-fg-muted: #6b7385;
-  --vi-border: #dfe2ea;
-  --vi-accent: #3b6df6;
+  --vi-field: #ebeff5;
+  --vi-field-hover: #e2e8f0;
+  --vi-hover: #eef3fc;
+  --vi-border: #e1e6ee;
+  --vi-border-strong: #b5bfce;
+  --vi-fg: #0f1729;
+  --vi-muted: #5a6478;
+  --vi-accent: #2563eb;
   --vi-accent-fg: #ffffff;
-  --vi-ring: color-mix(in srgb, var(--vi-accent) 35%, transparent);
-  --vi-error: #e5484d;
-  --vi-warning: #f5a524;
-  --vi-success: #30a46c;
-  --vi-shadow: 0 8px 24px rgb(15 20 40 / 0.14);
+  --vi-accent-soft: #e3ecfd;
+  --vi-accent-soft-fg: #1e40af;
+  --vi-ring: rgb(37 99 235 / 0.18);
+  --vi-danger: #c62828;
+  --vi-danger-soft: #fdf0f0;
+  --vi-warning: #a15c07;
+  --vi-warning-soft: #fef6e7;
+  --vi-success: #15803d;
+  --vi-success-soft: #ecfaf1;
+  --vi-disabled-bg: #eff2f6;
+  --vi-shadow: 0 12px 32px -12px rgb(15 23 41 / 0.22);
+  --vi-scrim: rgb(15 23 41 / 0.45);
 }
 
+.dark,
 .vi-theme-dark,
-:root.dark {
-  --vi-bg: #161b27;
-  --vi-bg-hover: #1d2332;
-  --vi-surface: #1a2030;
-  --vi-fg: #eef1f8;
-  --vi-fg-muted: #8c95aa;
-  --vi-border: #2a3144;
-  --vi-accent: #6b93ff;
-  --vi-accent-fg: #0b0f17;
-  --vi-shadow: 0 8px 24px rgb(0 0 0 / 0.45);
+[data-theme="dark"] {
+  --vi-bg: #0b1018;
+  --vi-surface: #141b26;
+  --vi-field: #1c2533;
+  --vi-field-hover: #232e3f;
+  --vi-hover: #1a2538;
+  --vi-border: #263142;
+  --vi-border-strong: #46546a;
+  --vi-fg: #e8eef6;
+  --vi-muted: #9da9bb;
+  --vi-accent: #5b9bff;
+  --vi-accent-fg: #06101f;
+  --vi-accent-soft: #172a4a;
+  --vi-accent-soft-fg: #bfd6ff;
+  --vi-ring: rgb(91 155 255 / 0.28);
+  --vi-danger: #ff8a80;
+  --vi-danger-soft: #2b1a1d;
+  --vi-warning: #f5b94a;
+  --vi-warning-soft: #2a2213;
+  --vi-success: #4ade80;
+  --vi-success-soft: #11261a;
+  --vi-disabled-bg: #111722;
+  --vi-shadow: 0 16px 40px -12px rgb(0 0 0 / 0.6);
+  --vi-scrim: rgb(0 0 0 / 0.6);
 }

@@ -1,1 +1,10 @@
-@import "./tokens.css";
+/*
+ * All rules live in the `vi` cascade layer, so any unlayered consumer CSS wins.
+ * With Tailwind 4, import this file BEFORE tailwindcss so utilities outrank it:
+ *   @import "@mnr73/viputy/style.css";
+ *   @import "tailwindcss";
+ */
+@layer vi;
+@import "./tokens.css" layer(vi);
+@import "./field.css" layer(vi);
+@import "./popup.css" layer(vi);

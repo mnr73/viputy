@@ -1,0 +1,125 @@
+.vi-popup {
+  display: inline-block;
+  max-width: 100%;
+}
+.vi-layer {
+  display: contents;
+  font-family: var(--vi-font);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--vi-fg);
+}
+.vi-panel {
+  position: fixed;
+  z-index: var(--vi-z);
+  box-sizing: border-box;
+  overflow: auto;
+  padding: 6px;
+  border: 1px solid var(--vi-border);
+  border-radius: var(--vi-radius-lg);
+  background: var(--vi-surface);
+  box-shadow: var(--vi-shadow);
+  outline: 0;
+}
+.vi-scrim {
+  position: fixed;
+  inset: 0;
+  z-index: var(--vi-z);
+  background: var(--vi-scrim);
+}
+.vi-panel--sheet {
+  inset: auto 0 0 0;
+  display: flex;
+  flex-direction: column;
+  max-height: 85dvh;
+  padding: 0;
+  border-width: 0;
+  border-radius: 24px 24px 0 0;
+  box-shadow: 0 -10px 40px rgb(0 0 0 / 0.25);
+}
+.vi-panel--full {
+  inset: 0;
+  max-height: none;
+  border-radius: 0;
+}
+.vi-sheet__grab {
+  align-self: center;
+  width: 40px;
+  height: 5px;
+  margin: 10px 0 4px;
+  border-radius: 999px;
+  background: var(--vi-border-strong);
+}
+.vi-panel--full .vi-sheet__grab {
+  display: none;
+}
+.vi-sheet__head {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 16px 10px;
+}
+.vi-sheet__title {
+  flex: 1;
+  font-size: 17px;
+  font-weight: 800;
+}
+.vi-sheet__close {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  padding: 0;
+  border: 0;
+  border-radius: 999px;
+  background: var(--vi-field);
+  color: var(--vi-fg);
+  font-size: 18px;
+  line-height: 1;
+  cursor: pointer;
+}
+.vi-sheet__body {
+  flex: 1;
+  min-height: 0;
+  overflow: auto;
+  padding: 0 10px;
+}
+.vi-sheet__foot {
+  padding: 12px 16px 22px;
+  border-top: 1px solid var(--vi-border);
+}
+
+.vi-pop-enter-active,
+.vi-pop-leave-active,
+.vi-fade-enter-active,
+.vi-fade-leave-active,
+.vi-sheet-enter-active,
+.vi-sheet-leave-active {
+  transition:
+    opacity 0.14s ease,
+    transform 0.18s ease;
+}
+.vi-pop-enter-from,
+.vi-pop-leave-to {
+  opacity: 0;
+  transform: translateY(-4px);
+}
+.vi-fade-enter-from,
+.vi-fade-leave-to {
+  opacity: 0;
+}
+.vi-sheet-enter-from,
+.vi-sheet-leave-to {
+  transform: translateY(100%);
+}
+@media (prefers-reduced-motion: reduce) {
+  .vi-pop-enter-active,
+  .vi-pop-leave-active,
+  .vi-fade-enter-active,
+  .vi-fade-leave-active,
+  .vi-sheet-enter-active,
+  .vi-sheet-leave-active {
+    transition: none;
+  }
+}
