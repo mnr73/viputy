@@ -15,6 +15,8 @@ const components: Array<[string, string]> = [
     ["ViText", "text"],
     ["ViSelect", "select"],
     ["ViDate / ViCalendar", "date"],
+    ["ViDateRange", "date-range"],
+    ["ViSimpleDate", "simple-date"],
     ["ViTime", "time"],
     ["ViTag", "tag"],
     ["ViCheckbox / ViRadio / ViSwitch", "choice"]

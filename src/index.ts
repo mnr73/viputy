@@ -13,6 +13,8 @@ export { default as ViSelect } from "./components/ViSelect.vue";
 export { default as ViOptionList } from "./components/ViOptionList.vue";
 export { default as ViCalendar } from "./components/ViCalendar.vue";
 export { default as ViDate } from "./components/ViDate.vue";
+export { default as ViDateRange } from "./components/ViDateRange.vue";
+export { default as ViSimpleDate } from "./components/ViSimpleDate.vue";
 export { default as ViTime } from "./components/ViTime.vue";
 export { default as ViTimePanel } from "./components/ViTimePanel.vue";
 export { default as ViTag } from "./components/ViTag.vue";
@@ -80,3 +82,5 @@ export {
 } from "./date/jalali";
 export { useCalendar } from "./composables/useCalendar";
 export type { CalendarDay, MonthGrid } from "./composables/useCalendar";
+export { ALL_PRESETS, presetRange, spanDays } from "./date/presets";
+export type { PresetKey, RangeValue } from "./date/presets";

@@ -49,7 +49,21 @@ export const en = {
     thisMonth: "This month",
     lastMonth: "Last month",
     custom: "Custom range",
-    calendarSwitch: "Calendar type"
+    calendarSwitch: "Calendar type",
+    from: "From",
+    to: "To",
+    rangeTo: "to",
+    pickRange: "Pick a range",
+    pickEnd: "Pick the end date",
+    endBeforeStart: "End is before start",
+    daysCount: "{n} days",
+    apply: "Apply",
+    day: "Day",
+    month: "Month",
+    year: "Year",
+    firstOfMonth: "First of month",
+    lastOfMonth: "Last of month",
+    lastDayNote: "{month} {year} has {n} days; “last of month” = {n}"
 };
 
 export type MessageKey = keyof typeof en;
@@ -106,7 +120,21 @@ export const fa: Messages = {
     thisMonth: "این ماه",
     lastMonth: "ماه قبل",
     custom: "بازه‌ی دلخواه",
-    calendarSwitch: "نوع تقویم"
+    calendarSwitch: "نوع تقویم",
+    from: "از",
+    to: "تا",
+    rangeTo: "تا",
+    pickRange: "انتخاب بازه",
+    pickEnd: "تاریخ پایان را انتخاب کنید",
+    endBeforeStart: "پایان قبل از شروع است",
+    daysCount: "{n} روز",
+    apply: "اعمال",
+    day: "روز",
+    month: "ماه",
+    year: "سال",
+    firstOfMonth: "اول ماه",
+    lastOfMonth: "آخر ماه",
+    lastDayNote: "{month} {year} {n} روز دارد؛ «آخر ماه» = {n}"
 };
 
 export const builtinMessages: Record<string, Messages> = { en, fa };

@@ -31,11 +31,21 @@ const props = withDefaults(
     weekend?: number[];
     /** Month to show when there is no value (ISO). */
     initialView?: string;
+    /**
+     * Range mode: highlights the days between `rangeStart` and `rangeEnd`
+     * (ISO). While only the start is set, hovering a day previews the range.
+     * Clicks still emit `update:modelValue`; the parent decides what they mean.
+     */
+    rangeStart?: string | null;
+    rangeEnd?: string | null;
   }>(),
   { months: 1, altDays: false }
 );
 
-const emit = defineEmits<{ "update:modelValue": [iso: string] }>();
+const emit = defineEmits<{
+  "update:modelValue": [iso: string];
+  hover: [iso: string | null];
+}>();
 
 const { t, locale } = useViputy();
 const root = ref<HTMLElement>();
@@ -49,6 +59,27 @@ const max = computed(() => parseBound(props.max, "max"));
 const markedDays = computed(
   () => new Set((props.marked ?? []).map((m) => PlainDateTime.fromISO(m)?.days))
 );
+const rs = computed(() => PlainDateTime.fromISO(props.rangeStart));
+const re = computed(() => PlainDateTime.fromISO(props.rangeEnd));
+const hoverDays = ref<number | null>(null);
+const isRange = computed(() => !!rs.value);
+/** Effective [from, to] in days: the chosen range, or start..hover while the end is pending. */
+const band = computed<[number, number, boolean] | null>(() => {
+  if (!rs.value) return null;
+  if (re.value) {
+    const [a, b] = [rs.value.days, re.value.days].sort((x, y) => x - y);
+    return [a!, b!, false];
+  }
+  if (hoverDays.value === null) return [rs.value.days, rs.value.days, false];
+  const [a, b] = [rs.value.days, hoverDays.value].sort((x, y) => x - y);
+  return [a!, b!, true];
+});
+function bandState(days: number) {
+  const b = band.value;
+  if (!b || days < b[0] || days > b[1]) return undefined;
+  if (b[0] === b[1]) return "single";
+  return days === b[0] ? "start" : days === b[1] ? "end" : "mid";
+}
 const today = ref<PlainDateTime | null>(null);
 onMounted(() => (today.value = PlainDateTime.now()));
 
@@ -176,6 +207,16 @@ function onGridKey(e: KeyboardEvent) {
   focusCell(next);
 }
 
+function onEnter(d: { date: PlainDateTime }) {
+  if (!isRange.value || re.value) return;
+  hoverDays.value = d.date.days;
+  emit("hover", d.date.toISODate());
+}
+function onLeave() {
+  if (hoverDays.value === null) return;
+  hoverDays.value = null;
+  emit("hover", null);
+}
 function pick(d: { date: PlainDateTime; iso: string; inMonth: boolean }) {
   if (disabledDay(d)) return;
   focusDays.value = d.date.days;
@@ -332,13 +373,22 @@ defineExpose({ goTo: cal.goTo, focus: () => focusCell(tabDays.value) });
             :key="c"
             class="vi-cal__cellbox"
             role="gridcell"
+            :data-band="d ? bandState(d.date.days) : undefined"
+            :data-preview="
+              (d && band?.[2] && bandState(d.date.days)) || undefined
+            "
+            :data-first="d && d.inMonth && d.day === 1 ? '' : undefined"
           >
             <button
               v-if="d"
               type="button"
               class="vi-day"
               :data-days="d.date.days"
-              :data-selected="selected?.days === d.date.days || undefined"
+              :data-selected="
+                (isRange
+                  ? rs?.days === d.date.days || re?.days === d.date.days
+                  : selected?.days === d.date.days) || undefined
+              "
               :data-today="today?.days === d.date.days || undefined"
               :data-marked="markedDays.has(d.date.days) || undefined"
               :data-weekend="d.weekend || undefined"
@@ -349,6 +399,9 @@ defineExpose({ goTo: cal.goTo, focus: () => focusCell(tabDays.value) });
               :aria-pressed="selected?.days === d.date.days"
               :aria-current="today?.days === d.date.days ? 'date' : undefined"
               @click="pick(d)"
+              @mouseenter="onEnter(d)"
+              @focus="onEnter(d)"
+              @mouseleave="onLeave"
             >
               <span class="vi-day__n">{{ n(d.day) }}</span>
               <span v-if="props.altDays" class="vi-day__alt" dir="ltr">{{
