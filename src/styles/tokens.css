@@ -1,0 +1,33 @@
+:root,
+.vi-theme-light {
+  --vi-font: "Vazirmatn", system-ui, sans-serif;
+  --vi-radius: 0.625rem;
+  --vi-height: 2.75rem;
+  --vi-gap: 0.5rem;
+  --vi-bg: #f4f5f8;
+  --vi-bg-hover: #eceef3;
+  --vi-surface: #ffffff;
+  --vi-fg: #131722;
+  --vi-fg-muted: #6b7385;
+  --vi-border: #dfe2ea;
+  --vi-accent: #3b6df6;
+  --vi-accent-fg: #ffffff;
+  --vi-ring: color-mix(in srgb, var(--vi-accent) 35%, transparent);
+  --vi-error: #e5484d;
+  --vi-warning: #f5a524;
+  --vi-success: #30a46c;
+  --vi-shadow: 0 8px 24px rgb(15 20 40 / 0.14);
+}
+
+.vi-theme-dark,
+:root.dark {
+  --vi-bg: #161b27;
+  --vi-bg-hover: #1d2332;
+  --vi-surface: #1a2030;
+  --vi-fg: #eef1f8;
+  --vi-fg-muted: #8c95aa;
+  --vi-border: #2a3144;
+  --vi-accent: #6b93ff;
+  --vi-accent-fg: #0b0f17;
+  --vi-shadow: 0 8px 24px rgb(0 0 0 / 0.45);
+}

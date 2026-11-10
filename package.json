@@ -1,75 +1,65 @@
 {
   "name": "@mnr73/viputy",
-  "version": "0.3.32-beta",
+  "version": "1.0.0-alpha.0",
   "type": "module",
-  "description": "vue and tailwind useful component for form inputs",
-  "main": "./dist/index.es.js",
+  "description": "Vue 3 form inputs with first-class Persian/RTL and Jalali calendar support. Plain CSS variables, SSR-safe, zero runtime dependencies.",
   "keywords": [
     "vue",
     "input",
-    "component"
+    "form",
+    "jalali",
+    "persian",
+    "datepicker",
+    "rtl"
   ],
-  "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "preview": "vite preview",
-    "docs:dev": "vitepress dev docs",
-    "docs:build": "vitepress build docs",
-    "docs:preview": "vitepress preview docs",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
   "author": "Milad Nazari",
   "license": "ISC",
-  "dependencies": {
-    "@vueuse/core": "^12.0.0",
-    "luxon": "^3.0.0"
-  },
-  "peerDependencies": {
-    "tailwindcss": "^4.0.0",
-    "vue": "^3.0.0"
-  },
-  "devDependencies": {
-    "@iconify/vue": "^5.0.0",
-    "@tailwindcss/vite": "^4.1.11",
-    "@types/luxon": "^3.6.2",
-    "@types/node": "^24.0.3",
-    "@vitejs/plugin-vue": "^5.2.3",
-    "eslint": "^9.28.0",
-    "eslint-plugin-vue": "^10.1.0",
-    "postcss": "^8.5.6",
-    "prettier": "3.5.3",
-    "tailwindcss": "^4.1.11",
-    "vite": "^6.3.5",
-    "vite-plugin-dts": "^4.5.4",
-    "vitepress": "^1.6.3"
-  },
-  "files": [
-    "dist",
-    "src/index.ts",
-    "src/datePicker.ts"
-  ],
-  "exports": {
-    ".": {
-      "import": "./dist/index.es.js",
-      "types": "./dist/types/index.d.ts"
-    },
-    "./datePicker": {
-      "import": "./dist/datePicker.es.js",
-      "types": "./dist/types/datePicker.d.ts"
-    }
-  },
-  "typesVersions": {
-    "*": {
-      ".": [
-        "./dist/types/index.d.ts"
-      ],
-      "datePicker": [
-        "./dist/types/datePicker.d.ts"
-      ]
-    }
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/mnr73/viputy.git"
+  },
+  "sideEffects": [
+    "*.css"
+  ],
+  "files": [
+    "dist"
+  ],
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./style.css": "./dist/viputy.css",
+    "./tokens.css": "./src/styles/tokens.css"
+  },
+  "scripts": {
+    "dev": "vitepress dev docs",
+    "build": "vite build",
+    "typecheck": "vue-tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest",
+    "docs:dev": "vitepress dev docs",
+    "docs:build": "vitepress build docs",
+    "docs:preview": "vitepress preview docs",
+    "format": "prettier --write ."
+  },
+  "peerDependencies": {
+    "vue": "^3.5.0"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-vue": "^6.0.10",
+    "@vue/test-utils": "^2.5.1",
+    "happy-dom": "^21.0.4",
+    "postcss": "^8.5.32",
+    "prettier": "^3.9.10",
+    "typescript": "^6.0.3",
+    "vite": "^8.3.7",
+    "vitepress": "^2.0.0-alpha.21",
+    "vitest": "^5.1.0",
+    "vue": "^3.5.45",
+    "vue-tsc": "^3.3.14"
   }
 }

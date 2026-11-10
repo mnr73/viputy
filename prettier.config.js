@@ -1,6 +1,7 @@
 export default {
   semi: true,
-  singleQuote: true,
-  tabWidth: 2,
-  trailingComma: 'none'
+  singleQuote: false,
+  trailingComma: "none",
+  tabWidth: 4,
+  overrides: [{ files: ["*.vue", "*.json", "*.yml", "*.md", "*.css"], options: { tabWidth: 2 } }]
 };

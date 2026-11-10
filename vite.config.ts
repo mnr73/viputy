@@ -1,34 +1,13 @@
-import { defineConfig } from 'vite';
-import vue from '@vitejs/plugin-vue';
-import path from 'path';
-import dts from 'vite-plugin-dts';
+import vue from "@vitejs/plugin-vue";
+import { fileURLToPath } from "node:url";
+import { defineConfig } from "vitest/config";
 
-// https://vite.dev/config/
 export default defineConfig({
-  plugins: [
-    vue(),
-    dts({
-      outDir: 'dist/types',
-      insertTypesEntry: true,
-      include: ['src']
-    })
-  ],
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, 'src')
-    }
-  },
+  plugins: [vue()],
+  resolve: { alias: { "@": fileURLToPath(new URL("./src", import.meta.url)) } },
   build: {
-    lib: {
-      entry: {
-        index: path.resolve(__dirname, 'src/index.ts'),
-        datePicker: path.resolve(__dirname, 'src/datePicker.ts')
-      },
-      name: 'Viputy',
-      fileName: (format, entryName) => `${entryName}.${format}.js`
-    },
-    rollupOptions: {
-      external: ['vue', 'tailwindcss']
-    }
-  }
+    lib: { entry: "src/index.ts", formats: ["es"], fileName: "index", cssFileName: "viputy" },
+    rollupOptions: { external: ["vue"] }
+  },
+  test: { environment: "happy-dom", include: ["tests/**/*.test.ts"] }
 });

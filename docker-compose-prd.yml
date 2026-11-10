@@ -1,8 +1,0 @@
-services:
-    nginx:
-        extends:
-            file: docker-compose-common.yml
-            service: nginx
-        ports:
-            - "8010:80"
-        restart: unless-stopped
