@@ -99,6 +99,7 @@ const users = [
 | `display` | `chips` یا `count` (چندتایی) |
 | `max-chips` | بیشتر از آن به `+n` تبدیل می‌شود |
 | `actions` | ردیف «انتخاب همه / پاک کردن» |
+| `list-max-height` | ارتفاع فهرست گزینه‌ها در popover (عدد px یا طول CSS). فهرست درون خودش اسکرول می‌خورد و جستجو و فوتر ثابت می‌مانند. پیش‌فرض `320`؛ `none` برای حذف سقف |
 | `loading` | |
 | `name` | ورودی hidden برای `<form>` (در چندتایی `name[]`) |
 | `mobile` | `sheet` / `fullscreen` / `false` |

@@ -191,6 +191,7 @@ const meta = computed(() => ({
           :disabled="props.disabled"
           :readonly="props.readonly"
           :mobile="props.mobile"
+          :list-max-height="260"
           :aria-label="meta[k].ph"
           :option-disabled="
             k === 'day' ? (o: any) => dayOff(o.value) : undefined

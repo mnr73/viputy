@@ -51,6 +51,8 @@ const props = withDefaults(
       /** multiple: "select all / clear" row. */
       actions?: boolean;
       loading?: boolean;
+      /** Popover only: the option list scrolls inside this height (px or CSS length). `none` removes the cap. Default 320. */
+      listMaxHeight?: number | string;
       /** Adds hidden inputs so a native <form> submits the value. */
       name?: string;
       /** Narrow screens: bottom sheet, full screen, or keep the popover. */
@@ -65,6 +67,7 @@ const props = withDefaults(
     options: () => [],
     display: "chips",
     actions: true,
+    listMaxHeight: 320,
     mobile: "sheet",
     autoScroll: true,
     searchable: undefined,
@@ -108,6 +111,11 @@ const popup = ref<InstanceType<typeof ViPopup>>();
 const trigger = ref<HTMLElement>();
 const searchEl = ref<HTMLInputElement>();
 const listWrap = ref<HTMLElement>();
+const listMax = computed(() =>
+  typeof props.listMaxHeight === "number"
+    ? `${props.listMaxHeight}px`
+    : props.listMaxHeight
+);
 const open = ref(false);
 const query = ref("");
 
@@ -413,6 +421,7 @@ defineExpose({
       <div
         ref="listWrap"
         class="vi-select__panel"
+        :style="{ '--vi-list-max': listMax }"
         tabindex="-1"
         @keydown="onKey"
       >

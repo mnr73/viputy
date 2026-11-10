@@ -193,9 +193,19 @@
 .vi-select__panel {
   outline: 0;
 }
+/* Popover: the list scrolls, the search row and the footer stay in view. */
+.vi-select__panel .vi-options {
+  max-height: var(--vi-list-max, 320px);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+.vi-sheet__body .vi-select__panel .vi-options {
+  max-height: none;
+  overflow: visible;
+}
 .vi-select__search {
-  position: sticky;
-  top: -6px;
+  position: relative;
+  top: 0;
   z-index: 1;
   display: flex;
   align-items: center;
@@ -213,6 +223,7 @@
   font-size: 13px;
 }
 .vi-sheet__body .vi-select__search {
+  position: sticky;
   top: 0;
   margin: 0 0 6px;
   border-radius: var(--vi-radius);

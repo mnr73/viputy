@@ -99,6 +99,7 @@ On narrow screens (default ≤ 640px) the panel opens as a bottom sheet (`mobile
 | `display` | `chips` or `count` (multiple) |
 | `max-chips` | the rest collapse into `+n` |
 | `actions` | "Select all / Clear" row |
+| `list-max-height` | Height of the option list in the popover (px number or CSS length). The list scrolls inside while search and footer stay put. Default `320`; `none` removes the cap |
 | `loading` | |
 | `name` | hidden inputs for a native `<form>` (`name[]` when multiple) |
 | `mobile` | `sheet` / `fullscreen` / `false` |
