@@ -25,6 +25,8 @@ const props = withDefaults(
   { status: null }
 );
 
+const emit = defineEmits<{ controlClick: [event: MouseEvent] }>();
+
 const autoId = useId();
 const id = computed(() => props.id ?? autoId);
 const msgId = computed(() => `${id.value}-msg`);
@@ -56,7 +58,12 @@ defineExpose({ control });
       class="vi-field__head"
       :class="props.ui?.head"
     >
-      <label class="vi-field__label" :class="props.ui?.label" :for="id">
+      <label
+        :id="`${id}-label`"
+        class="vi-field__label"
+        :class="props.ui?.label"
+        :for="id"
+      >
         <slot name="label">{{ props.label }}</slot>
         <span v-if="props.required" class="vi-field__req" aria-hidden="true"
           >*</span
@@ -69,6 +76,7 @@ defineExpose({ control });
       class="vi-field__control"
       :class="props.ui?.control"
       :data-active="props.active || undefined"
+      @click="emit('controlClick', $event)"
     >
       <slot name="before" />
       <div class="vi-field__main" :class="props.ui?.main">

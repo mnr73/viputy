@@ -7,6 +7,17 @@ const nav = (p: string) => [
     { text: p === "" ? "کامپوننت‌ها" : "Components", link: `${p}/components/` }
 ];
 
+// One list drives both languages. Add a page here and create docs/<name>.md + docs/en/<name>.md.
+const components: Array<[string, string]> = [
+    ["ViField", "field"],
+    ["ViPopup", "popup"],
+    ["ViInput", "input"],
+    ["ViText", "text"],
+    ["ViSelect", "select"],
+    ["ViTag", "tag"],
+    ["ViCheckbox / ViRadio / ViSwitch", "choice"]
+];
+
 const sidebar = (p: string, fa: boolean) => ({
     [`${p}/guide/`]: [
         {
@@ -36,8 +47,10 @@ const sidebar = (p: string, fa: boolean) => ({
                     text: fa ? "نمای کلی" : "Overview",
                     link: `${p}/components/`
                 },
-                { text: "ViField", link: `${p}/components/field` },
-                { text: "ViPopup", link: `${p}/components/popup` }
+                ...components.map(([text, name]) => ({
+                    text,
+                    link: `${p}/components/${name}`
+                }))
             ]
         },
         {
@@ -46,6 +59,10 @@ const sidebar = (p: string, fa: boolean) => ({
                 {
                     text: fa ? "راهنما" : "Guide",
                     link: `${p}/components/custom`
+                },
+                {
+                    text: "useOptions / ViOptionList",
+                    link: `${p}/components/options`
                 }
             ]
         }

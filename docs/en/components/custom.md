@@ -26,4 +26,4 @@ const colors = ["#2563eb", "#15803d", "#c62828"];
 </template>
 ```
 
-`ViSelect`, `ViDate` and `ViQueryBuilder` are built from these same parts in the next phases.
+`ViSelect` is built from these same parts; for option lists see [useOptions and ViOptionList](/en/components/options). `ViDate` and `ViQueryBuilder` follow in the next phases.

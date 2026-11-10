@@ -206,7 +206,7 @@ const triggerAttrs = computed(() => ({
   "aria-controls": open.value ? panelId : undefined
 }));
 
-defineExpose({ open, close, toggle, panel });
+defineExpose({ open, close, toggle, panel, isSheet });
 </script>
 
 <template>

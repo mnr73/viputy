@@ -254,11 +254,9 @@ describe("ViTag", () => {
     });
     it("pasting a separated list adds all", async () => {
         const { w, model } = make();
-        await w
-            .get("input")
-            .trigger("paste", {
-                clipboardData: { getData: () => "a, b،c\nd" }
-            });
+        await w.get("input").trigger("paste", {
+            clipboardData: { getData: () => "a, b،c\nd" }
+        });
         expect(model.value).toEqual(["a", "b", "c", "d"]);
         w.unmount();
     });

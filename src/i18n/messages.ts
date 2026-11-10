@@ -16,7 +16,10 @@ export const en = {
     overLimit: "{n} characters over the limit",
     itemsCount: "{n} items",
     maxReached: "Limit reached",
-    tagsMax: "Up to {max} tags; remove one to add another"
+    tagsMax: "Up to {max} tags; remove one to add another",
+    countOf: "{n} of {total}",
+    moreCount: "+{n}",
+    noOptions: "No options"
 };
 
 export type MessageKey = keyof typeof en;
@@ -40,7 +43,10 @@ export const fa: Messages = {
     overLimit: "{n} کاراکتر بیشتر از حد مجاز",
     itemsCount: "{n} مورد",
     maxReached: "به حداکثر رسیدید",
-    tagsMax: "حداکثر {max} برچسب؛ برای افزودن یکی را حذف کنید"
+    tagsMax: "حداکثر {max} برچسب؛ برای افزودن یکی را حذف کنید",
+    countOf: "{n} از {total}",
+    moreCount: "+{n}",
+    noOptions: "گزینه‌ای وجود ندارد"
 };
 
 export const builtinMessages: Record<string, Messages> = { en, fa };

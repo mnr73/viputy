@@ -1,11 +1,14 @@
 import { h, type FunctionalComponent } from "vue";
 
-type IconName = "close" | "check" | "minus" | "eye" | "eyeOff";
+type IconName =
+    "close" | "check" | "minus" | "eye" | "eyeOff" | "chevron" | "search";
 
 const paths: Record<IconName, string[]> = {
     close: ["M6 6l12 12M18 6L6 18"],
     check: ["M5 12l5 5L20 7"],
     minus: ["M6 12h12"],
+    chevron: ["M6 9l6 6 6-6"],
+    search: ["M11 4a7 7 0 100 14 7 7 0 000-14z", "M20 20l-4-4"],
     eye: [
         "M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z",
         "M12 9a3 3 0 100 6 3 3 0 000-6z"
