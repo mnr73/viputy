@@ -303,3 +303,70 @@
 .vi-field:dir(rtl) .vi-native[dir="ltr"] {
   text-align: right;
 }
+
+/* ---- loading: spinner replaces the mark, changes are blocked ---- */
+@keyframes vi-spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+.vi-check[data-loading],
+.vi-radio[data-loading],
+.vi-switch[data-loading] {
+  cursor: progress;
+}
+.vi-check[data-loading] .vi-check__input:disabled + .vi-check__box,
+.vi-radio[data-loading] .vi-radio__input:disabled + .vi-radio__box,
+.vi-switch[data-loading] .vi-switch__input:disabled ~ .vi-switch__track {
+  opacity: 1;
+}
+.vi-check[data-loading] .vi-check__box .vi-icon {
+  opacity: 0;
+}
+/* the spinner ring: 12px on boxes, sized to the thumb on the switch */
+.vi-check[data-loading] .vi-check__box::after,
+.vi-radio[data-loading] .vi-radio__box::after,
+.vi-switch[data-loading] .vi-switch__thumb::after {
+  content: "";
+  position: absolute;
+  inset: 50% auto auto 50%;
+  width: 12px;
+  height: 12px;
+  margin: -6px 0 0 -6px;
+  box-sizing: border-box;
+  border: 2px solid var(--vi-accent);
+  border-top-color: transparent;
+  border-radius: 50%;
+  background: none;
+  animation: vi-spin 0.7s linear infinite;
+}
+.vi-check__box,
+.vi-radio__box,
+.vi-switch__thumb {
+  position: relative;
+}
+/* a checked checkbox is filled with the accent: use the on-accent colour for the ring.
+   (a checked radio keeps a surface centre, so the accent ring stays visible there) */
+.vi-check[data-loading] .vi-check__input:checked + .vi-check__box::after,
+.vi-check[data-loading] .vi-check__input:indeterminate + .vi-check__box::after {
+  border-color: var(--vi-accent-fg);
+  border-top-color: transparent;
+}
+.vi-switch[data-loading] .vi-switch__thumb::after {
+  width: 10px;
+  height: 10px;
+  margin: -5px 0 0 -5px;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vi-check[data-loading] .vi-check__box::after,
+  .vi-radio[data-loading] .vi-radio__box::after,
+  .vi-switch[data-loading] .vi-switch__thumb::after {
+    animation-duration: 2s;
+  }
+}
+
+.vi-radio[data-loading] .vi-radio__input:checked + .vi-radio__box {
+  /* same look as the unchecked radio while pending: a plain accent ring + the 12px spinner */
+  border-width: 1.5px;
+  border-color: var(--vi-accent);
+}

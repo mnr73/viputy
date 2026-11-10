@@ -45,6 +45,8 @@ const props = withDefaults(
       placeholder?: string;
       clearable?: boolean;
       mobile?: "sheet" | "fullscreen" | false;
+      /** Scroll the page a little when the panel fits neither above nor below (default). */
+      autoScroll?: boolean;
       /** Hidden inputs `name[start]` / `name[end]` for native forms. */
       name?: string;
       weekStart?: number;
@@ -58,6 +60,7 @@ const props = withDefaults(
     allowSameDay: true,
     showCount: true,
     mobile: "sheet",
+    autoScroll: true,
     status: null
   }
 );
@@ -319,6 +322,14 @@ function onKey(which: "start" | "end", e: KeyboardEvent) {
   }
 }
 const sheetTitle = computed(() => t("pickRange"));
+/** Anywhere on the frame focuses the first field (or the second when the click is on its side) and opens. */
+function onFrameClick(e: MouseEvent) {
+  if (props.readonly || props.disabled) return;
+  const target = e.target as HTMLElement;
+  if (target.closest(".vi-clear") || target.closest(".vi-range__input")) return;
+  (picking.value === "end" ? endEl.value : startEl.value)?.focus();
+  open.value = true;
+}
 defineExpose({
   focus: () => startEl.value?.focus(),
   open: () => (open.value = true),
@@ -331,7 +342,7 @@ defineExpose({
     ref="field"
     v-bind="{ ...fieldProps, ...rootAttrs }"
     :active="open"
-    @control-click="startEl?.focus()"
+    @control-click="onFrameClick"
   >
     <template #label
       ><slot name="label">{{ props.label }}</slot></template
@@ -412,6 +423,7 @@ defineExpose({
   </ViField>
 
   <ViPopup
+    :auto-scroll="props.autoScroll"
     v-model="open"
     :anchor="anchor"
     :mobile="props.mobile"

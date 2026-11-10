@@ -8,6 +8,7 @@ const a = ref("2026-11-10");
 const b = ref("2026-11-10T14:30");
 const c = ref(null);
 const d = ref("2026-11-10");
+const e = ref("2026-11-10");
 </script>
 
 <div class="demo">
@@ -18,6 +19,7 @@ const d = ref("2026-11-10");
   <ViDate v-model="c" label="مهلت تحویل" min="2026-11-05" max="2026-12-20" :marked="['2026-11-25']" hint="بین ۱۴۰۵/۰۸/۱۴ و ۱۴۰۵/۰۹/۲۹" />
   <ViDate v-model="d" label="بازه‌ی گزارش (دو تقویم)" :calendars="['gregorian', 'jalali']" calendar="gregorian" :months="2" />
   <ViDate label="غیرفعال" disabled model-value="2026-11-10" />
+  <ViDate v-model="e" label="بدون اسکرول خودکار صفحه" :auto-scroll="false" />
 </div>
 
 <div class="demo">

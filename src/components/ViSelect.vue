@@ -55,6 +55,8 @@ const props = withDefaults(
       name?: string;
       /** Narrow screens: bottom sheet, full screen, or keep the popover. */
       mobile?: "sheet" | "fullscreen" | false;
+      /** Scroll the page a little when the panel fits neither above nor below (default). */
+      autoScroll?: boolean;
       /** Close after picking (default: single only). */
       closeOnSelect?: boolean;
     }
@@ -64,6 +66,7 @@ const props = withDefaults(
     display: "chips",
     actions: true,
     mobile: "sheet",
+    autoScroll: true,
     searchable: undefined,
     // boolean | function: without this Vue casts an absent prop to `false`
     filter: undefined,
@@ -398,6 +401,7 @@ defineExpose({
   </ViField>
 
   <ViPopup
+    :auto-scroll="props.autoScroll"
     ref="popup"
     v-model="open"
     :anchor="anchor"

@@ -23,6 +23,8 @@ const props = defineProps<{
   /** Lay options out in a wrapping row. */
   inline?: boolean;
   disabled?: boolean;
+  /** Pending state for every option (spinner on the selected one, changes blocked). */
+  loading?: boolean;
   name?: string;
 }>();
 
@@ -35,13 +37,18 @@ provide(radioGroupKey, {
   name: props.name ?? autoName,
   card: computed(() => !!props.card),
   disabled: computed(() => !!props.disabled),
+  loading: computed(() => !!props.loading),
   status: computed(() => props.status)
 });
 const text = computed(() => props.message ?? props.hint);
 </script>
 
 <template>
-  <fieldset class="vi-fieldset" :data-status="props.status || undefined">
+  <fieldset
+    class="vi-fieldset"
+    :data-status="props.status || undefined"
+    :aria-busy="props.loading || undefined"
+  >
     <legend v-if="props.label" class="vi-field__label">
       {{ props.label }}
     </legend>

@@ -31,7 +31,7 @@ const only = ref([]);
 | `allow-custom` | پذیرش مقدار خارج از `suggestions` (پیش‌فرض `true`) |
 | `allow-duplicates` | |
 | `separators` | کاراکترهای افزودن (پیش‌فرض `,` و `،`) |
-| `hide-tags` | فقط شمارش نمایش داده شود |
+| `hide-tags` | فقط شمارش نمایش داده شود؛ با کلیک روی شمارنده فهرست موارد باز می‌شود و می‌توان هر مورد را حذف کرد |
 | props مشترک | `label`, `hint`, `message`, `status`, `required`, `disabled`, `readonly`, `bare`, `id`, `ui` |
 
 Slot `tag` (`tag`, `remove`) برای ظاهر دلخواه تگ. رویدادها: `add`، `remove`.

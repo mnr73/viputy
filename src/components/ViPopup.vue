@@ -29,6 +29,16 @@ const props = withDefaults(
     /** Title shown in the sheet header. */
     title?: string;
     closeOnOutside?: boolean;
+    /**
+     * When the panel fits neither above nor below, scroll the page a little so it fits
+     * (default). `false` never moves the page; the panel then scrolls inside itself.
+     */
+    autoScroll?: boolean;
+    /**
+     * Return focus to the element that had it when the panel closes (default). Turn off for
+     * combobox-style inputs whose own focus state opens the panel, or closing re-opens it.
+     */
+    restoreFocus?: boolean;
     /** Render the panel in <body> (default) so it is never clipped. */
     teleport?: boolean;
     role?: string;
@@ -41,6 +51,8 @@ const props = withDefaults(
     mobile: "sheet",
     breakpoint: 640,
     closeOnOutside: true,
+    autoScroll: true,
+    restoreFocus: true,
     teleport: true,
     role: "dialog"
   }
@@ -104,7 +116,8 @@ const { style, side, placed } = usePopup({
   align: computed(() => props.align),
   offset: computed(() => props.offset),
   matchWidth: computed(() => props.matchWidth),
-  dir
+  dir,
+  autoScroll: computed(() => props.autoScroll)
 });
 
 // The panel is teleported to <body>, so copy what it would otherwise inherit.
@@ -136,7 +149,8 @@ watch(
   async ([o, sheet]) => {
     unlockScroll();
     if (!o) {
-      lastFocus?.isConnected && lastFocus.focus?.({ preventScroll: true });
+      if (props.restoreFocus)
+        lastFocus?.isConnected && lastFocus.focus?.({ preventScroll: true });
       lastFocus = null;
       return;
     }

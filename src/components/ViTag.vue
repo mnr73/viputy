@@ -68,6 +68,8 @@ const input = ref<HTMLInputElement>();
 const query = ref("");
 const focused = ref(false);
 const popupOpen = ref(false);
+/** hide-tags: the count chip opens this list so items stay reviewable and removable. */
+const listOpen = ref(false);
 
 const items = computed(() => props.modelValue);
 const full = computed(
@@ -100,6 +102,12 @@ const want = computed(
 );
 watch(want, (v) => (popupOpen.value = v));
 watch(query, () => nav.reset());
+watch(
+  () => items.value.length,
+  (n) => {
+    if (!n) listOpen.value = false;
+  }
+);
 
 /** Adds as many of `raws` as allowed in ONE update (props lag behind emits). */
 function addMany(raws: string[]): boolean {
@@ -276,7 +284,8 @@ defineExpose({ focus: () => input.value?.focus(), el: input });
         match-width
         :mobile="false"
         role="listbox"
-        :close-on-outside="false"
+        :close-on-outside="true"
+        :restore-focus="false"
       >
         <div class="vi-options">
           <div
@@ -313,9 +322,38 @@ defineExpose({ focus: () => input.value?.focus(), el: input });
       </ViPopup>
     </template>
     <template v-if="props.hideTags && items.length" #after>
-      <span class="vi-chip vi-chip--count">{{
-        t("itemsCount", { n: localizeDigits(items.length, locale) })
-      }}</span>
+      <button
+        type="button"
+        class="vi-chip vi-chip--count vi-chip--button"
+        :aria-expanded="listOpen"
+        :aria-label="t('selectedItems')"
+        @mousedown.prevent
+        @click.stop="listOpen = !listOpen"
+      >
+        {{ t("itemsCount", { n: localizeDigits(items.length, locale) }) }}
+      </button>
+      <ViPopup
+        v-model="listOpen"
+        :anchor="anchor"
+        match-width
+        :mobile="false"
+        :title="t('selectedItems')"
+      >
+        <div class="vi-options vi-taglist">
+          <div v-for="(tag, i) in items" :key="tag + i" class="vi-option">
+            <span class="vi-taglist__name">{{ tag }}</span>
+            <button
+              v-if="!props.disabled && !props.readonly"
+              type="button"
+              class="vi-chip__x"
+              :aria-label="t('removeTag', { tag })"
+              @click.stop="removeTag(i)"
+            >
+              <ViIcon name="close" :size="11" :width="3.5" />
+            </button>
+          </div>
+        </div>
+      </ViPopup>
     </template>
   </ViField>
 </template>

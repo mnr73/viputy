@@ -8,6 +8,8 @@ const props = withDefaults(
     label?: string;
     description?: string;
     disabled?: boolean;
+    /** Pending state: shows a spinner and blocks changes. A group's `loading` applies to all options. */
+    loading?: boolean;
     /** Boxed look (set automatically inside a `card` ViRadioGroup). */
     card?: boolean;
     name?: string;
@@ -28,6 +30,9 @@ const model = computed({
   }
 });
 const isCard = computed(() => props.card ?? group?.card.value ?? false);
+const isLoading = computed(
+  () => props.loading || group?.loading.value || false
+);
 const isDisabled = computed(
   () => props.disabled || group?.disabled.value || false
 );
@@ -39,6 +44,7 @@ const isDisabled = computed(
     :class="{ 'vi-radio--card': isCard }"
     :for="id"
     :data-disabled="isDisabled || undefined"
+    :data-loading="isLoading || undefined"
     :data-status="group?.status.value || undefined"
   >
     <input
@@ -48,7 +54,8 @@ const isDisabled = computed(
       type="radio"
       :name="props.name ?? group?.name"
       :value="props.value"
-      :disabled="isDisabled"
+      :disabled="isDisabled || isLoading"
+      :aria-busy="isLoading || undefined"
     />
     <span class="vi-radio__box" />
     <span class="vi-radio__text">

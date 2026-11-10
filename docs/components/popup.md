@@ -48,6 +48,8 @@ const open = ref(false);
 | `breakpoint` | `640` | |
 | `title` | | عنوان sheet و `aria-label` |
 | `closeOnOutside` | `true` | |
+| `autoScroll` | `true` | وقتی پنل نه بالا جا دارد نه پایین، صفحه کمی اسکرول می‌شود تا پنل کامل دیده شود. `false`: صفحه هیچ‌وقت حرکت نمی‌کند و پنل درون خودش اسکرول می‌خورد |
+| `restoreFocus` | `true` | هنگام بستن، فوکوس به المان قبلی برمی‌گردد |
 | `teleport` | `true` | |
 
 Slotها: `trigger` (`open`, `toggle`, `attrs`)، `default` (`close`, `sheet`)، `footer` (فقط sheet). رویدادها: `open`، `close`.

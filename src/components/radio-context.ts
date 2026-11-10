@@ -5,6 +5,7 @@ export interface RadioGroupContext {
     name: string;
     card: Ref<boolean>;
     disabled: Ref<boolean>;
+    loading: Ref<boolean>;
     status: Ref<string | null | undefined>;
 }
 

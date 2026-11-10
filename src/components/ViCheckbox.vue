@@ -13,6 +13,8 @@ const props = defineProps<{
   /** Show the "some selected" dash. Cleared by the user's click; keep it controlled. */
   indeterminate?: boolean;
   disabled?: boolean;
+  /** Pending state: shows a spinner and blocks changes (e.g. while saving to a server). */
+  loading?: boolean;
   status?: FieldStatus;
   name?: string;
   id?: string;
@@ -42,6 +44,7 @@ watch(model, () => nextTick(applyIndeterminate), { deep: true });
     class="vi-check"
     :for="props.id ?? autoId"
     :data-disabled="props.disabled || undefined"
+    :data-loading="props.loading || undefined"
     :data-status="props.status || undefined"
   >
     <input
@@ -53,7 +56,8 @@ watch(model, () => nextTick(applyIndeterminate), { deep: true });
       :name="props.name"
       :value="props.value"
       v-bind="valueAttrs"
-      :disabled="props.disabled"
+      :disabled="props.disabled || props.loading"
+      :aria-busy="props.loading || undefined"
       :aria-invalid="props.status === 'error' || undefined"
     />
     <span class="vi-check__box">

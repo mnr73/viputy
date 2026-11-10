@@ -298,3 +298,41 @@ describe("SSR", () => {
         expect(html).toContain('role="switch"');
     });
 });
+
+describe("loading state", () => {
+    it("checkbox, switch and radio block changes while loading", async () => {
+        const w = mount(ViCheckbox, { props: { loading: true } });
+        expect(w.find("input").element.disabled).toBe(true);
+        expect(w.find("label").attributes("data-loading")).toBeDefined();
+        expect(w.find("input").attributes("aria-busy")).toBe("true");
+        const s = mount(ViSwitch, { props: { loading: true } });
+        expect(s.find("input").element.disabled).toBe(true);
+        const g = mount(ViRadioGroup, {
+            props: { loading: true, options: [{ value: 1, label: "a" }] }
+        });
+        expect(g.find("input").element.disabled).toBe(true);
+        expect(g.find(".vi-radio").attributes("data-loading")).toBeDefined();
+    });
+});
+
+describe("ViTag hide-tags", () => {
+    it("count chip opens a list where items can be removed", async () => {
+        const w = mount(ViTag, {
+            attachTo: document.body,
+            props: {
+                modelValue: ["a", "b"],
+                hideTags: true,
+                "onUpdate:modelValue": (v: string[]) =>
+                    w.setProps({ modelValue: v })
+            }
+        });
+        await w.find(".vi-chip--button").trigger("click");
+        await nextTick();
+        const rows = document.querySelectorAll(".vi-taglist .vi-option");
+        expect(rows.length).toBe(2);
+        (rows[0]!.querySelector(".vi-chip__x") as HTMLElement).click();
+        await nextTick();
+        expect(w.props("modelValue")).toEqual(["b"]);
+        w.unmount();
+    });
+});

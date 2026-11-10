@@ -7,6 +7,8 @@ const props = defineProps<{
   trueValue?: unknown;
   falseValue?: unknown;
   disabled?: boolean;
+  /** Pending state: shows a spinner and blocks changes (e.g. while saving to a server). */
+  loading?: boolean;
   name?: string;
   id?: string;
 }>();
@@ -26,6 +28,7 @@ const valueAttrs = computed(() => ({
     class="vi-switch"
     :for="props.id ?? autoId"
     :data-disabled="props.disabled || undefined"
+    :data-loading="props.loading || undefined"
   >
     <input
       :id="props.id ?? autoId"
@@ -35,7 +38,8 @@ const valueAttrs = computed(() => ({
       role="switch"
       :name="props.name"
       v-bind="valueAttrs"
-      :disabled="props.disabled"
+      :disabled="props.disabled || props.loading"
+      :aria-busy="props.loading || undefined"
     />
     <span
       v-if="

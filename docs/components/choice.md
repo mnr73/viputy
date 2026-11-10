@@ -7,6 +7,14 @@ const all = ref(false);
 const ship = ref("post");
 const plan = ref("pro");
 const notify = ref(true);
+const busy = ref(false);
+const saving = ref(false);
+async function save(v) {
+  saving.value = true;
+  await new Promise((r) => setTimeout(r, 1200));
+  busy.value = v;
+  saving.value = false;
+}
 </script>
 
 <div class="demo">
@@ -61,3 +69,21 @@ Props گروه: `options` (`{ value, label, description?, disabled? }`)، `label
 ## ViSwitch
 
 چک‌باکس با `role="switch"`. Props: `label`، `description`، `true-value`، `false-value`، `disabled`، `name`. در RTL و LTR جهت حرکت دستگیره درست است.
+
+## حالت loading
+
+`loading` روی `ViCheckbox`، `ViRadio` / `ViRadioGroup` و `ViSwitch` قرار می‌گیرد. در این حالت جای تیک یک اسپینر می‌آید و تا پایان کار تغییر ممکن نیست. برای ذخیره‌ی فوری روی سرور مناسب است.
+
+<div class="demo">
+  <ViCheckbox :model-value="busy" :loading="saving" label="ذخیره‌ی خودکار" @update:model-value="save" />
+  <ViSwitch :model-value="busy" :loading="saving" label="اعلان‌ها" @update:model-value="save" />
+  <ViRadioGroup v-model="ship" loading inline :options="[{ value: 'post', label: 'پست' }, { value: 'tipax', label: 'تیپاکس' }]" />
+</div>
+
+```vue
+<ViCheckbox :model-value="busy" :loading="saving" label="ذخیره‌ی خودکار"
+  @update:model-value="save" />
+<ViSwitch :model-value="busy" :loading="saving" label="اعلان‌ها" @update:model-value="save" />
+<!-- روی گروه: همه‌ی گزینه‌ها -->
+<ViRadioGroup v-model="ship" loading :options="options" />
+```

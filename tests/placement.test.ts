@@ -76,3 +76,42 @@ describe("computePlacement", () => {
         expect(r.width).toBe(321);
     });
 });
+
+describe("computePlacement: tight rooms", () => {
+    // 300px viewport, anchor in the middle: neither side holds a 400px panel
+    const tight = { width: 1000, height: 300 };
+    const anchor = rect(100, 127);
+    it("reports how much the panel is taller than the room", () => {
+        const r = computePlacement({
+            anchor,
+            panel: { width: 240, height: 400 },
+            viewport: tight
+        });
+        expect(r.clipped).toBe(true);
+        expect(r.deficit).toBeGreaterThan(0);
+    });
+    it("ignores a small overflow instead of adding an inner scrollbar", () => {
+        const base = {
+            anchor: rect(100, 100),
+            viewport: { width: 1000, height: 800 }
+        };
+        // find the room below, then ask for a panel 20px taller than it
+        const room = computePlacement({
+            ...base,
+            panel: { width: 240, height: 1 }
+        });
+        const height = room.maxHeight + 20;
+        const strict = computePlacement({
+            ...base,
+            panel: { width: 240, height }
+        });
+        const lax = computePlacement({
+            ...base,
+            panel: { width: 240, height },
+            overflowTolerance: 40
+        });
+        expect(strict.clipped).toBe(true);
+        expect(lax.clipped).toBe(false);
+        expect(lax.maxHeight).toBe(height);
+    });
+});

@@ -29,10 +29,12 @@ const props = withDefaults(
       placeholder?: string;
       clearable?: boolean;
       mobile?: "sheet" | "fullscreen" | false;
+      /** Scroll the page a little when the panel fits neither above nor below (default). */
+      autoScroll?: boolean;
       name?: string;
     }
   >(),
-  { minuteStep: 1, mobile: "sheet", status: null }
+  { minuteStep: 1, mobile: "sheet", autoScroll: true, status: null }
 );
 
 const emit = defineEmits<{ "update:modelValue": [value: string | null] }>();
@@ -138,6 +140,13 @@ const placeholder = computed(
 function onInputClick() {
   if (!props.readonly && !props.disabled) open.value = true;
 }
+/** Anywhere on the frame (padding, icon, empty space) focuses the input and opens the popup. */
+function onFrameClick(e: MouseEvent) {
+  if (props.readonly || props.disabled) return;
+  if ((e.target as HTMLElement).closest(".vi-clear")) return;
+  inputEl.value?.focus();
+  open.value = true;
+}
 defineExpose({ focus: () => inputEl.value?.focus() });
 </script>
 
@@ -146,7 +155,7 @@ defineExpose({ focus: () => inputEl.value?.focus() });
     ref="field"
     v-bind="{ ...fieldProps, ...rootAttrs }"
     :active="open"
-    @control-click="inputEl?.focus()"
+    @control-click="onFrameClick"
   >
     <template #label
       ><slot name="label">{{ props.label }}</slot></template
@@ -200,6 +209,7 @@ defineExpose({ focus: () => inputEl.value?.focus() });
     </template>
   </ViField>
   <ViPopup
+    :auto-scroll="props.autoScroll"
     v-model="open"
     :anchor="anchor"
     :mobile="props.mobile"

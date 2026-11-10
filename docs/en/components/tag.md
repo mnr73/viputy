@@ -31,7 +31,7 @@ const only = ref([]);
 | `allow-custom` | accept values outside `suggestions` (default `true`) |
 | `allow-duplicates` | |
 | `separators` | characters that commit a tag (default `,` and `،`) |
-| `hide-tags` | show only a count |
+| `hide-tags` | show only a count; clicking it opens the list so items can be reviewed and removed |
 | shared props | `label`, `hint`, `message`, `status`, `required`, `disabled`, `readonly`, `bare`, `id`, `ui` |
 
 Slot `tag` (`tag`, `remove`) customises the chip. Events: `add`, `remove`.

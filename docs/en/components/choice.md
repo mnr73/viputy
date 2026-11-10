@@ -7,6 +7,14 @@ const all = ref(false);
 const ship = ref("post");
 const plan = ref("pro");
 const notify = ref(true);
+const busy = ref(false);
+const saving = ref(false);
+async function save(v) {
+  saving.value = true;
+  await new Promise((r) => setTimeout(r, 1200));
+  busy.value = v;
+  saving.value = false;
+}
 </script>
 
 <div class="demo">
@@ -61,3 +69,21 @@ Group props: `options` (`{ value, label, description?, disabled? }`), `label`, `
 ## ViSwitch
 
 A checkbox with `role="switch"`. Props: `label`, `description`, `true-value`, `false-value`, `disabled`, `name`. The thumb moves the right way in both RTL and LTR.
+
+## Loading state
+
+`loading` works on `ViCheckbox`, `ViRadio` / `ViRadioGroup` and `ViSwitch`. A spinner replaces the mark and changes are blocked until it clears. Use it for instant server-side saves.
+
+<div class="demo">
+  <ViCheckbox :model-value="busy" :loading="saving" label="Auto-save" @update:model-value="save" />
+  <ViSwitch :model-value="busy" :loading="saving" label="Notifications" @update:model-value="save" />
+  <ViRadioGroup v-model="ship" loading inline :options="[{ value: 'post', label: 'Post' }, { value: 'tipax', label: 'Courier' }]" />
+</div>
+
+```vue
+<ViCheckbox :model-value="busy" :loading="saving" label="Auto-save"
+  @update:model-value="save" />
+<ViSwitch :model-value="busy" :loading="saving" label="Notifications" @update:model-value="save" />
+<!-- on the group: every option -->
+<ViRadioGroup v-model="ship" loading :options="options" />
+```

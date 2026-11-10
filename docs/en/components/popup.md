@@ -48,6 +48,8 @@ const open = ref(false);
 | `breakpoint` | `640` | |
 | `title` | | sheet header and `aria-label` |
 | `closeOnOutside` | `true` | |
+| `autoScroll` | `true` | When the panel fits neither above nor below, the page scrolls a little so it fits. `false`: the page never moves and the panel scrolls inside itself |
+| `restoreFocus` | `true` | Return focus to the previous element on close |
 | `teleport` | `true` | |
 
 Slots: `trigger` (`open`, `toggle`, `attrs`), `default` (`close`, `sheet`), `footer` (sheet only). Events: `open`, `close`.

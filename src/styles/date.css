@@ -604,3 +604,48 @@
     background: transparent;
   }
 }
+
+.vi-date__input,
+.vi-range__input {
+  align-self: stretch;
+  min-height: calc(var(--vi-height) - 3px);
+}
+.vi-field__control:has(.vi-date__input),
+.vi-field__control:has(.vi-range__input) {
+  cursor: text;
+}
+
+/* A month needs room for 7 readable columns; several months multiply that. */
+.vi-cal__months {
+  --vi-month-w: 300px;
+}
+.vi-cal__grid {
+  flex: 1 1 var(--vi-month-w);
+  min-width: var(--vi-month-w);
+}
+.vi-cal__months[data-count="1"] .vi-cal__grid {
+  min-width: 0;
+}
+.vi-date[data-months="2"] .vi-date__body,
+.vi-daterange .vi-cal {
+  min-width: min(640px, calc(100vw - 32px));
+}
+.vi-date[data-months="2"] .vi-cal {
+  min-width: min(640px, calc(100vw - 32px));
+}
+.vi-date__foot {
+  min-width: 0;
+}
+.vi-date__foot .vi-btn--sm {
+  white-space: nowrap;
+}
+@media (max-width: 640px) {
+  .vi-cal__grid {
+    min-width: 0;
+  }
+  .vi-date[data-months="2"] .vi-cal,
+  .vi-date[data-months="2"] .vi-date__body,
+  .vi-daterange .vi-cal {
+    min-width: 0;
+  }
+}

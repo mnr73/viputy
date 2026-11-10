@@ -20,6 +20,11 @@ export interface PlacementInput {
     offset?: number;
     margin?: number;
     matchWidth?: boolean;
+    /**
+     * A panel that is at most this many px taller than the room is NOT capped
+     * (no inner scroll); the overflow is simply ignored. Default 0.
+     */
+    overflowTolerance?: number;
 }
 
 export interface Placement {
@@ -28,6 +33,10 @@ export interface Placement {
     top: number;
     width: number;
     maxHeight: number;
+    /** True when the panel is taller than the room on the side it uses (so it would need to scroll). */
+    clipped: boolean;
+    /** Px the panel is taller than the room on its side (0 when it fits). */
+    deficit: number;
 }
 
 /**
@@ -52,7 +61,12 @@ export function computePlacement(i: PlacementInput): Placement {
     let used = side;
     if (i.panel.height > room[side] && room[other] > room[side]) used = other;
 
-    const maxHeight = Math.max(0, room[used]);
+    const roomUsed = Math.max(0, room[used]);
+    const deficit = Math.max(0, i.panel.height - roomUsed);
+    const tolerance = i.overflowTolerance ?? 0;
+    // Small overflow: keep the natural height instead of adding an inner scrollbar.
+    const maxHeight =
+        deficit > 0 && deficit <= tolerance ? i.panel.height : roomUsed;
     const height = Math.min(i.panel.height, maxHeight);
 
     const startsLeft = (align === "start") === (dir === "ltr");
@@ -70,5 +84,13 @@ export function computePlacement(i: PlacementInput): Placement {
             ? anchor.bottom + offset
             : anchor.top - offset - height;
 
-    return { side: used, left, top, width, maxHeight };
+    return {
+        side: used,
+        left,
+        top,
+        width,
+        maxHeight,
+        clipped: i.panel.height > maxHeight,
+        deficit
+    };
 }

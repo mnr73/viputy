@@ -95,7 +95,7 @@
   margin-top: 0;
 }
 .vi-option[data-grouped]:not(.vi-option--group) {
-  padding-inline-start: 10px;
+  padding-inline-start: 32px;
 }
 .vi-option[data-disabled] {
   opacity: 0.5;
@@ -283,4 +283,23 @@
   .vi-select__chevron {
     transition: none;
   }
+}
+
+.vi-chip--button {
+  border: 0;
+  cursor: pointer;
+  font-family: inherit;
+}
+.vi-chip--button:hover {
+  background: var(--vi-field-active, var(--vi-field-hover));
+}
+.vi-taglist .vi-option {
+  cursor: default;
+  justify-content: space-between;
+}
+.vi-taglist__name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
