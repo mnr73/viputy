@@ -74,39 +74,37 @@ export function usePopup(o: PopupOptions) {
         };
         let r = computePlacement(input);
 
-        // Neither side fits: scroll the page so the panel fits on its side, instead of squeezing it
-        // into an inner scrollbar. Scrolling down by N moves the anchor up by N (and the panel, which
-        // sits below it, up with it), so a bottom panel needs +deficit and a top panel needs -deficit.
-        // The anchor itself must stay fully visible, which caps how far we may move.
+        // Neither side fits: scroll the PAGE so the whole panel is visible instead of giving it an
+        // inner scrollbar. A top panel needs the anchor to sink by the deficit, a bottom panel needs it
+        // to rise. Seeing the panel matters more than seeing the field, so the field may slide mostly
+        // out of view; a sliver (`keep`) always stays. A panel taller than the viewport gets the most
+        // room possible and scrolls inside itself for the rest.
         if (
             r.deficit > input.overflowTolerance &&
             o.autoScroll?.value &&
             !scrolled
         ) {
             scrolled = true;
-            const gap = input.offset + 8;
-            const need = r.deficit + 8; // + the viewport margin
-            let by = 0;
-            if (r.side === "bottom") {
-                by = Math.min(need, Math.max(0, a.top - gap)); // anchor may rise until it nears the top
-            } else {
-                by = -Math.min(
-                    need,
-                    Math.max(0, window.innerHeight - a.bottom - gap)
-                ); // or sink to the bottom
-            }
-            if (by) {
+            const margin = 8;
+            const keep = 12;
+            const need = r.deficit + margin;
+            const limit =
+                r.side === "bottom"
+                    ? Math.max(0, a.bottom - keep)
+                    : Math.max(0, input.viewport.height - a.top - keep);
+            const by = Math.min(need, limit);
+            if (by > 0) {
                 const sp = scrollParentOf(anchor);
-                const prev =
+                const read = () =>
                     sp === window
                         ? window.scrollY
                         : (sp as HTMLElement).scrollTop;
-                sp.scrollBy({ top: by, behavior: "auto" });
-                const now =
-                    sp === window
-                        ? window.scrollY
-                        : (sp as HTMLElement).scrollTop;
-                if (now !== prev)
+                const prev = read();
+                sp.scrollBy({
+                    top: r.side === "bottom" ? by : -by,
+                    behavior: "instant" as ScrollBehavior
+                });
+                if (read() !== prev)
                     r = computePlacement({
                         ...input,
                         anchor: anchor.getBoundingClientRect()
