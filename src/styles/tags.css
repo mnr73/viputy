@@ -1,0 +1,82 @@
+.vi-tags__control {
+  padding-block: 6px;
+  padding-inline: 12px 8px;
+}
+.vi-tags {
+  display: flex;
+  flex: 1;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 6px;
+  min-width: 0;
+  cursor: text;
+}
+.vi-tags__input {
+  flex: 1;
+  width: auto;
+  min-width: 60px;
+  height: 30px;
+}
+.vi-chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 3px 10px;
+  border-radius: 999px;
+  background: var(--vi-accent-soft);
+  color: var(--vi-accent-soft-fg);
+  font-size: 13px;
+  font-weight: 500;
+}
+.vi-chip:has(.vi-chip__x) {
+  padding-inline-end: 6px;
+}
+.vi-chip__x {
+  display: flex;
+  padding: 2px;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: inherit;
+  cursor: pointer;
+}
+.vi-chip__x:hover {
+  background: rgb(127 127 127 / 0.2);
+}
+.vi-chip--count {
+  background: var(--vi-field-hover);
+  color: var(--vi-fg);
+  font-size: 12px;
+  font-weight: 600;
+}
+
+/* Option list (suggestions, select) */
+.vi-options {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.vi-option {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-height: 34px;
+  padding: 0 10px;
+  border-radius: var(--vi-radius-sm);
+  cursor: pointer;
+}
+.vi-option[data-active] {
+  background: var(--vi-hover);
+}
+.vi-option[data-kind="new"] {
+  color: var(--vi-muted);
+}
+.vi-option__hint {
+  margin-inline-start: auto;
+  font-size: 11px;
+  color: var(--vi-muted);
+}
+.vi-hl {
+  font-weight: 700;
+  color: var(--vi-accent);
+}

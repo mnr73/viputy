@@ -1,0 +1,305 @@
+.vi-icon {
+  flex: none;
+}
+
+/* Clear / reveal buttons inside a field */
+.vi-clear,
+.vi-icon-btn {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  cursor: pointer;
+}
+.vi-clear {
+  width: 22px;
+  height: 22px;
+  border-radius: 999px;
+  background: var(--vi-border-strong);
+  color: var(--vi-surface);
+}
+.vi-icon-btn {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  background: transparent;
+  color: var(--vi-muted);
+}
+.vi-icon-btn:hover {
+  color: var(--vi-fg);
+}
+.vi-field__control:not(:hover):not(:focus-within) > .vi-clear {
+  display: none;
+}
+.vi-affix {
+  flex: none;
+  font-size: 13px;
+  color: var(--vi-muted);
+}
+
+/* Counter */
+.vi-counter {
+  font-size: 12px;
+  color: var(--vi-muted);
+}
+.vi-counter[data-state="warning"] {
+  font-weight: 600;
+  color: var(--vi-warning);
+}
+.vi-counter[data-state="error"] {
+  font-weight: 600;
+  color: var(--vi-danger);
+}
+
+/* Textarea */
+.vi-area__control {
+  align-items: flex-start;
+  padding-block: 10px;
+}
+.vi-area {
+  flex-direction: column;
+  align-items: stretch;
+  gap: 4px;
+}
+.vi-native--area {
+  min-height: 3.5rem;
+  resize: vertical;
+}
+.vi-native--auto {
+  field-sizing: content;
+  resize: none;
+}
+.vi-area .vi-counter {
+  align-self: flex-end;
+}
+
+/* Checkbox / radio / switch */
+.vi-check,
+.vi-radio,
+.vi-switch {
+  position: relative;
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  font-family: var(--vi-font);
+  font-size: 14px;
+  line-height: 1.6;
+  color: var(--vi-fg);
+  cursor: pointer;
+}
+.vi-check[data-disabled],
+.vi-radio[data-disabled],
+.vi-switch[data-disabled] {
+  color: var(--vi-muted);
+  cursor: not-allowed;
+}
+.vi-check__input,
+.vi-radio__input,
+.vi-switch__input {
+  position: absolute;
+  inset-inline-start: 0;
+  top: 2px;
+  width: 20px;
+  height: 20px;
+  margin: 0;
+  opacity: 0;
+  pointer-events: none;
+}
+.vi-check__box,
+.vi-radio__box {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  width: 20px;
+  height: 20px;
+  margin-top: 2px;
+  border: 1.5px solid var(--vi-border-strong);
+  background: var(--vi-surface);
+  color: var(--vi-accent-fg);
+  transition:
+    background-color 0.12s,
+    border-color 0.12s,
+    box-shadow 0.12s;
+}
+.vi-check__box {
+  border-radius: 6px;
+}
+.vi-radio__box {
+  border-radius: 999px;
+}
+.vi-check__box .vi-icon {
+  display: none;
+}
+.vi-check:not([data-disabled]):hover .vi-check__box,
+.vi-radio:not([data-disabled]):hover .vi-radio__box {
+  border-color: var(--vi-accent);
+}
+.vi-check__input:checked + .vi-check__box,
+.vi-check__input:indeterminate + .vi-check__box {
+  border-color: var(--vi-accent);
+  background: var(--vi-accent);
+}
+.vi-check__input:checked + .vi-check__box .vi-icon--check,
+.vi-check__input:indeterminate + .vi-check__box .vi-icon--minus {
+  display: block;
+}
+.vi-check__input:indeterminate + .vi-check__box .vi-icon--check {
+  display: none;
+}
+.vi-radio__input:checked + .vi-radio__box {
+  border-width: 6px;
+  border-color: var(--vi-accent);
+}
+.vi-check__input:focus-visible + .vi-check__box,
+.vi-radio__input:focus-visible + .vi-radio__box {
+  box-shadow: 0 0 0 4px var(--vi-ring);
+}
+.vi-check__input:disabled + .vi-check__box,
+.vi-radio__input:disabled + .vi-radio__box {
+  opacity: 0.5;
+}
+.vi-check[data-status="error"] .vi-check__box,
+.vi-radio[data-status="error"] .vi-radio__box {
+  border-color: var(--vi-danger);
+}
+.vi-check__text,
+.vi-radio__text,
+.vi-switch__text {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  min-width: 0;
+  line-height: 1.45;
+}
+.vi-check__label,
+.vi-radio__label,
+.vi-switch__label {
+  font-weight: 600;
+}
+.vi-check__desc,
+.vi-radio__desc,
+.vi-switch__desc {
+  font-size: 12px;
+  color: var(--vi-muted);
+}
+
+.vi-radio--card {
+  align-items: center;
+  padding: 12px;
+  border: 1.5px solid var(--vi-border);
+  border-radius: var(--vi-radius-lg);
+  background: var(--vi-field);
+  transition:
+    background-color 0.12s,
+    border-color 0.12s;
+}
+.vi-radio--card .vi-radio__box {
+  order: 2;
+  margin-top: 0;
+}
+.vi-radio--card:has(:checked) {
+  border-color: var(--vi-accent);
+  background: var(--vi-accent-soft);
+}
+.vi-radio--card:has(:focus-visible) {
+  box-shadow: 0 0 0 4px var(--vi-ring);
+}
+.vi-group {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+.vi-group[data-card] {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  gap: 8px;
+}
+.vi-group[data-inline] {
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 8px 20px;
+}
+
+.vi-switch {
+  align-items: center;
+}
+.vi-switch__input {
+  top: 50%;
+  width: 40px;
+  height: 24px;
+  margin-top: -12px;
+}
+.vi-switch__track {
+  display: flex;
+  flex: none;
+  align-items: center;
+  box-sizing: border-box;
+  width: 40px;
+  height: 24px;
+  padding: 3px;
+  border-radius: 999px;
+  background: var(--vi-border-strong);
+  transition: background-color 0.15s;
+}
+.vi-switch__thumb {
+  width: 18px;
+  height: 18px;
+  margin-inline-start: 0;
+  border-radius: 999px;
+  background: #fff;
+  box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
+  transition: margin 0.15s;
+}
+.vi-switch__input:checked ~ .vi-switch__track {
+  background: var(--vi-accent);
+}
+.vi-switch__input:checked ~ .vi-switch__track .vi-switch__thumb {
+  margin-inline-start: 16px;
+}
+.vi-switch__input:focus-visible ~ .vi-switch__track {
+  box-shadow: 0 0 0 4px var(--vi-ring);
+}
+.vi-switch__input:disabled ~ .vi-switch__track {
+  opacity: 0.5;
+}
+@media (prefers-reduced-motion: reduce) {
+  .vi-switch__track,
+  .vi-switch__thumb,
+  .vi-check__box,
+  .vi-radio__box {
+    transition: none;
+  }
+}
+
+.vi-fieldset {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+  font-family: var(--vi-font);
+  font-size: 14px;
+  color: var(--vi-fg);
+}
+.vi-fieldset > legend {
+  float: left;
+  width: 100%;
+  padding: 0;
+  margin-bottom: 8px;
+}
+.vi-fieldset > legend + * {
+  clear: both;
+}
+.vi-fieldset[data-status="error"] .vi-field__msg {
+  color: var(--vi-danger);
+}
+[dir="rtl"] .vi-field__control .vi-native[dir="ltr"],
+.vi-field:dir(rtl) .vi-native[dir="ltr"] {
+  text-align: right;
+}

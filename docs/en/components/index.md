@@ -1,5 +1,7 @@
 # Components
 
-Foundation: [ViField](/en/components/field), [ViPopup](/en/components/popup). See [custom inputs](/en/components/custom).
+Foundation: [ViField](/en/components/field), [ViPopup](/en/components/popup).
 
-The rest (ViInput, ViSelect, ViDate, ViQueryBuilder ...) arrive in the next phases.
+Inputs: [ViInput](/en/components/input), [ViText](/en/components/text), [ViTag](/en/components/tag), [choices](/en/components/choice). See [custom inputs](/en/components/custom).
+
+The rest (ViSelect, ViDate, ViQueryBuilder ...) arrive in the next phases.

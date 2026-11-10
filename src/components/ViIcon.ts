@@ -1,0 +1,42 @@
+import { h, type FunctionalComponent } from "vue";
+
+type IconName = "close" | "check" | "minus" | "eye" | "eyeOff";
+
+const paths: Record<IconName, string[]> = {
+    close: ["M6 6l12 12M18 6L6 18"],
+    check: ["M5 12l5 5L20 7"],
+    minus: ["M6 12h12"],
+    eye: [
+        "M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z",
+        "M12 9a3 3 0 100 6 3 3 0 000-6z"
+    ],
+    eyeOff: [
+        "M2 12s3.5-7 10-7 10 7 10 7-3.5 7-10 7S2 12 2 12z",
+        "M12 9a3 3 0 100 6 3 3 0 000-6z",
+        "M4 4l16 16"
+    ]
+};
+
+/** Tiny inline icon set used by the built-in components. */
+export const ViIcon: FunctionalComponent<{
+    name: IconName;
+    size?: number;
+    width?: number;
+}> = (p) =>
+    h(
+        "svg",
+        {
+            class: ["vi-icon", `vi-icon--${p.name}`],
+            width: p.size ?? 16,
+            height: p.size ?? 16,
+            viewBox: "0 0 24 24",
+            fill: "none",
+            stroke: "currentColor",
+            "stroke-width": p.width ?? 2.5,
+            "stroke-linecap": "round",
+            "stroke-linejoin": "round",
+            "aria-hidden": "true"
+        },
+        paths[p.name].map((d) => h("path", { d }))
+    );
+ViIcon.props = ["name", "size", "width"];

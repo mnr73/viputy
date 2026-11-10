@@ -8,7 +8,15 @@ export const en = {
     tryAnother: "Try a different term",
     selectedCount: "{n} selected",
     selectAll: "Select all",
-    loading: "Loading…"
+    loading: "Loading…",
+    showPassword: "Show password",
+    hidePassword: "Hide password",
+    removeTag: "Remove {tag}",
+    addTag: 'Add "{tag}" as a new tag',
+    overLimit: "{n} characters over the limit",
+    itemsCount: "{n} items",
+    maxReached: "Limit reached",
+    tagsMax: "Up to {max} tags; remove one to add another"
 };
 
 export type MessageKey = keyof typeof en;
@@ -24,7 +32,15 @@ export const fa: Messages = {
     tryAnother: "عبارت دیگری را امتحان کنید",
     selectedCount: "{n} مورد انتخاب شده",
     selectAll: "انتخاب همه",
-    loading: "در حال بارگذاری…"
+    loading: "در حال بارگذاری…",
+    showPassword: "نمایش گذرواژه",
+    hidePassword: "پنهان کردن گذرواژه",
+    removeTag: "حذف {tag}",
+    addTag: "افزودن «{tag}» به‌عنوان برچسب جدید",
+    overLimit: "{n} کاراکتر بیشتر از حد مجاز",
+    itemsCount: "{n} مورد",
+    maxReached: "به حداکثر رسیدید",
+    tagsMax: "حداکثر {max} برچسب؛ برای افزودن یکی را حذف کنید"
 };
 
 export const builtinMessages: Record<string, Messages> = { en, fa };

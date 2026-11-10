@@ -1,5 +1,7 @@
 import { describe, expect, it } from "vitest";
 import {
+    fixPersianLetters,
+    highlight,
     localizeDigits,
     normalizeText,
     toLatinDigits,
@@ -17,5 +19,15 @@ describe("text utils", () => {
         expect(normalizeText("عليكم")).toBe("علیکم");
         expect(normalizeText("می\u200cخواهم")).toBe("می خواهم");
         expect(normalizeText("  Vue۳ ")).toBe("vue3");
+    });
+    it("fixPersianLetters keeps length", () => {
+        expect(fixPersianLetters("كيف")).toBe("کیف");
+        expect(fixPersianLetters("كيف")).toHaveLength(3);
+    });
+    it("highlight splits around the match", () => {
+        expect(highlight("فرانت‌اند", "فر")).toEqual(["", "فر", "انت‌اند"]);
+        expect(highlight("Vue", "u")).toEqual(["V", "u", "e"]);
+        expect(highlight("Vue", "zz")).toEqual(["Vue", "", ""]);
+        expect(highlight("Vue", "")).toEqual(["Vue", "", ""]);
     });
 });
