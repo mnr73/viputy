@@ -336,3 +336,28 @@ describe("ViTag hide-tags", () => {
         w.unmount();
     });
 });
+
+describe("frame click focuses the field", () => {
+    it("ViInput and ViText focus on a click outside the native element", async () => {
+        const i = mount(ViInput, { attachTo: document.body });
+        await i.find(".vi-field__control").trigger("click");
+        expect(document.activeElement).toBe(i.find("input").element);
+        i.unmount();
+        const t = mount(ViText, { attachTo: document.body });
+        await t.find(".vi-field__control").trigger("click");
+        expect(document.activeElement).toBe(t.find("textarea").element);
+        t.unmount();
+    });
+    it("does not steal a click that landed on a button", async () => {
+        const i = mount(ViInput, {
+            attachTo: document.body,
+            props: { modelValue: "abc", type: "password" }
+        });
+        (document.activeElement as HTMLElement | null)?.blur();
+        const btn = i.find(".vi-field__control button");
+        expect(btn.exists()).toBe(true);
+        await btn.trigger("click");
+        expect(document.activeElement).not.toBe(i.find("input").element);
+        i.unmount();
+    });
+});

@@ -163,6 +163,12 @@ const textDir = computed(() => {
 });
 const fieldProps = computed(() => pickField(props));
 
+/** Clicking the frame (padding, prefix, empty space) focuses the field; buttons keep their own action. */
+function onFrameClick(e: MouseEvent) {
+  const t = e.target as HTMLElement;
+  if (t.closest("button, a, input, textarea")) return;
+  input.value?.focus();
+}
 defineExpose({
   focus: () => input.value?.focus(),
   blur: () => input.value?.blur(),
@@ -171,7 +177,10 @@ defineExpose({
 </script>
 
 <template>
-  <ViField v-bind="{ ...fieldProps, ...rootAttrs }">
+  <ViField
+    v-bind="{ ...fieldProps, ...rootAttrs }"
+    @control-click="onFrameClick"
+  >
     <template v-if="$slots.label" #label><slot name="label" /></template>
     <template v-if="$slots.meta" #meta><slot name="meta" /></template>
     <template v-if="$slots.before || props.prefix" #before>

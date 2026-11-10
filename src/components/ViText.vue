@@ -92,11 +92,20 @@ function onInput(e: Event) {
   emit("update:modelValue", el.value);
 }
 
+/** Clicking the frame (padding, prefix, empty space) focuses the field; buttons keep their own action. */
+function onFrameClick(e: MouseEvent) {
+  const t = e.target as HTMLElement;
+  if (t.closest("button, a, input, textarea")) return;
+  area.value?.focus();
+}
 defineExpose({ focus: () => area.value?.focus(), el: area });
 </script>
 
 <template>
-  <ViField v-bind="{ ...fieldProps, ...rootAttrs }">
+  <ViField
+    v-bind="{ ...fieldProps, ...rootAttrs }"
+    @control-click="onFrameClick"
+  >
     <template v-if="$slots.label" #label><slot name="label" /></template>
     <template v-if="$slots.meta" #meta><slot name="meta" /></template>
     <template #default="{ id }">
