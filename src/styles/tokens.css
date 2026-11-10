@@ -27,7 +27,9 @@
   --vi-warning-soft: #fef6e7;
   --vi-success: #15803d;
   --vi-success-soft: #ecfaf1;
-  --vi-disabled-bg: #eff2f6;
+  --vi-disabled-bg: transparent;
+  --vi-disabled-border: #b5bfce;
+  --vi-disabled-opacity: 0.55;
   --vi-shadow: 0 12px 32px -12px rgb(15 23 41 / 0.22);
   --vi-scrim: rgb(15 23 41 / 0.45);
 }
@@ -55,7 +57,9 @@
   --vi-warning-soft: #2a2213;
   --vi-success: #4ade80;
   --vi-success-soft: #11261a;
-  --vi-disabled-bg: #111722;
+  --vi-disabled-bg: transparent;
+  --vi-disabled-border: #46546a;
+  --vi-disabled-opacity: 0.55;
   --vi-shadow: 0 16px 40px -12px rgb(0 0 0 / 0.6);
   --vi-scrim: rgb(0 0 0 / 0.6);
 }

@@ -23,4 +23,5 @@
 | `--vi-accent`, `--vi-accent-fg`, `--vi-accent-soft(-fg)`, `--vi-ring` | رنگ اصلی |
 | `--vi-danger`, `--vi-warning`, `--vi-success` (+ `-soft`) | وضعیت‌ها |
 | `--vi-border`, `--vi-border-strong`, `--vi-muted`, `--vi-fg` | حاشیه و متن |
+| `--vi-disabled-bg`, `--vi-disabled-border`, `--vi-disabled-opacity` | حالت غیرفعال: بدون پر شدن، حاشیه‌ی خط‌چین و محتوای کم‌رنگ (پیش‌فرض شفاف / ۰٫۵۵) |
 | `--vi-shadow`, `--vi-scrim`, `--vi-z` | popup |

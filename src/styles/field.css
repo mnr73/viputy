@@ -86,13 +86,24 @@
   box-shadow: 0 0 0 4px var(--vi-ring);
 }
 
+/* Disabled = unfilled + dashed outline + dimmed content. Normal inputs are filled and solid. */
 .vi-field[data-disabled] {
   color: var(--vi-muted);
 }
 .vi-field[data-disabled] .vi-field__control {
-  border: 1.5px dashed var(--vi-border);
+  border: 1.5px dashed var(--vi-disabled-border);
   background: var(--vi-disabled-bg);
+  box-shadow: none;
   cursor: not-allowed;
+}
+.vi-field[data-disabled] .vi-field__control > * {
+  opacity: var(--vi-disabled-opacity);
+}
+.vi-field[data-disabled] .vi-field__control * {
+  cursor: not-allowed;
+}
+.vi-field[data-disabled] .vi-field__label {
+  opacity: var(--vi-disabled-opacity);
 }
 
 .vi-field[data-bare] .vi-field__control {

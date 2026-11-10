@@ -23,4 +23,5 @@ Every part has a stable class (`vi-field__control`, ...) and the `ui` prop adds 
 | `--vi-accent`, `--vi-accent-fg`, `--vi-accent-soft(-fg)`, `--vi-ring` | brand colour |
 | `--vi-danger`, `--vi-warning`, `--vi-success` (+ `-soft`) | statuses |
 | `--vi-border`, `--vi-border-strong`, `--vi-muted`, `--vi-fg` | borders and text |
+| `--vi-disabled-bg`, `--vi-disabled-border`, `--vi-disabled-opacity` | disabled look: unfilled, dashed outline and dimmed content (default transparent / 0.55) |
 | `--vi-shadow`, `--vi-scrim`, `--vi-z` | popups |
