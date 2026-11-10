@@ -3,7 +3,9 @@ import type { Theme } from "vitepress";
 import "../../../src/styles/index.css";
 import "./custom.css";
 import {
+    ViCalendar,
     ViCheckbox,
+    ViDate,
     ViField,
     ViInput,
     ViPopup,
@@ -14,6 +16,7 @@ import {
     ViSwitch,
     ViTag,
     ViText,
+    ViTime,
     viputy
 } from "../../../src";
 
@@ -25,7 +28,9 @@ export default {
             router.route.path.replace(/^\/viputy/, "").startsWith("/en/");
         app.use(viputy, { locale: () => (isEn() ? "en" : "fa") });
         Object.entries({
+            ViCalendar,
             ViCheckbox,
+            ViDate,
             ViField,
             ViInput,
             ViOptionList,
@@ -35,7 +40,8 @@ export default {
             ViSelect,
             ViSwitch,
             ViTag,
-            ViText
+            ViText,
+            ViTime
         }).forEach(([name, c]) => app.component(name, c));
     }
 } satisfies Theme;

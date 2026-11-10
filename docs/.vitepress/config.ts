@@ -14,6 +14,8 @@ const components: Array<[string, string]> = [
     ["ViInput", "input"],
     ["ViText", "text"],
     ["ViSelect", "select"],
+    ["ViDate / ViCalendar", "date"],
+    ["ViTime", "time"],
     ["ViTag", "tag"],
     ["ViCheckbox / ViRadio / ViSwitch", "choice"]
 ];
@@ -63,6 +65,10 @@ const sidebar = (p: string, fa: boolean) => ({
                 {
                     text: "useOptions / ViOptionList",
                     link: `${p}/components/options`
+                },
+                {
+                    text: fa ? "موتور تاریخ" : "Date engine",
+                    link: `${p}/components/date-engine`
                 }
             ]
         }

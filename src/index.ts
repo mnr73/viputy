@@ -11,6 +11,10 @@ export type { RadioOption } from "./components/ViRadioGroup.vue";
 export { default as ViSwitch } from "./components/ViSwitch.vue";
 export { default as ViSelect } from "./components/ViSelect.vue";
 export { default as ViOptionList } from "./components/ViOptionList.vue";
+export { default as ViCalendar } from "./components/ViCalendar.vue";
+export { default as ViDate } from "./components/ViDate.vue";
+export { default as ViTime } from "./components/ViTime.vue";
+export { default as ViTimePanel } from "./components/ViTimePanel.vue";
 export { default as ViTag } from "./components/ViTag.vue";
 export type { FieldProps } from "./components/field-props";
 
@@ -49,3 +53,30 @@ export {
     toLatinDigits,
     toPersianDigits
 } from "./utils/text";
+
+export { getCalendar, gregorian, jalali, shiftMonth } from "./date/calendar";
+export type { Calendar, CalendarId } from "./date/calendar";
+export { PlainDateTime } from "./date/plain";
+export type { DateTimeParts, DurationLike, Unit } from "./date/plain";
+export {
+    format,
+    monthNames,
+    parseUserInput,
+    weekdayLabels
+} from "./date/format";
+export {
+    formatTime,
+    fromTimeString,
+    parseTime,
+    toTimeString
+} from "./date/time";
+export {
+    JALALI_MAX_YEAR,
+    JALALI_MIN_YEAR,
+    daysToJalali,
+    isJalaliLeap,
+    jalaliMonthLength,
+    jalaliToDays
+} from "./date/jalali";
+export { useCalendar } from "./composables/useCalendar";
+export type { CalendarDay, MonthGrid } from "./composables/useCalendar";
