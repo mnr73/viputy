@@ -16,14 +16,14 @@
 .vi-clear {
   width: 22px;
   height: 22px;
-  border-radius: 999px;
+  border-radius: var(--vi-radius-pill);
   background: var(--vi-border-strong);
   color: var(--vi-surface);
 }
 .vi-icon-btn {
   width: 28px;
   height: 28px;
-  border-radius: 8px;
+  border-radius: var(--vi-radius-sm);
   background: transparent;
   color: var(--vi-muted);
 }
@@ -126,10 +126,10 @@
     box-shadow 0.12s;
 }
 .vi-check__box {
-  border-radius: 6px;
+  border-radius: var(--vi-radius-xs);
 }
 .vi-radio__box {
-  border-radius: 999px;
+  border-radius: 50%;
 }
 .vi-check__box .vi-icon {
   display: none;
@@ -241,7 +241,7 @@
   width: 40px;
   height: 24px;
   padding: 3px;
-  border-radius: 999px;
+  border-radius: var(--vi-radius-pill);
   background: var(--vi-border-strong);
   transition: background-color 0.15s;
 }
@@ -249,7 +249,7 @@
   width: 18px;
   height: 18px;
   margin-inline-start: 0;
-  border-radius: 999px;
+  border-radius: var(--vi-radius-pill);
   background: #fff;
   box-shadow: 0 1px 3px rgb(0 0 0 / 0.25);
   transition: margin 0.15s;

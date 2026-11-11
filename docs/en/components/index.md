@@ -1,7 +1,11 @@
 # Components
 
-Foundation: [ViField](/en/components/field), [ViPopup](/en/components/popup).
+Base: [ViField](/en/components/field), [ViPopup](/en/components/popup).
 
-Inputs: [ViInput](/en/components/input), [ViText](/en/components/text), [ViSelect](/en/components/select), [ViDate](/en/components/date), [ViDateRange](/en/components/date-range), [ViSimpleDate](/en/components/simple-date), [ViTime](/en/components/time), [ViTag](/en/components/tag), [choices](/en/components/choice). See [custom inputs](/en/components/custom).
+Inputs: [ViInput](/en/components/input), [ViText](/en/components/text), [ViSelect](/en/components/select), [ViTag](/en/components/tag), [choices](/en/components/choice) (checkbox, radio, switch).
 
-The rest (ViQueryBuilder ...) arrive in the next phases.
+Date and time: [ViDate](/en/components/date), [ViDateRange](/en/components/date-range), [ViSimpleDate](/en/components/simple-date), [ViTime](/en/components/time).
+
+Filtering: [ViQueryBuilder](/en/components/query-builder).
+
+Build your own: [guide](/en/components/custom), [useOptions / ViOptionList](/en/components/options), [date engine](/en/components/date-engine).

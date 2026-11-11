@@ -22,7 +22,7 @@
   align-items: center;
   gap: 4px;
   padding: 3px 10px;
-  border-radius: 999px;
+  border-radius: var(--vi-radius-pill);
   background: var(--vi-accent-soft);
   color: var(--vi-accent-soft-fg);
   font-size: 13px;
@@ -35,7 +35,7 @@
   display: flex;
   padding: 2px;
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--vi-radius-pill);
   background: transparent;
   color: inherit;
   cursor: pointer;
@@ -135,7 +135,7 @@
   width: 18px;
   height: 18px;
   border: 1.5px solid var(--vi-border-strong);
-  border-radius: 6px;
+  border-radius: var(--vi-radius-xs);
   background: var(--vi-surface);
   color: var(--vi-accent-fg);
 }
@@ -302,7 +302,7 @@
   font-family: inherit;
 }
 .vi-chip--button:hover {
-  background: var(--vi-field-active, var(--vi-field-hover));
+  background: var(--vi-field-active);
 }
 .vi-taglist .vi-option {
   cursor: default;
@@ -352,7 +352,7 @@
   opacity: 0.8;
 }
 .vi-qchip__op {
-  font-family: var(--vi-mono, ui-monospace, "JetBrains Mono", monospace);
+  font-family: var(--vi-mono);
   font-size: 12px;
 }
 .vi-qchip[data-draft] {
@@ -398,7 +398,7 @@
   justify-content: center;
   width: 26px;
   height: 26px;
-  border-radius: 8px;
+  border-radius: var(--vi-radius-sm);
   background: var(--vi-field);
   color: var(--vi-muted);
   font-size: 12px;
@@ -416,9 +416,9 @@
   justify-content: center;
   width: 30px;
   height: 24px;
-  border-radius: 7px;
+  border-radius: var(--vi-radius-xs);
   background: var(--vi-field);
-  font-family: var(--vi-mono, ui-monospace, "JetBrains Mono", monospace);
+  font-family: var(--vi-mono);
   font-size: 12px;
 }
 .vi-qb__ops {
@@ -427,16 +427,16 @@
   grid-auto-columns: 1fr;
   gap: 4px;
   padding: 3px;
-  border-radius: 10px;
+  border-radius: var(--vi-radius-sm);
   background: var(--vi-field);
 }
 .vi-qb__opbtn {
   padding: 4px 0;
   border: 0;
-  border-radius: 8px;
+  border-radius: var(--vi-radius-sm);
   background: transparent;
   color: var(--vi-muted);
-  font-family: var(--vi-mono, ui-monospace, "JetBrains Mono", monospace);
+  font-family: var(--vi-mono);
   font-size: 13px;
   cursor: pointer;
 }
@@ -451,21 +451,21 @@
   justify-content: space-between;
   gap: 8px;
   padding: 8px 10px;
-  border-radius: 10px;
+  border-radius: var(--vi-radius-sm);
   background: var(--vi-field);
   font-size: 12px;
   color: var(--vi-muted);
 }
 .vi-qb__hint kbd {
   padding: 1px 6px;
-  border-radius: 5px;
+  border-radius: var(--vi-radius-xs);
   background: var(--vi-surface);
   font: inherit;
   font-size: 11px;
 }
 .vi-qb__err {
   padding: 6px 10px;
-  border-radius: 10px;
+  border-radius: var(--vi-radius-sm);
   background: var(--vi-danger);
   color: var(--vi-surface);
   font-size: 12px;
@@ -509,7 +509,7 @@
 .vi-qb__kbd {
   margin-inline-start: 8px;
   padding: 0 5px;
-  border-radius: 5px;
+  border-radius: var(--vi-radius-xs);
   background: rgb(255 255 255 / 0.2);
   font: inherit;
   font-size: 10px;

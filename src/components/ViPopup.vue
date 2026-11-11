@@ -9,6 +9,7 @@ import {
   watch
 } from "vue";
 import { useViputy } from "../i18n/config";
+import { readTokens } from "../utils/tokens";
 import { usePopup } from "../composables/usePopup";
 import type { Align, Side } from "../utils/placement";
 
@@ -85,6 +86,7 @@ const open = ref(props.modelValue);
 const narrow = ref(false);
 const dir = ref<"ltr" | "rtl">("ltr");
 const themeClass = ref("");
+const tokenStyle = ref<Record<string, string>>({});
 
 const isSheet = computed(() => props.mobile !== false && narrow.value);
 const anchorEl = computed(() => props.anchor ?? root.value);
@@ -131,6 +133,8 @@ function readContext() {
   themeClass.value = el.closest('.dark,.vi-theme-dark,[data-theme="dark"]')
     ? "vi-theme-dark"
     : "";
+  // tokens set on a wrapper (not :root) would be lost in <body>: carry them over
+  tokenStyle.value = readTokens(el);
 }
 
 let lastFocus: HTMLElement | null = null;
@@ -236,6 +240,7 @@ defineExpose({ open, close, toggle, panel, isSheet });
       v-if="open"
       class="vi-layer"
       :class="themeClass"
+      :style="tokenStyle"
       :dir="dir"
       :data-side="side"
     >

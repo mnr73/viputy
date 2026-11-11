@@ -40,6 +40,14 @@ const sidebar = (p: string, fa: boolean) => ({
                 {
                     text: fa ? "زبان و RTL" : "Locale & RTL",
                     link: `${p}/guide/i18n`
+                },
+                {
+                    text: fa ? "مهاجرت از ۰.۳" : "Migrating from 0.3",
+                    link: `${p}/guide/migration`
+                },
+                {
+                    text: fa ? "اسکیل هوش مصنوعی" : "AI agent skill",
+                    link: `${p}/guide/ai-skill`
                 }
             ]
         }

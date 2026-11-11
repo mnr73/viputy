@@ -62,6 +62,7 @@ export type {
     QueryVariant
 } from "./utils/query";
 
+export { THEME_TOKENS } from "./utils/tokens";
 export { computePlacement } from "./utils/placement";
 export type { Align, Placement, Side } from "./utils/placement";
 export {

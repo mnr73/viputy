@@ -4,6 +4,10 @@
   --vi-radius: 12px;
   --vi-radius-sm: 10px;
   --vi-radius-lg: 14px;
+  --vi-radius-xs: 6px;
+  --vi-radius-xl: 24px;
+  --vi-radius-pill: 999px;
+  --vi-mono: ui-monospace, "JetBrains Mono", monospace;
   --vi-height: 46px;
   --vi-z: 1000;
 
@@ -11,6 +15,7 @@
   --vi-surface: #ffffff;
   --vi-field: #ebeff5;
   --vi-field-hover: #e2e8f0;
+  --vi-field-active: #d6dde8;
   --vi-hover: #eef3fc;
   --vi-border: #e1e6ee;
   --vi-border-strong: #b5bfce;
@@ -41,6 +46,7 @@
   --vi-surface: #141b26;
   --vi-field: #1c2533;
   --vi-field-hover: #232e3f;
+  --vi-field-active: #2c394d;
   --vi-hover: #1a2538;
   --vi-border: #263142;
   --vi-border-strong: #46546a;

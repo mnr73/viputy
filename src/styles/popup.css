@@ -34,7 +34,7 @@
   max-height: 85dvh;
   padding: 0;
   border-width: 0;
-  border-radius: 24px 24px 0 0;
+  border-radius: var(--vi-radius-xl) var(--vi-radius-xl) 0 0;
   box-shadow: 0 -10px 40px rgb(0 0 0 / 0.25);
 }
 .vi-panel--full {
@@ -47,7 +47,7 @@
   width: 40px;
   height: 5px;
   margin: 10px 0 4px;
-  border-radius: 999px;
+  border-radius: var(--vi-radius-pill);
   background: var(--vi-border-strong);
 }
 .vi-panel--full .vi-sheet__grab {
@@ -72,7 +72,7 @@
   height: 36px;
   padding: 0;
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--vi-radius-pill);
   background: var(--vi-field);
   color: var(--vi-fg);
   font-size: 18px;

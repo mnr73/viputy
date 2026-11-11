@@ -246,14 +246,14 @@
 .vi-seg {
   display: inline-flex;
   padding: 2px;
-  border-radius: 999px;
+  border-radius: var(--vi-radius-pill);
   background: var(--vi-field);
   font-size: 12px;
 }
 .vi-seg__btn {
   padding: 3px 12px;
   border: 0;
-  border-radius: 999px;
+  border-radius: var(--vi-radius-pill);
   background: transparent;
   color: var(--vi-muted);
   font: inherit;
@@ -311,7 +311,7 @@
   flex: none;
   height: 34px;
   border: 0;
-  border-radius: 9px;
+  border-radius: var(--vi-radius-sm);
   background: transparent;
   color: var(--vi-fg);
   font: inherit;
