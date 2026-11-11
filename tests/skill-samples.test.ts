@@ -3,11 +3,14 @@ import { describe, expect, it } from "vitest";
 import {
     PlainDateTime,
     THEME_TOKENS,
+    viputy,
     fromQueryString,
     toQueryString
 } from "../src";
 import Custom from "./skill-samples/Custom.vue";
 import Qb from "./skill-samples/Qb.vue";
+// @ts-expect-error plain-JS <script setup>, copied verbatim from the README
+import Readme from "./skill-samples/Readme.vue";
 
 describe("code samples in skills/viputy", () => {
     it("query builder sample renders its badges and serialises", () => {
@@ -21,6 +24,19 @@ describe("code samples in skills/viputy", () => {
         await w.find("button.vi-native").trigger("click");
         expect(document.querySelector(".vi-panel")).not.toBeNull();
         w.unmount();
+    });
+    it("README sample renders three fields with the documented values", () => {
+        const w = mount(Readme, {
+            global: { plugins: [[viputy, { locale: "fa" }]] }
+        });
+        expect(w.findAll(".vi-field").length).toBe(3);
+        expect((w.find("input").element as HTMLInputElement).value).toBe(
+            "2,450,000"
+        );
+        expect(w.text()).toContain("Date");
+        expect((w.findAll("input")[1]!.element as HTMLInputElement).value).toBe(
+            "۱۴۰۵/۰۸/۱۹"
+        );
     });
     it("migration conversions", () => {
         expect(PlainDateTime.fromISO("2026-11-10")?.toISODate()).toBe(
