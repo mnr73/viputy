@@ -76,8 +76,12 @@ describe("timeZoneOptions", () => {
         );
         expect(l.some((o) => o.value === "Not/AZone")).toBe(false);
     });
-    it("detectTimeZone returns an IANA id", () => {
-        expect(detectTimeZone()).toMatch(/\//);
+    it('detectTimeZone returns the runtime zone, a valid id ("UTC" on a CI runner)', () => {
+        const id = detectTimeZone()!;
+        expect(id).toBe(Intl.DateTimeFormat().resolvedOptions().timeZone);
+        expect(
+            () => new Intl.DateTimeFormat("en", { timeZone: id })
+        ).not.toThrow();
     });
 });
 
