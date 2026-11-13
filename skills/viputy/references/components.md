@@ -434,6 +434,47 @@ Boolean or `true-value`/`false-value`. `loading` blocks changes.
 Slots: `default`, `description`.
 
 
+## ViUpload
+
+Drop zone + file list + upload + preview + sort. Two jobs: pick files to upload, and show files already on the server. `v-model` is `UploadFile[]` (also in single mode: zero or one item), never a bare `File`.
+
+```ts
+interface UploadFile { id: string | number; name: string; size?: number; type?: string; url?: string; thumb?: string;
+  status?: "pending" | "uploading" | "done" | "error"; error?: string; file?: File; response?: unknown }
+```
+A file with no `file` and no `status` is a saved one (`done`). After an upload the item keeps its place, gets `status: "done"` and `id` / `url` from the server answer (`{ id, url }`, or `mapResponse`; a batch expects an array in file order).
+
+Shared field props (`label hint message status required disabled readonly bare id ui`) work. `bare` is forced on (the zone is the frame).
+
+| prop | type | notes |
+|---|---|---|
+| `modelValue` | `UploadFile[]` | |
+| `multiple` | `boolean` | single mode replaces the file |
+| `accept` | `string \| string[]` | `".pdf,.docx"`, `"image/*"`; an extension must END the name (`a.pdf.exe` is rejected for `.pdf`) |
+| `maxSize` / `minSize` | `number \| string` | bytes or `"10MB"` (1 KB = 1024 B) |
+| `maxFiles` | `number` | multiple only; extras are rejected with `reason: "count"` |
+| `namePattern` | `RegExp` | |
+| `maxNameLength` | `number` | |
+| `validate` | `(file) => string \| false \| void` | message, or `false` for the default message |
+| `url` | `string` | multipart POST (`XMLHttpRequest`, because `fetch` has no upload progress) |
+| `method` `fieldName` `headers` `data` `withCredentials` `timeout` | | `fieldName` default `"file"`; `batch` sends `file[]`; `headers` may be a function (token refresh); `data` an object or `(files) => object` |
+| `uploader` | `({ files, signal, progress }) => Promise<response>` | replaces `url` (S3, tus, chunks). `progress(0..1)` or `progress(null)` when the total is unknown |
+| `batch` | `boolean` | one request for the files of one drop; progress is split across files by size (an approximation) |
+| `auto` | `boolean` | default true; `false` shows an "Upload N files" button |
+| `concurrency` | `number` | default 3, not in a batch |
+| `mapResponse` | `(response, files) => Partial<UploadFile> \| Partial<UploadFile>[]` | |
+| `beforeRemove` | `(file) => boolean \| Promise<boolean>` | only for saved files; `false` keeps it |
+| `layout` | `"list" \| "grid"` | |
+| `variant` | `"dropzone" \| "compact"` | |
+| `preview` | `boolean` | default true; click a thumbnail to open a native `<dialog>` viewer (image, PDF, video, audio) |
+| `downloadable` | `boolean` | default true |
+| `reorderable` | `boolean` | drag the handle or use arrow keys / Home / End on it |
+| `placeholder` | `string` | replaces the zone title |
+
+Events: `update:modelValue`, `reject` (`{ file, reason, message }[]`; reasons `type size-max size-min name name-length count custom`), `success`, `error`, `remove`. Slots: `label`, `meta`, `drop`, `file`. Expose: `open() upload() retry(id) clear() files`.
+
+Without `url` and `uploader` nothing is sent: files stay `pending` with `file` set, for you to submit with the form. Progress is the **sending** progress; a big file can sit at 100% while the server works. Client validation is a convenience: validate on the server too. Removing an uploading file aborts the request (one file of a batch aborts the whole batch). Exports: `parseBytes formatBytes acceptList matchesAccept validateFile kindOf xhrUploader UploadError` and the types.
+
 ## ViQueryBuilder
 
 See `query-builder.md`.

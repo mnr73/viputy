@@ -9,6 +9,7 @@ import {
 } from "../src";
 import Custom from "./skill-samples/Custom.vue";
 import Qb from "./skill-samples/Qb.vue";
+import Upload from "./skill-samples/Upload.vue";
 // @ts-expect-error plain-JS <script setup>, copied verbatim from the README
 import Readme from "./skill-samples/Readme.vue";
 
@@ -36,6 +37,17 @@ describe("code samples in skills/viputy", () => {
         expect(w.text()).toContain("Date");
         expect((w.findAll("input")[1]!.element as HTMLInputElement).value).toBe(
             "۱۴۰۵/۰۸/۱۹"
+        );
+    });
+    it("ViUpload sample renders the saved file with a download link and a drop zone", () => {
+        const w = mount(Upload, {
+            global: { plugins: [[viputy, { locale: "en" }]] as any }
+        });
+        expect(w.find(".vi-upload__name").text()).toBe("contract.pdf");
+        expect(w.find("a[download]").attributes("href")).toBe("/files/1");
+        expect(w.find(".vi-upload__zone").text()).toContain("PDF Images");
+        expect(w.find("input[type=file]").attributes("accept")).toBe(
+            ".pdf,image/*"
         );
     });
     it("migration conversions", () => {

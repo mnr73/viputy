@@ -1,0 +1,443 @@
+/* ViUpload: drop zone, file rows, progress, viewer */
+.vi-upload {
+  position: relative;
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 10px;
+  min-width: 0;
+}
+.vi-upload__input {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  opacity: 0;
+  pointer-events: none;
+}
+.vi-upload__sr {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+/* drop zone */
+.vi-upload__zone {
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 18px 14px;
+  border: 1.5px dashed var(--vi-accent);
+  border-radius: var(--vi-radius);
+  background: var(--vi-accent-soft);
+  color: var(--vi-accent-soft-fg);
+  text-align: center;
+  cursor: pointer;
+  transition:
+    background-color 0.15s,
+    box-shadow 0.15s;
+}
+.vi-upload__zone:hover {
+  box-shadow: 0 0 0 3px var(--vi-ring);
+}
+.vi-upload__zone:focus-visible {
+  outline: 0;
+  box-shadow: 0 0 0 4px var(--vi-ring);
+}
+.vi-upload[data-dragging] .vi-upload__zone {
+  border-style: solid;
+  box-shadow: 0 0 0 4px var(--vi-ring);
+}
+.vi-upload__title {
+  font-weight: 700;
+}
+.vi-upload__hint {
+  font-size: 12px;
+}
+.vi-upload__link {
+  text-decoration: underline;
+}
+.vi-upload[data-variant="compact"] .vi-upload__zone {
+  flex-direction: row;
+  justify-content: center;
+  min-height: calc(var(--vi-height) - 3px);
+  padding: 0 14px;
+  gap: 10px;
+}
+.vi-upload[data-variant="compact"] .vi-upload__hint {
+  display: none;
+}
+.vi-field[data-status="error"] .vi-upload__zone {
+  border-color: var(--vi-danger);
+  background: var(--vi-danger-soft);
+  color: var(--vi-danger);
+}
+.vi-field[data-disabled] .vi-upload__zone {
+  border-color: var(--vi-disabled-border);
+  background: var(--vi-disabled-bg);
+  color: var(--vi-muted);
+  box-shadow: none;
+  cursor: not-allowed;
+}
+
+/* rejections */
+.vi-upload__alerts {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin: 0;
+  padding: 8px 10px;
+  border-radius: var(--vi-radius-sm);
+  background: var(--vi-danger-soft);
+  color: var(--vi-danger);
+  font-size: 13px;
+}
+.vi-upload__alert,
+.vi-upload__alerts-x {
+  display: flex;
+  align-items: flex-start;
+  gap: 6px;
+}
+.vi-upload__alerts .vi-icon {
+  margin-top: 4px;
+}
+.vi-upload__alerts-x {
+  justify-content: flex-end;
+}
+
+/* files */
+.vi-upload__list {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  margin: 0;
+  padding: 0;
+}
+.vi-upload__item {
+  position: relative;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  min-width: 0;
+  padding: 10px 12px;
+  border-radius: var(--vi-radius);
+  background: var(--vi-field);
+}
+.vi-upload__item[data-status="error"] {
+  background: var(--vi-danger-soft);
+}
+.vi-upload__item[data-dragging] {
+  z-index: 1;
+  box-shadow:
+    0 0 0 2px var(--vi-accent),
+    var(--vi-shadow);
+}
+.vi-upload__thumb {
+  display: flex;
+  flex: none;
+  align-items: center;
+  justify-content: center;
+  width: 34px;
+  height: 34px;
+  padding: 0;
+  overflow: hidden;
+  border: 0;
+  border-radius: var(--vi-radius-sm);
+  background: var(--vi-surface);
+  color: inherit;
+  font: inherit;
+}
+button.vi-upload__thumb {
+  cursor: zoom-in;
+}
+button.vi-upload__thumb:focus-visible {
+  outline: 2px solid var(--vi-accent);
+  outline-offset: 2px;
+}
+.vi-upload__thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.vi-upload__badge {
+  font-size: 10px;
+  font-weight: 800;
+  color: var(--vi-muted);
+}
+.vi-upload__item[data-kind="pdf"] .vi-upload__badge {
+  color: var(--vi-danger);
+}
+.vi-upload__item[data-kind="image"] .vi-upload__badge,
+.vi-upload__item[data-kind="video"] .vi-upload__badge {
+  color: var(--vi-accent);
+}
+.vi-upload__item[data-kind="sheet"] .vi-upload__badge {
+  color: var(--vi-success);
+}
+.vi-upload__item[data-kind="archive"] .vi-upload__badge {
+  color: var(--vi-warning);
+}
+.vi-upload__info {
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+.vi-upload__line {
+  display: flex;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: 13px;
+}
+.vi-upload__name {
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 600;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vi-upload__pct {
+  flex: none;
+  color: var(--vi-muted);
+  font-variant-numeric: tabular-nums;
+}
+.vi-upload__meta {
+  font-size: 12px;
+  color: var(--vi-muted);
+}
+.vi-upload__err {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  color: var(--vi-danger);
+}
+.vi-upload__bar {
+  height: 4px;
+  overflow: hidden;
+  border-radius: 4px;
+  background: var(--vi-border);
+}
+.vi-upload__bar > span {
+  display: block;
+  height: 100%;
+  background: var(--vi-accent);
+  transition: width 0.15s;
+}
+.vi-upload__bar[data-indeterminate] > span {
+  width: 35%;
+  animation: vi-upload-slide 1.1s ease-in-out infinite;
+}
+.vi-upload:dir(rtl) .vi-upload__bar[data-indeterminate] > span {
+  animation-name: vi-upload-slide-rtl;
+}
+@keyframes vi-upload-slide {
+  from {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(300%);
+  }
+}
+@keyframes vi-upload-slide-rtl {
+  from {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-300%);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vi-upload__bar[data-indeterminate] > span {
+    width: 100%;
+    animation: none;
+    opacity: 0.5;
+  }
+}
+.vi-upload__actions {
+  display: flex;
+  flex: none;
+  align-items: center;
+  gap: 2px;
+}
+.vi-upload__actions .vi-icon-btn:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+.vi-upload__grip {
+  cursor: grab;
+  touch-action: none;
+}
+.vi-upload__item[data-dragging] .vi-upload__grip {
+  cursor: grabbing;
+}
+.vi-upload__send {
+  align-self: flex-start;
+  flex: none;
+}
+@media (hover: none) {
+  .vi-upload .vi-icon-btn {
+    width: 36px;
+    height: 36px;
+  }
+}
+
+/* grid layout: cards */
+.vi-upload[data-layout="grid"] .vi-upload__list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(124px, 1fr));
+  gap: 10px;
+}
+.vi-upload[data-layout="grid"] .vi-upload__item {
+  flex-direction: column;
+  align-items: stretch;
+  padding: 8px;
+}
+.vi-upload[data-layout="grid"] .vi-upload__thumb {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 1;
+}
+.vi-upload[data-layout="grid"] .vi-upload__badge {
+  font-size: 18px;
+}
+.vi-upload[data-layout="grid"] .vi-upload__actions,
+.vi-upload[data-layout="grid"] .vi-upload__grip {
+  position: absolute;
+  top: 12px;
+  border-radius: var(--vi-radius-sm);
+  background: color-mix(in srgb, var(--vi-surface) 88%, transparent);
+}
+.vi-upload[data-layout="grid"] .vi-upload__actions {
+  inset-inline-end: 12px;
+}
+.vi-upload[data-layout="grid"] .vi-upload__grip {
+  inset-inline-start: 12px;
+}
+
+/* viewer (a native <dialog>: focus trap, Esc and the top layer come with it) */
+.vi-upload__view {
+  box-sizing: border-box;
+  width: 100%;
+  max-width: 100vw;
+  height: 100%;
+  max-height: 100dvh;
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: #fff;
+  font-family: var(--vi-font);
+}
+.vi-upload__view::backdrop {
+  background: rgb(0 0 0 / 0.82);
+}
+.vi-upload__viewbox {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+.vi-upload__viewhead {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px 16px;
+}
+.vi-upload__viewname {
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  font-weight: 700;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.vi-upload__viewcount {
+  font-size: 13px;
+  opacity: 0.8;
+}
+.vi-upload__viewbtn,
+.vi-upload__nav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--vi-radius-pill);
+  background: rgb(255 255 255 / 0.14);
+  color: #fff;
+  cursor: pointer;
+}
+.vi-upload__viewbtn:hover,
+.vi-upload__nav:hover {
+  background: rgb(255 255 255 / 0.26);
+}
+.vi-upload__viewbtn:focus-visible,
+.vi-upload__nav:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+.vi-upload__stage {
+  position: relative;
+  display: flex;
+  flex: 1;
+  align-items: center;
+  justify-content: center;
+  min-height: 0;
+  padding: 0 64px 16px;
+}
+.vi-upload__stage img,
+.vi-upload__stage video {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  border-radius: var(--vi-radius-sm);
+}
+.vi-upload__stage iframe {
+  width: 100%;
+  height: 100%;
+  border: 0;
+  border-radius: var(--vi-radius-sm);
+  background: #fff;
+}
+.vi-upload__stage audio {
+  width: min(480px, 100%);
+}
+.vi-upload__nav {
+  position: absolute;
+  top: calc(50% - 28px);
+}
+.vi-upload__nav--prev {
+  inset-inline-start: 12px;
+}
+.vi-upload__nav--next {
+  inset-inline-end: 12px;
+}
+.vi-upload__nav--prev .vi-icon {
+  transform: rotate(90deg);
+}
+.vi-upload__nav--next .vi-icon {
+  transform: rotate(-90deg);
+}
+.vi-upload__view:dir(rtl) .vi-upload__nav--prev .vi-icon {
+  transform: rotate(-90deg);
+}
+.vi-upload__view:dir(rtl) .vi-upload__nav--next .vi-icon {
+  transform: rotate(90deg);
+}
+@media (max-width: 640px) {
+  .vi-upload__stage {
+    padding: 0 8px 12px;
+  }
+  .vi-upload__nav {
+    top: auto;
+    bottom: 12px;
+  }
+}

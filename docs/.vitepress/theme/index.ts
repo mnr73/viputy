@@ -21,6 +21,7 @@ import {
     ViText,
     ViTime,
     ViTimeZone,
+    ViUpload,
     viputy
 } from "../../../src";
 
@@ -49,7 +50,8 @@ export default {
             ViTag,
             ViText,
             ViTime,
-            ViTimeZone
+            ViTimeZone,
+            ViUpload
         }).forEach(([name, c]) => app.component(name, c));
     }
 } satisfies Theme;

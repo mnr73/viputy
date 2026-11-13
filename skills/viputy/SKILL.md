@@ -40,6 +40,7 @@ Components are named exports, not global: `import { ViInput, ViSelect } from "@m
 | on/off | `ViSwitch` | boolean |
 | one/many from a list, groups, search | `ViSelect` (`multiple`) | value / array |
 | free-form tags | `ViTag` | `string[]` |
+| upload files, or list/sort saved files | `ViUpload` | `UploadFile[]` (never a bare `File`) |
 | one date (+ time) | `ViDate` (`time="hm"`) | ISO string, Gregorian |
 | time only | `ViTime` | `"HH:mm"` 24 h ASCII |
 | time zone | `ViTimeZone` | IANA id `"Asia/Tehran"` (never an offset) |
@@ -107,6 +108,7 @@ Options use `{ key, label }` (not `value`). `addon` is now `variants`, `accept_o
 - `loading` on `ViCheckbox ViRadio(Group) ViSwitch` blocks changes and shows a spinner; use it while saving, not `disabled`.
 - Same field + same operator twice in a query string overwrites itself; send JSON for those.
 - **Touch screens (`(hover: none)`)** show every clear button (`clearable`) all the time, with a 38 x 44 px hit area; mouse devices still reveal it on hover or focus. Do not hide it yourself.
+- **ViUpload** `v-model` is always an array of `UploadFile` objects (`{ id, name, url, status, file... }`), also with a single file. Save `id`s or `url`s, not the objects. Without `url` / `uploader` it uploads nothing. Say which server field name and response shape (`{ id, url }`) the user's backend uses, or pass `mapResponse`.
 - **Time zones.** `ViDate`/`ViTime` values are wall-clock and carry no zone, and viputy does not convert to UTC. For a multi-country form send `{ at: "2026-10-24T00:00", zone: "Asia/Tehran" }` (`ViDate` + `ViTimeZone`) and build the instant on the server (`Carbon::parse($at, $zone)->utc()`). An offset alone (`+03:30`) breaks when a law changes (Iran was +04:30 in summer until 2022), so store the zone for future events. Never read `getTimezoneOffset()` to guess it silently.
 - The dates engine (`PlainDateTime`, `format`, `jalaliToDays`) has no time zones. `PlainDateTime.now()` reads the machine clock, so call it only on the client.
 - Docs live in `docs/` (VitePress, `/` Persian, `/en/` English). Run `npm run docs:dev` to see live demos.

@@ -2,7 +2,7 @@
 
 پایه: [ViField](/components/field)، [ViPopup](/components/popup).
 
-اینپوت‌ها: [ViInput](/components/input)، [ViText](/components/text)، [ViSelect](/components/select)، [ViTag](/components/tag)، [انتخابگرها](/components/choice) (چک‌باکس، رادیو، سوییچ).
+اینپوت‌ها: [ViInput](/components/input)، [ViText](/components/text)، [ViSelect](/components/select)، [ViTag](/components/tag)، [ViUpload](/components/upload)، [انتخابگرها](/components/choice) (چک‌باکس، رادیو، سوییچ).
 
 تاریخ و زمان: [ViDate](/components/date)، [ViDateRange](/components/date-range)، [ViSimpleDate](/components/simple-date)، [ViTime](/components/time)، [ViTimeZone](/components/timezone).
 

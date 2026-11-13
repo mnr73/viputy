@@ -115,3 +115,7 @@ Per-instance classes: every `ViField`-based component takes `ui="{ root, head, l
 ## Clear button on touch
 
 `.vi-clear` is hidden until hover or focus on mouse devices and always visible on touch (`@media (hover: none)`), with an invisible 38 x 44 px hit area around the 22 px circle. Restyle `.vi-clear` for colour; do not hide it on touch.
+
+## ViUpload parts
+
+Classes to restyle: `.vi-upload__zone` (the dashed drop zone; uses `--vi-accent`, `--vi-accent-soft`, `--vi-accent-soft-fg`, `--vi-ring`), `.vi-upload__item` (a file row, `--vi-field`), `.vi-upload__thumb`, `.vi-upload__bar` (progress, `--vi-border` track and `--vi-accent` fill), `.vi-upload__alerts` (rejections, `--vi-danger*`), `.vi-upload__view` (the preview `<dialog>`). Status `error` on the field colours the zone with `--vi-danger`; a disabled field uses the shared dashed `--vi-disabled-*` look. Roundness comes from `--vi-radius` and `--vi-radius-sm`. `data-layout="grid"` and `data-variant="compact"` are on `.vi-upload`.

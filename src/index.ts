@@ -17,6 +17,7 @@ export { default as ViDateRange } from "./components/ViDateRange.vue";
 export { default as ViSimpleDate } from "./components/ViSimpleDate.vue";
 export { default as ViTime } from "./components/ViTime.vue";
 export { default as ViTimeZone } from "./components/ViTimeZone.vue";
+export { default as ViUpload } from "./components/ViUpload.vue";
 export { default as ViTimePanel } from "./components/ViTimePanel.vue";
 export { default as ViTag } from "./components/ViTag.vue";
 export { default as ViQueryBuilder } from "./components/ViQueryBuilder.vue";
@@ -107,3 +108,24 @@ export { useCalendar } from "./composables/useCalendar";
 export type { CalendarDay, MonthGrid } from "./composables/useCalendar";
 export { ALL_PRESETS, presetRange, spanDays } from "./date/presets";
 export type { PresetKey, RangeValue } from "./date/presets";
+
+export {
+    UploadError,
+    acceptList,
+    formatBytes,
+    kindOf,
+    matchesAccept,
+    parseBytes,
+    validateFile,
+    xhrUploader
+} from "./utils/upload";
+export type {
+    FileKind,
+    RejectReason,
+    Rejection,
+    UploadContext,
+    UploadFile,
+    UploadStatus,
+    Uploader,
+    XhrOptions
+} from "./utils/upload";

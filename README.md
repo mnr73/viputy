@@ -59,21 +59,22 @@ Using Tailwind 4? Import viputy's CSS **before** Tailwind so your utilities win 
 
 ## Components
 
-| Component                                                                            | For                                                                                          |
-| ------------------------------------------------------------------------------------ | -------------------------------------------------------------------------------------------- |
-| `ViInput`                                                                            | text, email, password, number (Persian digits, thousands separators, real `number` model)    |
-| `ViText`                                                                             | multi-line text with counter                                                                 |
-| `ViSelect`                                                                           | single or multiple, option groups (click a group to select all), search, async search        |
-| `ViTag`                                                                              | free tags with suggestions                                                                   |
-| `ViCheckbox` `ViRadioGroup` `ViRadio` `ViSwitch`                                     | choices, with a `loading` state                                                              |
-| `ViDate`                                                                             | one date, optional time, Jalali and Gregorian, two months side by side                       |
-| `ViTime`                                                                             | time only                                                                                    |
-| `ViTimeZone`                                                                         | IANA time zone picker (`Asia/Tehran`), searchable by city or `UTC+03:30`                     |
-| `ViDateRange`                                                                        | from-to dates with presets                                                                   |
-| `ViSimpleDate`                                                                       | day / month / year selects                                                                   |
-| `ViCalendar`                                                                         | the calendar on its own                                                                      |
-| `ViQueryBuilder`                                                                     | a filter bar: type `@`, pick a field, operator and value, get badges and JSON / query string |
-| `ViField` `ViPopup` `ViOptionList` + `useField` `usePopup` `useOptions` `useListNav` | parts for building your own input                                                            |
+| Component                                                                            | For                                                                                                                                     |
+| ------------------------------------------------------------------------------------ | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `ViInput`                                                                            | text, email, password, number (Persian digits, thousands separators, real `number` model)                                               |
+| `ViText`                                                                             | multi-line text with counter                                                                                                            |
+| `ViSelect`                                                                           | single or multiple, option groups (click a group to select all), search, async search                                                   |
+| `ViTag`                                                                              | free tags with suggestions                                                                                                              |
+| `ViUpload`                                                                           | drop zone + file list: validation (type, size, name), upload to your URL with progress, batch, preview, sort, and a list of saved files |
+| `ViCheckbox` `ViRadioGroup` `ViRadio` `ViSwitch`                                     | choices, with a `loading` state                                                                                                         |
+| `ViDate`                                                                             | one date, optional time, Jalali and Gregorian, two months side by side                                                                  |
+| `ViTime`                                                                             | time only                                                                                                                               |
+| `ViTimeZone`                                                                         | IANA time zone picker (`Asia/Tehran`), searchable by city or `UTC+03:30`                                                                |
+| `ViDateRange`                                                                        | from-to dates with presets                                                                                                              |
+| `ViSimpleDate`                                                                       | day / month / year selects                                                                                                              |
+| `ViCalendar`                                                                         | the calendar on its own                                                                                                                 |
+| `ViQueryBuilder`                                                                     | a filter bar: type `@`, pick a field, operator and value, get badges and JSON / query string                                            |
+| `ViField` `ViPopup` `ViOptionList` + `useField` `usePopup` `useOptions` `useListNav` | parts for building your own input                                                                                                       |
 
 Full props, events and slots: [component docs](https://mnr73.github.io/viputy/en/components/).
 
