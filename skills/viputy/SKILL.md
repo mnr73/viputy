@@ -116,3 +116,4 @@ Options use `{ key, label }` (not `value`). `addon` is now `variants`, `accept_o
 ## Verification
 
 After a change in a consumer app: `v-model` values are ISO/number/array (log one), the form works in RTL and LTR, a popup opens near the viewport bottom and on a 390 px screen, dark mode shows the right colours inside the popup, and `npm run typecheck` is clean.
+- Validation, `rules`, `ViForm`: `references/validation.md`.

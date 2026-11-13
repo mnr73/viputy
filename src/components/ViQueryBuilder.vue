@@ -42,6 +42,7 @@ import ViField from "./ViField.vue";
 import { ViIcon } from "./ViIcon";
 import ViOptionList from "./ViOptionList.vue";
 import ViPopup from "./ViPopup.vue";
+import { useValidation } from "../composables/useValidation";
 
 defineOptions({ inheritAttrs: false });
 
@@ -474,6 +475,7 @@ function commit(): boolean {
   if (x.index !== null) next[x.index] = item;
   else next.push(item);
   emit("update:modelValue", next);
+  queueMicrotask(val.onChange);
   resetDraft();
   open.value = false;
   focusInput();
@@ -708,6 +710,7 @@ function onFrameClick(e: MouseEvent) {
 }
 function onBlur() {
   selected.value = null;
+  val.onBlur();
   // Tabbing away abandons a half-built filter. Switching windows (no document focus) keeps it.
   if (document.hasFocus()) cancel();
 }
@@ -719,8 +722,19 @@ const activeId = computed(() => {
   return isListValue.value ? `${uid}-opt-${i}` : rid(i);
 });
 
+const val = useValidation({
+  value: () => props.modelValue,
+  rules: () => props.rules,
+  messages: () => props.messages,
+  label: () => props.label,
+  name: () =>
+    String(attrs.name ?? (props as { name?: string }).name ?? "") || undefined,
+  validateOn: () => props.validateOn,
+  focus: focusInput,
+  el: () => input.value ?? null
+});
 const fieldProps = computed(() =>
-  pickField(props, { control: "vi-qb__control" })
+  pickField(props, { control: "vi-qb__control" }, val.error.value)
 );
 defineExpose({ focus: focusInput, cancel, el: input });
 </script>

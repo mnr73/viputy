@@ -2,6 +2,8 @@
 import { computed } from "vue";
 import { useViputy } from "../i18n/config";
 import { timeZoneOptions } from "../utils/timezone";
+import type { ValidateOn } from "../composables/useForm";
+import type { Rules } from "../utils/validate";
 import ViSelect from "./ViSelect.vue";
 
 /**
@@ -14,6 +16,10 @@ const props = defineProps<{
   at?: string | Date;
   /** Limit the list to these ids. Default: every zone the browser knows. */
   zones?: string[];
+  /** `{ required: true }` etc. Goes to the ViSelect inside. */
+  rules?: Rules;
+  messages?: Record<string, string>;
+  validateOn?: ValidateOn;
 }>();
 
 defineEmits<{ "update:modelValue": [value: string | null] }>();
@@ -41,6 +47,9 @@ const options = computed(() => {
     :options="options"
     :placeholder="t('timeZone')"
     searchable
+    :rules="props.rules"
+    :messages="props.messages"
+    :validate-on="props.validateOn"
     :search-placeholder="t('searchTimeZone')"
     @update:model-value="$emit('update:modelValue', $event)"
   />

@@ -11,6 +11,7 @@ import { fixPersianLetters } from "../utils/text";
 import { pickField, type FieldProps } from "./field-props";
 import ViField from "./ViField.vue";
 import { ViIcon } from "./ViIcon";
+import { useValidation } from "../composables/useValidation";
 
 defineOptions({ inheritAttrs: false });
 
@@ -106,6 +107,7 @@ function onInput(e: Event) {
     el.value = shown;
     el.setSelectionRange(pos, pos);
     emit("update:modelValue", toNumber(clean));
+    val.onChange();
     return;
   }
   let v = el.value;
@@ -119,9 +121,11 @@ function onInput(e: Event) {
   }
   text.value = v;
   emit("update:modelValue", v);
+  val.onChange();
 }
 
 function onBlur() {
+  val.onBlur();
   if (!isNumber.value) return;
   let n = toNumber(
     cleanNumber(text.value, props.decimals, allowNegative.value)
@@ -161,7 +165,18 @@ const textDir = computed(() => {
     ? "ltr"
     : undefined;
 });
-const fieldProps = computed(() => pickField(props));
+const val = useValidation({
+  value: () => props.modelValue,
+  rules: () => props.rules,
+  messages: () => props.messages,
+  label: () => props.label,
+  name: () =>
+    String(attrs.name ?? (props as { name?: string }).name ?? "") || undefined,
+  validateOn: () => props.validateOn,
+  focus: () => input.value?.focus(),
+  el: () => input.value ?? null
+});
+const fieldProps = computed(() => pickField(props, {}, val.error.value));
 
 /** Clicking the frame (padding, prefix, empty space) focuses the field; buttons keep their own action. */
 function onFrameClick(e: MouseEvent) {
@@ -201,7 +216,7 @@ defineExpose({
         :disabled="props.disabled || undefined"
         :readonly="props.readonly || undefined"
         :required="props.required || undefined"
-        :aria-invalid="props.status === 'error' || undefined"
+        :aria-invalid="fieldProps.status === 'error' || undefined"
         :list="props.suggestions?.length ? listId : undefined"
         @input="onInput"
         @blur="onBlur"

@@ -25,6 +25,7 @@ import {
 import { pickField, type FieldProps } from "./field-props";
 import ViField from "./ViField.vue";
 import { ViIcon } from "./ViIcon";
+import { useValidation } from "../composables/useValidation";
 
 defineOptions({ inheritAttrs: false });
 
@@ -133,6 +134,7 @@ watch(
 function commit(next: UploadFile[]) {
   list.value = next;
   emit("update:modelValue", next);
+  queueMicrotask(val.onChange);
 }
 function patch(
   ids: Id[],
@@ -605,8 +607,19 @@ const badge = (f: UploadFile) =>
 const sizeText = (f: UploadFile) =>
   f.size == null ? "" : formatBytes(f.size, locale.value);
 
+const val = useValidation({
+  value: () => list.value,
+  rules: () => props.rules,
+  messages: () => props.messages,
+  label: () => props.label,
+  name: () =>
+    String(attrs.name ?? (props as { name?: string }).name ?? "") || undefined,
+  validateOn: () => props.validateOn,
+  focus: () => openPicker(),
+  el: () => inputEl.value ?? null
+});
 const fieldProps = computed(() => ({
-  ...pickField(props, { root: "vi-upload-field" }),
+  ...pickField(props, { root: "vi-upload-field" }, val.error.value),
   bare: true
 }));
 
@@ -653,6 +666,7 @@ defineExpose({ open: openPicker, upload, retry, clear, files: list });
           :aria-disabled="props.disabled || undefined"
           :aria-controls="id"
           @click="openPicker"
+          @blur="val.onBlur"
           @keydown.enter.prevent="openPicker"
           @keydown.space.prevent="openPicker"
           @dragenter="onDragEnter"

@@ -12,6 +12,7 @@ import ViField from "./ViField.vue";
 import { ViIcon } from "./ViIcon";
 import ViPopup from "./ViPopup.vue";
 import ViTimePanel from "./ViTimePanel.vue";
+import { useValidation } from "../composables/useValidation";
 
 defineOptions({ inheritAttrs: false });
 
@@ -86,6 +87,7 @@ function commit() {
     text.value = "";
   } else if (s !== null && !bad(s)) {
     emit("update:modelValue", out(s));
+    val.onChange();
     text.value = show(s);
   } else {
     text.value = show(sec.value);
@@ -98,13 +100,18 @@ function onInput(e: Event) {
 function onPick(s: number) {
   draft.value = null;
   emit("update:modelValue", out(s));
+  val.onChange();
 }
 function clear() {
   draft.value = null;
   text.value = "";
   emit("update:modelValue", null);
 }
-watch(open, (o) => !o && commit());
+watch(open, (o) => {
+  if (o) return;
+  commit();
+  val.onBlur();
+});
 function onKey(e: KeyboardEvent) {
   if (e.key === "Enter") {
     e.preventDefault();
@@ -119,8 +126,18 @@ function onKey(e: KeyboardEvent) {
 const anchor = computed(
   () => (field.value?.control as HTMLElement | undefined) ?? null
 );
+const val = useValidation({
+  value: () => props.modelValue,
+  rules: () => props.rules,
+  messages: () => props.messages,
+  label: () => props.label,
+  name: () => (props as { name?: string }).name,
+  validateOn: () => props.validateOn,
+  focus: () => inputEl.value?.focus(),
+  el: () => inputEl.value ?? null
+});
 const fieldProps = computed(() => {
-  const f = pickField(props);
+  const f = pickField(props, {}, val.error.value);
   if (typedError.value) {
     f.status = "error";
     f.message = typedError.value;
@@ -181,7 +198,10 @@ defineExpose({ focus: () => inputEl.value?.focus() });
         :required="props.required || undefined"
         :aria-invalid="!!typedError || props.status === 'error' || undefined"
         @input="onInput"
-        @blur="commit"
+        @blur="
+          commit();
+          if (!open) val.onBlur();
+        "
         @keydown="onKey"
         @click="onInputClick"
       />

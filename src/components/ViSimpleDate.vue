@@ -8,6 +8,7 @@ import { useViputy } from "../i18n/config";
 import { pickField, type FieldProps } from "./field-props";
 import ViField from "./ViField.vue";
 import ViSelect from "./ViSelect.vue";
+import { useValidation } from "../composables/useValidation";
 
 defineOptions({ inheritAttrs: false });
 
@@ -135,6 +136,7 @@ function setPart(key: "year" | "month" | "day", v: number | null) {
     tryEmit();
     advance(key);
   }
+  queueMicrotask(val.onChange);
 }
 
 // ---- auto-advance: open the next part that is still empty
@@ -172,8 +174,20 @@ const leapNote = computed(() => {
   });
 });
 
+const val = useValidation({
+  value: () => props.modelValue,
+  rules: () => props.rules,
+  messages: () => props.messages,
+  label: () => props.label,
+  name: () => (props as { name?: string }).name,
+  validateOn: () => props.validateOn
+});
 const fieldProps = computed(() =>
-  pickField(props, { control: "vi-sd__control", main: "vi-sd" })
+  pickField(
+    props,
+    { control: "vi-sd__control", main: "vi-sd" },
+    val.error.value
+  )
 );
 
 const order = computed(
@@ -217,6 +231,7 @@ const meta = computed(() => ({
             k === 'day' ? (o: any) => dayOff(o.value) : undefined
           "
           @update:model-value="setPart(k, $event)"
+          @close="val.onBlur"
         />
       </div>
       <input

@@ -384,3 +384,14 @@
   border-width: 1.5px;
   border-color: var(--vi-accent);
 }
+
+/* validation message under a checkbox / switch label (they have no ViField) */
+.vi-check__msg,
+.vi-switch__msg {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--vi-danger);
+}
+.vi-switch[data-status="error"] .vi-switch__track {
+  box-shadow: 0 0 0 2px var(--vi-danger);
+}

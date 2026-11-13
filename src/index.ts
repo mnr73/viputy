@@ -1,6 +1,7 @@
 import "./styles/index.css";
 
 export { default as ViField } from "./components/ViField.vue";
+export { default as ViForm } from "./components/ViForm.vue";
 export { default as ViPopup } from "./components/ViPopup.vue";
 export { default as ViInput } from "./components/ViInput.vue";
 export { default as ViText } from "./components/ViText.vue";
@@ -24,6 +25,9 @@ export { default as ViQueryBuilder } from "./components/ViQueryBuilder.vue";
 export type { FieldProps } from "./components/field-props";
 
 export { provideField, useField } from "./composables/useField";
+export { useValidation } from "./composables/useValidation";
+export { useFormContext } from "./composables/useForm";
+export type { FormContext, FormEntry, ValidateOn } from "./composables/useForm";
 export type { FieldContext, FieldStatus } from "./composables/useField";
 export { edgeIndex, moveIndex, useListNav } from "./composables/useListNav";
 export type { ListNavOptions } from "./composables/useListNav";
@@ -129,3 +133,26 @@ export type {
     Uploader,
     XhrOptions
 } from "./utils/upload";
+
+export {
+    BUILTIN_RULES,
+    clearRules,
+    compileRules,
+    defineRule,
+    isCardNumber,
+    isEmpty,
+    isIranMobile,
+    isNationalId,
+    isUrl,
+    runRules
+} from "./utils/validate";
+export type {
+    Failure,
+    Rule,
+    RuleContext,
+    RuleFn,
+    RuleObject,
+    RuleResult,
+    Rules
+} from "./utils/validate";
+export { ruleMessages } from "./i18n/rules";

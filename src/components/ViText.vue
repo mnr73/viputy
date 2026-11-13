@@ -4,6 +4,7 @@ import { useViputy } from "../i18n/config";
 import { fixPersianLetters, localizeDigits } from "../utils/text";
 import { pickField, type FieldProps } from "./field-props";
 import ViField from "./ViField.vue";
+import { useValidation } from "../composables/useValidation";
 
 defineOptions({ inheritAttrs: false });
 
@@ -68,8 +69,24 @@ const counterState = computed(() => {
   return undefined;
 });
 
+const val = useValidation({
+  value: () => props.modelValue,
+  rules: () => props.rules,
+  messages: () => props.messages,
+  label: () => props.label,
+  name: () =>
+    String(attrs.name ?? (props as { name?: string }).name ?? "") || undefined,
+  validateOn: () => props.validateOn,
+  focus: () => area.value?.focus(),
+  el: () => area.value ?? null
+});
+
 const fieldProps = computed(() => {
-  const f = pickField(props, { control: "vi-area__control", main: "vi-area" });
+  const f = pickField(
+    props,
+    { control: "vi-area__control", main: "vi-area" },
+    val.error.value
+  );
   if (over.value) {
     f.status = "error";
     f.message ??= t("overLimit", {
@@ -90,6 +107,7 @@ function onInput(e: Event) {
     }
   }
   emit("update:modelValue", el.value);
+  val.onChange();
 }
 
 /** Clicking the frame (padding, prefix, empty space) focuses the field; buttons keep their own action. */
@@ -126,6 +144,7 @@ defineExpose({ focus: () => area.value?.focus(), el: area });
         :required="props.required || undefined"
         :aria-invalid="fieldProps.status === 'error' || undefined"
         @input="onInput"
+        @blur="val.onBlur"
       />
       <span
         v-if="showCounter"

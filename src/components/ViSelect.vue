@@ -18,6 +18,7 @@ import ViField from "./ViField.vue";
 import { ViIcon } from "./ViIcon";
 import ViOptionList from "./ViOptionList.vue";
 import ViPopup from "./ViPopup.vue";
+import { useValidation } from "../composables/useValidation";
 
 defineOptions({ inheritAttrs: false });
 
@@ -166,6 +167,7 @@ const hasValue = computed(() => selectedValues.value.length > 0);
 
 function setValues(next: any[]) {
   emit("update:modelValue", props.multiple ? next : (next[0] ?? null));
+  val.onChange();
 }
 function pick(o: Opt) {
   if (o.disabled || props.disabled || props.readonly) return;
@@ -263,6 +265,7 @@ watch(open, async (o) => {
   if (!o) {
     query.value = "";
     nav.reset();
+    val.onBlur(); // the user is done picking
     return;
   }
   query.value = "";
@@ -298,8 +301,18 @@ const shownChips = computed(() =>
 const hiddenCount = computed(
   () => selectedOptions.value.length - shownChips.value.length
 );
+const val = useValidation({
+  value: () => props.modelValue,
+  rules: () => props.rules,
+  messages: () => props.messages,
+  label: () => props.label,
+  name: () => (props as { name?: string }).name,
+  validateOn: () => props.validateOn,
+  focus: () => trigger.value?.focus(),
+  el: () => trigger.value ?? null
+});
 const fieldProps = computed(() =>
-  pickField(props, { main: "vi-select__main" })
+  pickField(props, { main: "vi-select__main" }, val.error.value)
 );
 const sheetTitle = computed(() => props.label ?? props.placeholder);
 

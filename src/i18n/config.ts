@@ -8,6 +8,7 @@ import {
     type MaybeRefOrGetter
 } from "vue";
 import { builtinMessages, type MessageKey, type Messages } from "./messages";
+import { ruleMessages } from "./rules";
 
 const RTL = ["fa", "ar", "he", "ur", "ps", "ckb"];
 
@@ -18,12 +19,16 @@ export interface ViputyOptions {
     dir?: MaybeRefOrGetter<"rtl" | "ltr" | undefined>;
     /** Extra or overriding messages per locale. */
     messages?: Record<string, Partial<Messages>>;
+    /** Replace the default validation messages, per locale: `{ fa: { required: "پر کردن «{label}» الزامی است" } }`. */
+    rules?: Record<string, Record<string, string>>;
 }
 
 export interface ViputyConfig {
     locale: ComputedRef<string>;
     dir: ComputedRef<"rtl" | "ltr">;
     t: (key: MessageKey, params?: Record<string, string | number>) => string;
+    /** The default message of a validation rule, or `undefined` for an unknown rule. */
+    rule: (name: string) => string | undefined;
 }
 
 export const configKey: InjectionKey<ViputyConfig> = Symbol("viputy");
@@ -47,7 +52,17 @@ export function createConfig(options: ViputyOptions = {}): ViputyConfig {
             ? text.replace(/\{(\w+)\}/g, (m, k) => String(params[k] ?? m))
             : text;
     }
-    return { locale, dir, t };
+    function rule(name: string) {
+        const lang = locale.value.split("-")[0]!;
+        return (
+            options.rules?.[locale.value]?.[name] ??
+            options.rules?.[lang]?.[name] ??
+            ruleMessages[locale.value]?.[name] ??
+            ruleMessages[lang]?.[name] ??
+            ruleMessages.en![name]
+        );
+    }
+    return { locale, dir, t, rule };
 }
 
 /** App-wide setup: `app.use(viputy, { locale: "fa" })`. */

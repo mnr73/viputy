@@ -131,3 +131,15 @@
   color: var(--vi-muted);
   opacity: 0.75;
 }
+
+/* ViForm: the wrapper adds no layout; `fieldset` is only there to disable every field at once. */
+.vi-form__set {
+  display: contents;
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+.vi-form[data-submitting] {
+  cursor: progress;
+}

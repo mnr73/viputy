@@ -13,6 +13,7 @@ import ViField from "./ViField.vue";
 import { ViIcon } from "./ViIcon";
 import ViPopup from "./ViPopup.vue";
 import ViTimePanel from "./ViTimePanel.vue";
+import { useValidation } from "../composables/useValidation";
 
 defineOptions({ inheritAttrs: false });
 
@@ -151,6 +152,7 @@ const typedError = computed(() => {
 });
 
 function emitValue(dt: PlainDateTime | null) {
+  queueMicrotask(val.onChange);
   if (dt === null) return emit("update:modelValue", null);
   emit(
     "update:modelValue",
@@ -248,14 +250,25 @@ watch(open, (o) => {
   else {
     emit("close");
     commit();
+    val.onBlur();
   }
 });
 
 const anchor = computed(
   () => (field.value?.control as HTMLElement | undefined) ?? null
 );
+const val = useValidation({
+  value: () => props.modelValue,
+  rules: () => props.rules,
+  messages: () => props.messages,
+  label: () => props.label,
+  name: () => (props as { name?: string }).name,
+  validateOn: () => props.validateOn,
+  focus: () => inputEl.value?.focus(),
+  el: () => inputEl.value ?? null
+});
 const fieldProps = computed(() => {
-  const f = pickField(props);
+  const f = pickField(props, {}, val.error.value);
   if (typedError.value) {
     f.status = "error";
     f.message = typedError.value;
@@ -354,7 +367,10 @@ defineExpose({
         aria-haspopup="dialog"
         :aria-expanded="open"
         @input="onInput"
-        @blur="commit"
+        @blur="
+          commit();
+          if (!open) val.onBlur();
+        "
         @keydown="onKey"
         @click="onInputClick"
       />

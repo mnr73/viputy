@@ -1,6 +1,9 @@
 <script setup lang="ts">
 import { computed, nextTick, onMounted, ref, useId, watch } from "vue";
 import type { FieldStatus } from "../composables/useField";
+import { useValidation } from "../composables/useValidation";
+import type { Rules } from "../utils/validate";
+import type { ValidateOn } from "../composables/useForm";
 import { ViIcon } from "./ViIcon";
 
 const props = defineProps<{
@@ -18,6 +21,12 @@ const props = defineProps<{
   status?: FieldStatus;
   name?: string;
   id?: string;
+  /** `{ required: true }`: the box must be ticked. See ViInput `rules`. */
+  rules?: Rules;
+  messages?: Record<string, string>;
+  validateOn?: ValidateOn;
+  /** Your own error text (replaces the one made by `rules`). */
+  message?: string;
 }>();
 
 // boolean | array | custom true/false values, exactly like a native v-model checkbox
@@ -31,6 +40,21 @@ const valueAttrs = computed(() => ({
   ...(props.falseValue !== undefined && { "false-value": props.falseValue })
 }));
 const el = ref<HTMLInputElement>();
+const val = useValidation({
+  value: () => model.value,
+  rules: () => props.rules,
+  messages: () => props.messages,
+  label: () => props.label,
+  name: () => (props as { name?: string }).name,
+  validateOn: () => props.validateOn,
+  focus: () => el.value?.focus(),
+  el: () => el.value ?? null
+});
+const shownError = computed(() => props.message ?? val.error.value);
+const shownStatus = computed(
+  () => props.status ?? (shownError.value ? "error" : undefined)
+);
+watch(model, () => val.onChange(), { deep: true });
 const applyIndeterminate = () => {
   if (el.value) el.value.indeterminate = !!props.indeterminate;
 };
@@ -45,7 +69,7 @@ watch(model, () => nextTick(applyIndeterminate), { deep: true });
     :for="props.id ?? autoId"
     :data-disabled="props.disabled || undefined"
     :data-loading="props.loading || undefined"
-    :data-status="props.status || undefined"
+    :data-status="shownStatus || undefined"
   >
     <input
       :id="props.id ?? autoId"
@@ -58,7 +82,9 @@ watch(model, () => nextTick(applyIndeterminate), { deep: true });
       v-bind="valueAttrs"
       :disabled="props.disabled || props.loading"
       :aria-busy="props.loading || undefined"
-      :aria-invalid="props.status === 'error' || undefined"
+      :aria-invalid="shownStatus === 'error' || undefined"
+      :aria-describedby="shownError ? `${props.id ?? autoId}-msg` : undefined"
+      @blur="val.onBlur"
     />
     <span class="vi-check__box">
       <ViIcon name="check" :size="13" :width="3.5" />
@@ -66,7 +92,11 @@ watch(model, () => nextTick(applyIndeterminate), { deep: true });
     </span>
     <span
       v-if="
-        props.label || props.description || $slots.default || $slots.description
+        props.label ||
+        props.description ||
+        $slots.default ||
+        $slots.description ||
+        shownError
       "
       class="vi-check__text"
     >
@@ -79,6 +109,13 @@ watch(model, () => nextTick(applyIndeterminate), { deep: true });
       >
         <slot name="description">{{ props.description }}</slot>
       </span>
+      <span
+        v-if="shownError"
+        :id="`${props.id ?? autoId}-msg`"
+        class="vi-check__msg"
+        role="alert"
+        >{{ shownError }}</span
+      >
     </span>
   </label>
 </template>

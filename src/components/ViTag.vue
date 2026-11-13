@@ -12,6 +12,7 @@ import { pickField, type FieldProps } from "./field-props";
 import ViField from "./ViField.vue";
 import { ViIcon } from "./ViIcon";
 import ViPopup from "./ViPopup.vue";
+import { useValidation } from "../composables/useValidation";
 
 defineOptions({ inheritAttrs: false });
 
@@ -129,6 +130,7 @@ function addMany(raws: string[]): boolean {
   }
   if (!added.length) return false;
   emit("update:modelValue", list);
+  val.onChange();
   for (const v of added) emit("add", v);
   return true;
 }
@@ -202,8 +204,20 @@ const counter = computed(() =>
     ? localizeDigits(`${items.value.length} / ${props.max}`, locale.value)
     : ""
 );
+const val = useValidation({
+  value: () => props.modelValue,
+  rules: () => props.rules,
+  messages: () => props.messages,
+  label: () => props.label,
+  name: () =>
+    String(attrs.name ?? (props as { name?: string }).name ?? "") || undefined,
+  validateOn: () => props.validateOn,
+  focus: () => input.value?.focus(),
+  el: () => input.value ?? null
+});
+
 const fieldProps = computed(() => {
-  const f = pickField(props, { control: "vi-tags__control" });
+  const f = pickField(props, { control: "vi-tags__control" }, val.error.value);
   if (full.value && props.max != null) {
     f.status ??= "warning";
     f.message ??= t("tagsMax", {
@@ -272,7 +286,10 @@ defineExpose({ focus: () => input.value?.focus(), el: input });
           "
           aria-autocomplete="list"
           @focus="focused = true"
-          @blur="focused = false"
+          @blur="
+            focused = false;
+            val.onBlur();
+          "
           @keydown="onKeydown"
           @input="onInput"
           @paste="onPaste"

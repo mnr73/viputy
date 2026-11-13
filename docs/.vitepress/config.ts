@@ -44,6 +44,10 @@ const sidebar = (p: string, fa: boolean) => ({
                     link: `${p}/guide/i18n`
                 },
                 {
+                    text: fa ? "اعتبارسنجی و ViForm" : "Validation & ViForm",
+                    link: `${p}/guide/validation`
+                },
+                {
                     text: fa ? "مهاجرت از ۰.۳" : "Migrating from 0.3",
                     link: `${p}/guide/migration`
                 },

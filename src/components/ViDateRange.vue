@@ -18,6 +18,7 @@ import ViCalendar from "./ViCalendar.vue";
 import ViField from "./ViField.vue";
 import { ViIcon } from "./ViIcon";
 import ViPopup from "./ViPopup.vue";
+import { useValidation } from "../composables/useValidation";
 
 defineOptions({ inheritAttrs: false });
 
@@ -105,6 +106,7 @@ watch(open, (o) => {
   } else {
     emit("close");
     pending.value = null;
+    val.onBlur();
   }
 });
 
@@ -165,6 +167,7 @@ const typedError = computed(() => {
 });
 
 function emitRange(a: PlainDateTime | null, b: PlainDateTime | null) {
+  queueMicrotask(val.onChange);
   emit("update:modelValue", {
     start: a?.toISODate() ?? null,
     end: b?.toISODate() ?? null
@@ -293,8 +296,21 @@ const summary = computed(() => {
 const anchor = computed(
   () => (field.value?.control as HTMLElement | undefined) ?? null
 );
+const val = useValidation({
+  value: () => props.modelValue,
+  rules: () => props.rules,
+  messages: () => props.messages,
+  label: () => props.label,
+  name: () => (props as { name?: string }).name,
+  validateOn: () => props.validateOn,
+  focus: () =>
+    (
+      document.getElementById(`${props.id ?? ""}`) as HTMLElement | null
+    )?.focus(),
+  el: () => (field.value?.control as HTMLElement | undefined) ?? null
+});
 const fieldProps = computed(() => {
-  const f = pickField(props);
+  const f = pickField(props, {}, val.error.value);
   if (typedError.value) {
     f.status = "error";
     f.message = typedError.value;
@@ -389,7 +405,10 @@ defineExpose({
           :aria-invalid="!!typedError || props.status === 'error' || undefined"
           :data-picking="(open && picking === 'end') || undefined"
           @input="onInput('end', $event)"
-          @blur="commit('end')"
+          @blur="
+            commit('end');
+            if (!open) val.onBlur();
+          "
           @keydown="onKey('end', $event)"
           @click="onClick"
         />
