@@ -40,6 +40,43 @@ const shown = (s: string) => {
 const parts = () =>
     Array.from(document.body.querySelectorAll<HTMLElement>(".vi-date__part"));
 
+describe("phone sheet footers keep confirm on the right (thumb side)", () => {
+    // happy-dom does not lay out, so assert the rule that does it, in the shipped CSS.
+    const css = async (f: string) => {
+        const fs = (await import(/* @vite-ignore */ "node:" + "fs")) as {
+            readFileSync(p: string, enc: string): string;
+        };
+        return fs.readFileSync(`src/styles/${f}`, "utf8");
+    };
+    it("RTL reverses the footer rows so the last button (confirm) is on the physical right", async () => {
+        const c = await css("popup.css");
+        expect(c).toMatch(
+            /\.vi-layer\[dir="rtl"\] \.vi-sheet__foot \.vi-date__foot,/
+        );
+        expect(c).toMatch(
+            /\.vi-layer\[dir="rtl"\] \.vi-sheet__foot \.vi-sheet__actions,/
+        );
+        expect(c).toMatch(
+            /\.vi-layer\[dir="rtl"\] \.vi-sheet__body \.vi-timepop__foot \{\s*flex-direction: row-reverse;/
+        );
+    });
+    it("a lone ViTime confirm is pushed to the physical right", async () => {
+        expect(await css("popup.css")).toMatch(
+            /\.vi-sheet__body \.vi-timepop__foot > \.vi-btn \{\s*margin-left: auto;/
+        );
+    });
+    it("confirm is last in the DOM of every footer (right edge in LTR)", async () => {
+        const w = await open({ time: "hm" });
+        const btns = Array.from(
+            document.body.querySelectorAll(
+                ".vi-sheet__foot .vi-date__foot > .vi-btn"
+            )
+        );
+        expect(btns.at(-1)!.classList.contains("vi-btn--primary")).toBe(true);
+        w.unmount();
+    });
+});
+
 describe("ViDate phone sheet with a time", () => {
     it("starts on the date; the footer shows date and time side by side", async () => {
         const w = await open({ time: "hm" });

@@ -22,10 +22,13 @@ describe("gregorian", () => {
         expect(weekdayOfDays(g(2026, 11, 10))).toBe(2); // Tuesday
     });
     it("round-trips every day 1600..2400", () => {
+        // 292k days: one cheap check per day, one assertion at the end (292k `expect` calls hit the 5 s limit on a busy machine)
+        let bad = 0;
         for (let d = g(1600, 1, 1); d <= g(2400, 12, 31); d++) {
             const c = civilFromDays(d);
-            expect(daysFromCivil(c.year, c.month, c.day)).toBe(d);
+            if (daysFromCivil(c.year, c.month, c.day) !== d) bad++;
         }
+        expect(bad).toBe(0);
     });
     it("leap rules", () => {
         expect(gregorian.isLeap(2000)).toBe(true);

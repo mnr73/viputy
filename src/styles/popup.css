@@ -129,3 +129,18 @@
   scrollbar-width: thin;
   scrollbar-color: var(--vi-border-strong) transparent;
 }
+
+/*
+ * Phone sheets: the confirm button is on the physical right, under the right thumb, in both
+ * directions. It is last in the DOM, which is already the right edge in LTR; in RTL the row is
+ * reversed. Rows made of a single wrapper (the date/time buttons) keep their reading order.
+ */
+.vi-layer[dir="rtl"] .vi-sheet__foot .vi-date__foot,
+.vi-layer[dir="rtl"] .vi-sheet__foot .vi-sheet__actions,
+.vi-layer[dir="rtl"] .vi-sheet__body .vi-timepop__foot {
+  flex-direction: row-reverse;
+}
+/* A lone confirm (ViTime without min/max) has nothing to space against: push it to the physical right. */
+.vi-sheet__body .vi-timepop__foot > .vi-btn {
+  margin-left: auto;
+}
