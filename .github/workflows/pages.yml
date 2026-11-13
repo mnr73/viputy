@@ -5,7 +5,7 @@ name: Docs
 on:
   push:
     branches: [main]
-    paths: ["docs/**", "src/**", "package.json", ".github/workflows/pages.yml"]
+    paths: ["docs/**", "src/**", "tests/**", "package.json", ".github/workflows/pages.yml"]
   workflow_dispatch:
 
 permissions:
