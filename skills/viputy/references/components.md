@@ -254,6 +254,46 @@ Emits `update:modelValue`. A value missing from the browser's list (`Asia/Kolkat
 
 Helpers: `detectTimeZone()` (browser zone or `null`, client only), `formatOffset(210)` = `"UTC+03:30"`, `timeZoneOptions(locale, at?, zones?, include?)`.
 
+## ViColor
+
+Colour picker: swatch + HEX in the field, a grid, a HEX box and a native-picker button in the panel (phone: bottom sheet with Clear/Confirm). On `ViField` + `ViPopup`; every shared field prop and `rules` apply.
+
+Shared field props: `label hint message status required disabled readonly bare id ui rules messages validateOn`.
+
+| prop | type | default | |
+|---|---|---|---|
+| `modelValue` | `string \| null` | | `#rrggbb` lower case, `#rrggbbaa` with `alpha` |
+| `swatches` | `string[]` | 40 colours | any HEX spelling |
+| `alpha` | `boolean` | `false` | opacity slider; value may have 8 digits (opaque stays 6) |
+| `custom` | `boolean` | `true` | browser colour-picker button |
+| `placeholder` | `string` | `#RRGGBB` | |
+| `clearable` | `boolean` | `false` | |
+| `mobile` | `"sheet" \| "fullscreen" \| false` | `"sheet"` | |
+| `autoScroll` | `boolean` | `true` | |
+| `name` | `string` | | hidden input / ViForm field name |
+
+Emits `update:modelValue`. Exposes `focus()`. Helpers: `normalizeHex(input, alpha?)`, `hexToRgb`, `rgbToHex`, `readableOn(hex)`, `DEFAULT_SWATCHES`. Input accepts `#FFF`, `2563EB`, Persian digits; a short code is an error and keeps the old value. Picking a swatch keeps the opacity.
+
+## ViOtp
+
+One box per character, boxes always left to right. Typing moves on, Backspace clears and steps back (the rest shifts left, no holes), paste fills every box (`۱۲۳-۴۵۶` -> `123456`), focus lands on the first empty box. Value is ASCII.
+
+Shared field props: `label hint message status required disabled readonly ui rules messages validateOn`.
+
+| prop | type | default | |
+|---|---|---|---|
+| `modelValue` | `string \| null` | `""` | shorter than `length` until filled |
+| `length` | `number` | `6` | |
+| `type` | `"number" \| "alphanumeric" \| "text"` | `"number"` | |
+| `mask` | `boolean` | `false` | dots |
+| `group` | `number` | | dash after every N boxes |
+| `autoSubmit` | `boolean` | `false` | submits the enclosing form when the last box is filled |
+| `autofocus` | `boolean` | `false` | |
+| `persianDigits` | `boolean` | locale is fa | display only |
+| `name` | `string` | | hidden input / ViForm field name |
+
+Emits `update:modelValue`, `complete(value)` (once per full code; always, with or without `autoSubmit`). Exposes `focus()`, `clear()`. Size tokens `--vi-otp-size`, `--vi-otp-height`. Manual submit: use `@complete` or your own button.
+
 ## ViDateRange
 
 `{ start, end }` ISO days. First click = start (popup stays), second = end (sorted). Presets (`today yesterday last7 last30 thisMonth lastMonth`) are calendar-aware (this month in Jalali = 1 to 30 Aban). `max-days` clamps.

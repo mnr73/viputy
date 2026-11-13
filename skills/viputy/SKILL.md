@@ -41,6 +41,8 @@ Components are named exports, not global: `import { ViInput, ViSelect } from "@m
 | one/many from a list, groups, search | `ViSelect` (`multiple`) | value / array |
 | free-form tags | `ViTag` | `string[]` |
 | upload files, or list/sort saved files | `ViUpload` | `UploadFile[]` (never a bare `File`) |
+| colour | `ViColor` | `"#2563eb"` (`#rrggbbaa` with `alpha`), `null` when empty |
+| one-time code (SMS, 2FA) | `ViOtp` | string of `length` characters (shorter until filled) |
 | one date (+ time) | `ViDate` (`time="hm"`) | ISO string, Gregorian |
 | time only | `ViTime` | `"HH:mm"` 24 h ASCII |
 | time zone | `ViTimeZone` | IANA id `"Asia/Tehran"` (never an offset) |

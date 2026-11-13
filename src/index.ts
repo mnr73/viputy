@@ -19,6 +19,8 @@ export { default as ViSimpleDate } from "./components/ViSimpleDate.vue";
 export { default as ViTime } from "./components/ViTime.vue";
 export { default as ViTimeZone } from "./components/ViTimeZone.vue";
 export { default as ViUpload } from "./components/ViUpload.vue";
+export { default as ViColor } from "./components/ViColor.vue";
+export { default as ViOtp } from "./components/ViOtp.vue";
 export { default as ViTimePanel } from "./components/ViTimePanel.vue";
 export { default as ViTag } from "./components/ViTag.vue";
 export { default as ViQueryBuilder } from "./components/ViQueryBuilder.vue";
@@ -156,3 +158,14 @@ export type {
     Rules
 } from "./utils/validate";
 export { ruleMessages } from "./i18n/rules";
+export {
+    DEFAULT_SWATCHES,
+    hexToRgb,
+    luminance,
+    normalizeHex,
+    readableOn,
+    rgbToHex
+} from "./utils/color";
+export type { Rgb } from "./utils/color";
+export { cleanOtp } from "./utils/otp";
+export type { OtpType } from "./utils/otp";

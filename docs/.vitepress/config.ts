@@ -21,6 +21,8 @@ const components: Array<[string, string]> = [
     ["ViTimeZone", "timezone"],
     ["ViTag", "tag"],
     ["ViUpload", "upload"],
+    ["ViColor", "color"],
+    ["ViOtp", "otp"],
     ["ViQueryBuilder", "query-builder"],
     ["ViCheckbox / ViRadio / ViSwitch", "choice"]
 ];

@@ -1,0 +1,83 @@
+/* ViOtp: one box per character. The boxes sit left to right in every language, like a number. */
+.vi-otp {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 8px;
+  align-items: center;
+  justify-content: flex-start;
+}
+/* A code stays on ONE row: boxes shrink on a narrow screen instead of wrapping. */
+.vi-otp__box {
+  box-sizing: border-box;
+  flex: 0 1 var(--vi-otp-size, 46px);
+  width: var(--vi-otp-size, 46px);
+  height: var(--vi-otp-height, var(--vi-height));
+  min-width: 0;
+  padding: 0;
+  border: 1.5px solid transparent;
+  border-radius: var(--vi-radius);
+  background: var(--vi-field);
+  color: var(--vi-fg);
+  font: inherit;
+  font-family: var(--vi-mono);
+  font-size: 20px;
+  font-weight: 700;
+  text-align: center;
+  caret-color: var(--vi-accent);
+  outline: 0;
+  transition:
+    background-color 0.15s,
+    border-color 0.15s,
+    box-shadow 0.15s;
+}
+.vi-otp__box:hover {
+  border-color: var(--vi-border);
+  background: var(--vi-field-hover);
+}
+.vi-otp__box:focus {
+  border-color: var(--vi-accent);
+  background: var(--vi-surface);
+  box-shadow: 0 0 0 4px var(--vi-ring);
+}
+.vi-otp__box.is-filled {
+  border-color: var(--vi-border-strong);
+}
+.vi-otp__box.is-filled:focus {
+  border-color: var(--vi-accent);
+}
+.vi-otp__sep {
+  color: var(--vi-muted);
+  font-weight: 700;
+}
+.vi-otp[data-status="error"] .vi-otp__box {
+  border-color: var(--vi-danger);
+  background: var(--vi-danger-soft);
+}
+.vi-otp[data-status="warning"] .vi-otp__box {
+  border-color: var(--vi-warning);
+  background: var(--vi-warning-soft);
+}
+.vi-otp[data-status="success"] .vi-otp__box {
+  border-color: var(--vi-success);
+  background: var(--vi-success-soft);
+}
+.vi-otp[data-disabled] .vi-otp__box {
+  border-style: dashed;
+  border-color: var(--vi-disabled-border);
+  background: var(--vi-disabled-bg);
+  opacity: var(--vi-disabled-opacity);
+  cursor: not-allowed;
+}
+@media (max-width: 420px) {
+  .vi-otp {
+    gap: 6px;
+  }
+  .vi-otp__box {
+    font-size: 18px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .vi-otp__box {
+    transition: none;
+  }
+}

@@ -10,10 +10,22 @@ import {
 import Custom from "./skill-samples/Custom.vue";
 import Qb from "./skill-samples/Qb.vue";
 import Upload from "./skill-samples/Upload.vue";
+import OtpColor from "./skill-samples/OtpColor.vue";
 // @ts-expect-error plain-JS <script setup>, copied verbatim from the README
 import Readme from "./skill-samples/Readme.vue";
 
 describe("code samples in skills/viputy", () => {
+    it("colour + otp sample mounts with the documented shape", () => {
+        const w = mount(OtpColor, {
+            attachTo: document.body,
+            global: { plugins: [[viputy, { locale: "en" }]] }
+        });
+        expect(
+            (w.find("input.vi-color__input").element as HTMLInputElement).value
+        ).toBe("#2563EB");
+        expect(w.findAll("input.vi-otp__box")).toHaveLength(6);
+        w.unmount();
+    });
     it("query builder sample renders its badges and serialises", () => {
         const w = mount(Qb, { attachTo: document.body });
         expect(w.findAll(".vi-qchip").length).toBe(2);

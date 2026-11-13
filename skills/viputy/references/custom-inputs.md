@@ -38,7 +38,7 @@ const { attrs } = useField();            // id, disabled, readonly, required, ar
 ```
 `ViField` slots: `before`, default (`{ id }`), `after`, `label`, `meta`. `:active="open"` forces the focused look for popup inputs. Frame clicks are exposed as `@control-click`: focus your control there so the whole frame is clickable.
 
-## 2) Popup input (colour picker example)
+## 2) Popup input (colour picker example; the real `ViColor` already exists, this shows how it is built)
 
 ```vue
 <script setup lang="ts">
