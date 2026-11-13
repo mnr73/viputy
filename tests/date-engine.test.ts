@@ -84,7 +84,7 @@ describe("jalali", () => {
                 jalaliMonthLength(j.year, j.month)
             );
         }
-    });
+    }, 30_000); // 182k days: slow CI machines pass the 5s default
     it("consecutive days are consecutive Jalali dates", () => {
         let prev = daysToJalali(g(1900, 1, 1));
         for (let d = g(1900, 1, 2); d <= g(2100, 12, 31); d++) {

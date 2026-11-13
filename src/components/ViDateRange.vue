@@ -22,6 +22,7 @@ import { useValidation } from "../composables/useValidation";
 
 defineOptions({ inheritAttrs: false });
 
+const popup = ref<InstanceType<typeof ViPopup>>();
 const props = withDefaults(
   defineProps<
     FieldProps & {
@@ -375,7 +376,7 @@ defineExpose({
           class="vi-native vi-range__input"
           dir="ltr"
           type="text"
-          inputmode="numeric"
+          :inputmode="popup?.isSheet ? 'none' : 'numeric'"
           autocomplete="off"
           :aria-label="t('from')"
           :value="texts.start"
@@ -395,7 +396,7 @@ defineExpose({
           class="vi-native vi-range__input"
           dir="ltr"
           type="text"
-          inputmode="numeric"
+          :inputmode="popup?.isSheet ? 'none' : 'numeric'"
           autocomplete="off"
           :aria-label="t('to')"
           :value="texts.end"
@@ -442,6 +443,7 @@ defineExpose({
   </ViField>
 
   <ViPopup
+    ref="popup"
     :auto-scroll="props.autoScroll"
     v-model="open"
     :anchor="anchor"

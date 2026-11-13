@@ -16,6 +16,7 @@ import { useValidation } from "../composables/useValidation";
 
 defineOptions({ inheritAttrs: false });
 
+const popup = ref<InstanceType<typeof ViPopup>>();
 const props = withDefaults(
   defineProps<
     FieldProps & {
@@ -189,7 +190,7 @@ defineExpose({ focus: () => inputEl.value?.focus() });
         class="vi-native vi-date__input"
         type="text"
         dir="ltr"
-        inputmode="numeric"
+        :inputmode="popup?.isSheet ? 'none' : 'numeric'"
         autocomplete="off"
         :value="text"
         :placeholder="placeholder"
@@ -229,6 +230,7 @@ defineExpose({ focus: () => inputEl.value?.focus() });
     </template>
   </ViField>
   <ViPopup
+    ref="popup"
     :auto-scroll="props.autoScroll"
     v-model="open"
     :anchor="anchor"

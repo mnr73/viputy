@@ -274,7 +274,9 @@ watch(open, async (o) => {
   );
   nav.active.value = first;
   await nextTick();
-  if (searchEl.value) searchEl.value.focus({ preventScroll: true });
+  // on a phone, focusing the search box would raise the keyboard before the user asked for it
+  if (searchEl.value && !popup.value?.isSheet)
+    searchEl.value.focus({ preventScroll: true });
   else if (popup.value?.isSheet) listWrap.value?.focus({ preventScroll: true });
   if (first >= 0)
     document

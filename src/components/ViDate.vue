@@ -356,7 +356,7 @@ defineExpose({
         class="vi-native vi-date__input"
         type="text"
         dir="ltr"
-        inputmode="numeric"
+        :inputmode="popup?.isSheet ? 'none' : 'numeric'"
         autocomplete="off"
         :value="text"
         :placeholder="placeholder"

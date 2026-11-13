@@ -137,6 +137,45 @@ function readContext() {
   tokenStyle.value = readTokens(el);
 }
 
+// A phone keyboard shrinks only the *visual* viewport. A fixed bottom sheet stays behind it,
+// so while a sheet is open we lift it by the covered height and cap it to what is left.
+const vv = ref<{ top: number; bottom: number; height: number } | null>(null);
+function readVv() {
+  const v = window.visualViewport;
+  // pinch-zoomed: the numbers mean something else, leave the sheet alone
+  if (!v || v.scale > 1.01) return (vv.value = null);
+  const bottom = Math.max(
+    0,
+    Math.round(window.innerHeight - v.offsetTop - v.height)
+  );
+  vv.value = {
+    top: Math.round(v.offsetTop),
+    bottom,
+    height: Math.round(v.height)
+  };
+}
+function watchVv(on: boolean) {
+  const v = typeof window === "undefined" ? null : window.visualViewport;
+  if (!v) return;
+  v.removeEventListener("resize", readVv);
+  v.removeEventListener("scroll", readVv);
+  if (on) {
+    v.addEventListener("resize", readVv);
+    v.addEventListener("scroll", readVv);
+    readVv();
+  } else vv.value = null;
+}
+const sheetStyle = computed(() => {
+  const v = vv.value;
+  if (!v || v.bottom === 0) return undefined; // no keyboard: plain CSS
+  return props.mobile === "fullscreen"
+    ? { bottom: `${v.bottom}px`, top: `${v.top}px` }
+    : {
+        bottom: `${v.bottom}px`,
+        maxHeight: `${Math.floor(v.height * 0.85)}px`
+      };
+});
+
 let lastFocus: HTMLElement | null = null;
 let restoreScroll: (() => void) | null = null;
 
@@ -155,6 +194,7 @@ watch(
   [open, isSheet],
   async ([o, sheet]) => {
     unlockScroll();
+    watchVv(o && sheet);
     if (!o) {
       if (props.restoreFocus)
         lastFocus?.isConnected && lastFocus.focus?.({ preventScroll: true });
@@ -220,6 +260,7 @@ onBeforeUnmount(() => {
   document.removeEventListener("keydown", onDocKey, true);
   mq?.removeEventListener("change", onMq);
   unlockScroll();
+  watchVv(false);
 });
 
 const triggerAttrs = computed(() => ({
@@ -258,7 +299,7 @@ defineExpose({ open, close, toggle, panel, isSheet });
           }"
           :style="
             isSheet
-              ? undefined
+              ? sheetStyle
               : { ...style, visibility: placed ? undefined : 'hidden' }
           "
           :role="props.role"
