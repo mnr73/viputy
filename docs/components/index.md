@@ -4,7 +4,7 @@
 
 اینپوت‌ها: [ViInput](/components/input)، [ViText](/components/text)، [ViSelect](/components/select)، [ViTag](/components/tag)، [انتخابگرها](/components/choice) (چک‌باکس، رادیو، سوییچ).
 
-تاریخ و زمان: [ViDate](/components/date)، [ViDateRange](/components/date-range)، [ViSimpleDate](/components/simple-date)، [ViTime](/components/time).
+تاریخ و زمان: [ViDate](/components/date)، [ViDateRange](/components/date-range)، [ViSimpleDate](/components/simple-date)، [ViTime](/components/time)، [ViTimeZone](/components/timezone).
 
 فیلتر: [ViQueryBuilder](/components/query-builder).
 

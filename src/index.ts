@@ -16,6 +16,7 @@ export { default as ViDate } from "./components/ViDate.vue";
 export { default as ViDateRange } from "./components/ViDateRange.vue";
 export { default as ViSimpleDate } from "./components/ViSimpleDate.vue";
 export { default as ViTime } from "./components/ViTime.vue";
+export { default as ViTimeZone } from "./components/ViTimeZone.vue";
 export { default as ViTimePanel } from "./components/ViTimePanel.vue";
 export { default as ViTag } from "./components/ViTag.vue";
 export { default as ViQueryBuilder } from "./components/ViQueryBuilder.vue";
@@ -62,6 +63,12 @@ export type {
     QueryVariant
 } from "./utils/query";
 
+export {
+    detectTimeZone,
+    formatOffset,
+    timeZoneOptions
+} from "./utils/timezone";
+export type { ZoneOption } from "./utils/timezone";
 export { THEME_TOKENS } from "./utils/tokens";
 export { computePlacement } from "./utils/placement";
 export type { Align, Placement, Side } from "./utils/placement";

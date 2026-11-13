@@ -68,6 +68,7 @@ Using Tailwind 4? Import viputy's CSS **before** Tailwind so your utilities win 
 | `ViCheckbox` `ViRadioGroup` `ViRadio` `ViSwitch`                                     | choices, with a `loading` state                                                              |
 | `ViDate`                                                                             | one date, optional time, Jalali and Gregorian, two months side by side                       |
 | `ViTime`                                                                             | time only                                                                                    |
+| `ViTimeZone`                                                                         | IANA time zone picker (`Asia/Tehran`), searchable by city or `UTC+03:30`                     |
 | `ViDateRange`                                                                        | from-to dates with presets                                                                   |
 | `ViSimpleDate`                                                                       | day / month / year selects                                                                   |
 | `ViCalendar`                                                                         | the calendar on its own                                                                      |

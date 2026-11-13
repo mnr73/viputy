@@ -237,6 +237,20 @@ Slots: `label`, `meta`.
 Expose: `focus`.
 
 
+## ViTimeZone
+
+Picks an IANA time zone. A `ViSelect` underneath: every `ViSelect` prop (label, clearable, mobile, disabled, ...) and `ViField` prop passes through. Value is the id (`"Asia/Tehran"`), never an offset.
+
+| prop | type | default | |
+|---|---|---|---|
+| `modelValue` | `string \| null` | | IANA id |
+| `at` | `string \| Date` | now | moment whose UTC offsets are shown (daylight saving) |
+| `zones` | `string[]` | all the browser knows + `UTC` | limit the list |
+
+Emits `update:modelValue`. A value missing from the browser's list (`Asia/Kolkata` vs `Asia/Calcutta`) is still listed. Search matches the localised name, the id with spaces (`new york`) and the offset (`+03:30`). Cities have no Persian names in `Intl`, so Persian search finds only zones with a Persian name (`ایران`, `بریتانیا`), not city names.
+
+Helpers: `detectTimeZone()` (browser zone or `null`, client only), `formatOffset(210)` = `"UTC+03:30"`, `timeZoneOptions(locale, at?, zones?, include?)`.
+
 ## ViDateRange
 
 `{ start, end }` ISO days. First click = start (popup stays), second = end (sorted). Presets (`today yesterday last7 last30 thisMonth lastMonth`) are calendar-aware (this month in Jalali = 1 to 30 Aban). `max-days` clamps.

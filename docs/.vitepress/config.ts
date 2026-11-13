@@ -18,6 +18,7 @@ const components: Array<[string, string]> = [
     ["ViDateRange", "date-range"],
     ["ViSimpleDate", "simple-date"],
     ["ViTime", "time"],
+    ["ViTimeZone", "timezone"],
     ["ViTag", "tag"],
     ["ViQueryBuilder", "query-builder"],
     ["ViCheckbox / ViRadio / ViSwitch", "choice"]

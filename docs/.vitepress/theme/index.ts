@@ -20,6 +20,7 @@ import {
     ViTag,
     ViText,
     ViTime,
+    ViTimeZone,
     viputy
 } from "../../../src";
 
@@ -47,7 +48,8 @@ export default {
             ViSwitch,
             ViTag,
             ViText,
-            ViTime
+            ViTime,
+            ViTimeZone
         }).forEach(([name, c]) => app.component(name, c));
     }
 } satisfies Theme;
