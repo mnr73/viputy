@@ -7,6 +7,7 @@ import { ref } from "vue";
 const a = ref("2026-11-10");
 const b = ref(null);
 const c = ref("2025-03-10");
+const d = ref(null);
 </script>
 
 <div class="demo">
@@ -14,6 +15,7 @@ const c = ref("2025-03-10");
   <div dir="ltr" style="font-size:12px;color:var(--vp-c-text-2)">v-model: {{ a }}</div>
   <ViSimpleDate v-model="b" label="Contract start (empty)" shortcuts :from-year="1380" :to-year="1420" />
   <ViSimpleDate v-model="c" label="End date (Esfand 1403 is a leap month)" shortcuts />
+  <ViSimpleDate v-model="d" label="Opens the next part after each pick" auto-advance />
 </div>
 
 ```vue
@@ -37,6 +39,7 @@ const c = ref("2025-03-10");
 | `calendar` | default: Jalali under `fa` |
 | `min` / `max` | ISO bounds |
 | `from-year` / `to-year` | year range when there is no `min`/`max` |
+| `auto-advance` | opens the next empty part |
 | `shortcuts` | first of month / last of month |
 | `year-first` | year, month, day order |
 | `name` | hidden input for `<form>` |

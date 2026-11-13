@@ -79,6 +79,7 @@ ISO strings. `max="2026-12-20"` allows the **whole day**. A time (`2026-12-20T10
 
 With `time` on, the bottom sheet shows one thing at a time instead of a tall page you have to scroll. The footer has two buttons side by side, **Date** and **Time**, each with its value (`Date 1405/08/19`, `Time 14:30`). Tap one to open that part. After the user picks a day the sheet moves to the time on its own; a user who only wants the date can tap **Date** again or just confirm. A new open always starts on the date. Date-only fields, wide screens and `mobile="fullscreen"`-less desktop popovers are unchanged.
 
+Every phone date sheet (`ViDate` with or without a time, and `ViDateRange`) has the same footer: row 1 is the value (two date and time buttons for `ViDate` with a time, otherwise a plain value box), row 2 is the Jalali/Gregorian switch, the secondary button and the primary one (Confirm / Apply) on the right, under the thumb.
 
 ## ViCalendar
 

@@ -33,6 +33,20 @@
 .vi-field__control:not(:hover):not(:focus-within) > .vi-clear {
   display: none;
 }
+/* A touch screen has no hover: the clear button is always there, with a finger-sized hit area. */
+@media (hover: none) {
+  .vi-field__control:not(:hover):not(:focus-within) > .vi-clear {
+    display: flex;
+  }
+  .vi-clear {
+    position: relative;
+  }
+  .vi-clear::after {
+    position: absolute;
+    inset: -11px -8px;
+    content: "";
+  }
+}
 .vi-affix {
   flex: none;
   font-size: 13px;

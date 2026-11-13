@@ -211,7 +211,7 @@ Expose: `focus`, `open`, `close`.
 
 
 
-Phone sheet with `time`: the footer shows two buttons side by side (date + value, time + value) that act as tabs; picking a day moves to the time automatically; a new open starts on the date. Date-only fields and desktop popovers are unchanged. Only `ViDate` does this (`ViDateRange` has no time).
+Every phone date sheet (`ViDate` with or without `time`, `ViDateRange`) has the same footer: row 1 is the value (`ViDate` with a time: two buttons, date + value and time + value, that act as tabs; otherwise a plain value box), row 2 is the calendar switch, the secondary button and the primary button (Confirm / Apply) on the physical right. For `ViDate` with `time` the footer shows two buttons side by side (date + value, time + value) that act as tabs; picking a day moves to the time automatically; a new open starts on the date. Date-only fields and desktop popovers are unchanged. Only `ViDate` does this (`ViDateRange` has no time).
 
 ## ViTime
 
@@ -307,6 +307,7 @@ Shared field props: `label hint message status required disabled readonly bare i
 | `yearFirst` | `boolean` | Show the year first (year / month / day). Default: day / month / year. |
 | `name` | `string` | Hidden input with the ISO value for native forms. |
 | `mobile` | `"sheet" \| "fullscreen" \| false` |  |
+| `autoAdvance` | `boolean` | After a part is picked, open the next empty one (day, month, year; `yearFirst` reverses it). Skips filled parts, stops after the last. Off by default. |
 
 Events: `update:modelValue`.
 
@@ -484,8 +485,10 @@ Internal footer (calendar switch, now, confirm). Not for direct use.
 | `calendar` (required) | `CalendarId` |  |
 | `summary` (required) | `string` |  |
 | `withTime` (required) | `boolean` |  |
+| `sheet` | `boolean` | Inside a phone sheet: the value gets its own row (same structure as the date/time buttons). |
+| `tabs` | `object \| null` | Phone sheet with a time: date and time buttons that switch the tab. |
 
-Events: `update:calendar`, `now`, `confirm`.
+Events: `update:calendar`, `now`, `confirm`, `tab`.
 
 
 ## Composables and helpers (named exports)

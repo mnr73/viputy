@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, ref, useAttrs, watch } from "vue";
+import { computed, nextTick, ref, useAttrs, watch } from "vue";
 import { getCalendar, type CalendarId } from "../date/calendar";
 import { digits, monthNames } from "../date/format";
 import { PlainDateTime } from "../date/plain";
@@ -30,9 +30,11 @@ const props = withDefaults(
       /** Hidden input with the ISO value for native forms. */
       name?: string;
       mobile?: "sheet" | "fullscreen" | false;
+      /** After a part is picked, open the next empty one (day, then month, then year). */
+      autoAdvance?: boolean;
     }
   >(),
-  { shortcuts: false, mobile: "sheet", status: null }
+  { shortcuts: false, autoAdvance: false, mobile: "sheet", status: null }
 );
 
 const emit = defineEmits<{ "update:modelValue": [iso: string | null] }>();
@@ -129,7 +131,24 @@ function setPart(key: "year" | "month" | "day", v: number | null) {
     if (day > len) parts.value.day = len;
   }
   if (v === null) emit("update:modelValue", null);
-  else tryEmit();
+  else {
+    tryEmit();
+    advance(key);
+  }
+}
+
+// ---- auto-advance: open the next part that is still empty
+const selects: Record<string, { focus(): void; open(): void } | null> = {};
+function advance(from: "year" | "month" | "day") {
+  if (!props.autoAdvance || props.disabled || props.readonly) return;
+  const rest = order.value.slice(order.value.indexOf(from) + 1);
+  const next = rest.find((k) => parts.value[k] === null);
+  if (!next) return;
+  // after the closing select has returned focus to itself
+  nextTick(() => {
+    selects[next]?.focus();
+    selects[next]?.open();
+  });
 }
 
 function setFirst() {
@@ -181,6 +200,7 @@ const meta = computed(() => ({
         <ViSelect
           v-for="k in order"
           :key="k"
+          :ref="(el: any) => (selects[k] = el)"
           class="vi-sd__part"
           :class="`vi-sd__part--${k}`"
           bare

@@ -1,7 +1,7 @@
 import { mount } from "@vue/test-utils";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { nextTick } from "vue";
-import { ViDate, viputy } from "../src";
+import { ViDate, ViDateRange, viputy } from "../src";
 
 afterEach(() => {
     document.body.innerHTML = "";
@@ -72,6 +72,53 @@ describe("phone sheet footers keep confirm on the right (thumb side)", () => {
                 ".vi-sheet__foot .vi-date__foot > .vi-btn"
             )
         );
+        expect(btns.at(-1)!.classList.contains("vi-btn--primary")).toBe(true);
+        w.unmount();
+    });
+});
+
+describe("one footer for every phone date sheet", () => {
+    it("a date-only ViDate shows its value in the same row as the date/time buttons, as plain text", async () => {
+        const w = await open({ modelValue: "2026-11-10" });
+        const part = document.body.querySelector<HTMLElement>(
+            ".vi-sheet__foot .vi-date__part"
+        );
+        expect(part).toBeTruthy();
+        expect(part!.hasAttribute("data-static")).toBe(true);
+        expect(part!.tagName).toBe("DIV"); // not a button: nothing to press
+        expect(part!.textContent).toContain("1405/08/19");
+        expect(
+            document.body.querySelector(".vi-sheet__foot .vi-date__summary")
+        ).toBeNull();
+        w.unmount();
+    });
+    it("the desktop popover keeps its one-line summary", async () => {
+        const w = await open({ modelValue: "2026-11-10", time: "hm" }, false);
+        expect(document.body.querySelector(".vi-date__summary")).toBeTruthy();
+        expect(document.body.querySelector(".vi-date__part")).toBeNull();
+        w.unmount();
+    });
+    it("ViDateRange on a phone: value row, calendar switch, clear, apply (confirm last)", async () => {
+        phone(true);
+        const w = mount(ViDateRange, {
+            props: { modelValue: { start: "2026-11-10", end: "2026-11-20" } },
+            attachTo: document.body,
+            global: { plugins: [[viputy, { locale: "en" }]] as any }
+        });
+        await w.find("input").trigger("click");
+        await flush();
+        const foot = document.body.querySelector(
+            ".vi-sheet__foot .vi-date__foot"
+        )!;
+        expect(
+            foot.querySelector(".vi-date__part[data-static]")!.textContent
+        ).toContain("11 days");
+        expect(foot.querySelector(".vi-seg")).toBeTruthy();
+        const btns = Array.from(foot.querySelectorAll(":scope > .vi-btn"));
+        expect(btns.map((b) => b.textContent?.trim())).toEqual([
+            "Clear",
+            "Apply"
+        ]);
         expect(btns.at(-1)!.classList.contains("vi-btn--primary")).toBe(true);
         w.unmount();
     });
@@ -150,11 +197,13 @@ describe("ViDate phone sheet with a time", () => {
         expect($(".vi-time")).toBeNull();
         w.unmount();
     });
-    it("a date-only field keeps the plain sheet: no date/time buttons", async () => {
+    it("a date-only field uses the same footer: a plain value row, no date/time buttons", async () => {
         const w = await open({ modelValue: "2026-11-10" });
         expect($(".vi-panel--sheet")).toBeTruthy();
-        expect(parts()).toHaveLength(0);
-        expect($(".vi-date__summary")).toBeTruthy();
+        expect(
+            parts().filter((p) => !p.hasAttribute("data-static"))
+        ).toHaveLength(0);
+        expect($(".vi-date__summary")).toBeNull();
         w.unmount();
     });
     it("on a wide screen nothing changes: popover with calendar and time side by side", async () => {

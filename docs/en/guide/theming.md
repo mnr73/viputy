@@ -25,3 +25,7 @@ Every part has a stable class (`vi-field__control`, ...) and the `ui` prop adds 
 | `--vi-border`, `--vi-border-strong`, `--vi-muted`, `--vi-fg` | borders and text |
 | `--vi-disabled-bg`, `--vi-disabled-border`, `--vi-disabled-opacity` | disabled look: unfilled, dashed outline and dimmed content (default transparent / 0.55) |
 | `--vi-shadow`, `--vi-scrim`, `--vi-z` | popups |
+
+## Clear button on touch
+
+On a mouse `.vi-clear` stays hidden until hover or focus, but on a touch screen (`@media (hover: none)`) it is always visible, because touch has no hover. The circle is 22 px with an invisible 38 x 44 px hit area around it. Restyle `.vi-clear` for colour; do not hide it on touch.

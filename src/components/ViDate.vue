@@ -439,6 +439,7 @@ defineExpose({
     </template>
     <template #footer>
       <ViDateFoot
+        sheet
         v-model:calendar="calendar"
         :calendars="props.calendars"
         :summary="summary"

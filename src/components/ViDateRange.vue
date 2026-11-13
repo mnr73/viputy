@@ -521,10 +521,31 @@ defineExpose({
     </template>
     <template #footer="{ close }">
       <div class="vi-date__foot">
-        <span class="vi-date__summary">{{ summary }}</span>
-        <span v-if="props.showCount && count" class="vi-counter">{{
-          t("daysCount", { n: n(count) })
-        }}</span>
+        <div class="vi-date__parts">
+          <div class="vi-date__part" data-static>
+            <span>{{ summary }}</span>
+            <small v-if="props.showCount && count">{{
+              t("daysCount", { n: n(count) })
+            }}</small>
+          </div>
+        </div>
+        <div
+          v-if="props.calendars.length > 1"
+          class="vi-seg"
+          role="group"
+          :aria-label="t('calendarSwitch')"
+        >
+          <button
+            v-for="c in props.calendars"
+            :key="c"
+            type="button"
+            class="vi-seg__btn"
+            :aria-pressed="calendar === c"
+            @click="calendar = c"
+          >
+            {{ t(c) }}
+          </button>
+        </div>
         <button type="button" class="vi-btn vi-btn--sm" @click="clear">
           {{ t("clear") }}
         </button>

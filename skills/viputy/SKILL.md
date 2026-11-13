@@ -106,6 +106,7 @@ Options use `{ key, label }` (not `value`). `addon` is now `variants`, `accept_o
 - `ViCheckbox` `indeterminate` is controlled: clear it yourself on change.
 - `loading` on `ViCheckbox ViRadio(Group) ViSwitch` blocks changes and shows a spinner; use it while saving, not `disabled`.
 - Same field + same operator twice in a query string overwrites itself; send JSON for those.
+- **Touch screens (`(hover: none)`)** show every clear button (`clearable`) all the time, with a 38 x 44 px hit area; mouse devices still reveal it on hover or focus. Do not hide it yourself.
 - **Time zones.** `ViDate`/`ViTime` values are wall-clock and carry no zone, and viputy does not convert to UTC. For a multi-country form send `{ at: "2026-10-24T00:00", zone: "Asia/Tehran" }` (`ViDate` + `ViTimeZone`) and build the instant on the server (`Carbon::parse($at, $zone)->utc()`). An offset alone (`+03:30`) breaks when a law changes (Iran was +04:30 in summer until 2022), so store the zone for future events. Never read `getTimezoneOffset()` to guess it silently.
 - The dates engine (`PlainDateTime`, `format`, `jalaliToDays`) has no time zones. `PlainDateTime.now()` reads the machine clock, so call it only on the client.
 - Docs live in `docs/` (VitePress, `/` Persian, `/en/` English). Run `npm run docs:dev` to see live demos.

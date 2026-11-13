@@ -111,3 +111,7 @@ Per-instance classes: every `ViField`-based component takes `ui="{ root, head, l
 - Don't target `.vi-panel` with `body`-relative selectors only; the panel is teleported, so scope by class (`.vi-panel .vi-option`).
 - Don't set `border-radius` on `.vi-field__control` directly; change `--vi-radius` so the popup and focus ring stay consistent.
 - Don't use `!important`. If a rule does not win, it is in a layer and yours is not: check that your CSS is not inside another `@layer` that is declared earlier.
+
+## Clear button on touch
+
+`.vi-clear` is hidden until hover or focus on mouse devices and always visible on touch (`@media (hover: none)`), with an invisible 38 x 44 px hit area around the 22 px circle. Restyle `.vi-clear` for colour; do not hide it on touch.

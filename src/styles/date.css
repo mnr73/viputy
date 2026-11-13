@@ -599,9 +599,6 @@
     text-overflow: ellipsis;
     white-space: nowrap;
   }
-  .vi-sheet__foot .vi-date__foot > .vi-btn {
-    flex: 1;
-  }
 }
 @media (hover: none) {
   .vi-day:hover:not(:disabled):not([data-selected]) {
@@ -688,6 +685,9 @@
   text-overflow: ellipsis;
   white-space: nowrap;
 }
+.vi-date__part[data-static] {
+  cursor: default;
+}
 .vi-date__part[aria-pressed="true"] {
   border-color: var(--vi-accent);
   background: var(--vi-accent-soft);
@@ -718,26 +718,30 @@
   .vi-panel--sheet:has(.vi-date[data-tabbed]) {
     max-height: 92dvh;
   }
-  /* Footer: [date | time] / [calendar switch, Now, Confirm]. */
-  .vi-sheet__foot:has(.vi-date__foot[data-tabs]) {
+  /*
+   * One footer for every phone sheet (ViDate with or without time, ViDateRange):
+   *   [ value, or date | time ]
+   *   [ calendar switch ......... secondary ][ primary ]
+   */
+  .vi-sheet__foot:has(.vi-date__foot) {
     padding: 8px 12px 14px;
   }
-  .vi-date__foot[data-tabs] {
+  .vi-sheet__foot .vi-date__foot {
     gap: 8px;
   }
-  .vi-date__foot[data-tabs] .vi-date__parts {
+  .vi-sheet__foot .vi-date__foot .vi-date__parts {
     order: 1;
   }
-  .vi-date__foot[data-tabs] .vi-seg {
+  .vi-sheet__foot .vi-date__foot .vi-seg {
     order: 2;
   }
-  .vi-date__foot[data-tabs] > .vi-btn:not(.vi-btn--primary) {
+  .vi-sheet__foot .vi-date__foot > .vi-btn:not(.vi-btn--primary) {
     order: 3;
     flex: none;
     height: 36px;
     margin-inline-start: auto;
   }
-  .vi-date__foot[data-tabs] > .vi-btn--primary {
+  .vi-sheet__foot .vi-date__foot > .vi-btn--primary {
     order: 4;
     flex: 1;
     height: 36px;
