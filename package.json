@@ -1,6 +1,6 @@
 {
   "name": "@mnr73/viputy",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "type": "module",
   "description": "Vue 3 form inputs with first-class Persian/RTL and Jalali calendar support. Plain CSS variables, SSR-safe, zero runtime dependencies.",
   "keywords": [
