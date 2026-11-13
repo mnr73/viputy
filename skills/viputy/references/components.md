@@ -210,6 +210,9 @@ Slots: `label`, `meta`, `before`.
 Expose: `focus`, `open`, `close`.
 
 
+
+Phone sheet with `time`: the footer shows two buttons side by side (date + value, time + value) that act as tabs; picking a day moves to the time automatically; a new open starts on the date. Date-only fields and desktop popovers are unchanged. Only `ViDate` does this (`ViDateRange` has no time).
+
 ## ViTime
 
 Time only. Value `HH:mm` or `HH:mm:ss` (24 h, ASCII) whatever `hour12` shows.

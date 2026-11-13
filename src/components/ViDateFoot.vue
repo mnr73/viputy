@@ -7,18 +7,21 @@ defineProps<{
   calendar: CalendarId;
   summary: string;
   withTime: boolean;
+  /** Phone sheet with tabs: the date and the time are shown as two buttons that switch the tab. */
+  tabs?: { date: string; time: string; active: "date" | "time" } | null;
 }>();
 defineEmits<{
   "update:calendar": [value: CalendarId];
   now: [];
   confirm: [];
+  tab: [value: "date" | "time"];
 }>();
 
 const { t } = useViputy();
 </script>
 
 <template>
-  <div class="vi-date__foot">
+  <div class="vi-date__foot" :data-tabs="tabs ? true : undefined">
     <div
       v-if="calendars.length > 1"
       class="vi-seg"
@@ -36,7 +39,21 @@ const { t } = useViputy();
         {{ t(c) }}
       </button>
     </div>
-    <span class="vi-date__summary">{{ summary }}</span>
+    <div v-if="tabs" class="vi-date__parts">
+      <button
+        v-for="k in ['date', 'time'] as const"
+        :key="k"
+        type="button"
+        class="vi-date__part"
+        :aria-pressed="tabs.active === k"
+        :aria-label="t(k === 'date' ? 'dateTab' : 'timeTab')"
+        @click="$emit('tab', k)"
+      >
+        <small>{{ t(k === "date" ? "dateTab" : "timeTab") }}</small>
+        <span dir="ltr">{{ tabs[k] || "-" }}</span>
+      </button>
+    </div>
+    <span v-else class="vi-date__summary">{{ summary }}</span>
     <button type="button" class="vi-btn vi-btn--sm" @click="$emit('now')">
       {{ t(withTime ? "now" : "today") }}
     </button>

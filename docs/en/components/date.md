@@ -75,6 +75,11 @@ ISO strings. `max="2026-12-20"` allows the **whole day**. A time (`2026-12-20T10
 | `week-start` / `weekend` | 0 = Saturday ... 6 = Friday |
 | shared props | `label`, `hint`, `message`, `status`, `required`, `disabled`, `readonly`, `bare`, `id`, `ui` |
 
+## On a phone
+
+With `time` on, the bottom sheet shows one thing at a time instead of a tall page you have to scroll. The footer has two buttons side by side, **Date** and **Time**, each with its value (`Date 1405/08/19`, `Time 14:30`). Tap one to open that part. After the user picks a day the sheet moves to the time on its own; a user who only wants the date can tap **Date** again or just confirm. A new open always starts on the date. Date-only fields, wide screens and `mobile="fullscreen"`-less desktop popovers are unchanged.
+
+
 ## ViCalendar
 
 The calendar itself, without a field. Props: `modelValue` (ISO day), `calendar`, `min`, `max`, `marked`, `is-disabled`, `alt-days` (the other calendar's day number under each day), `months`, `week-start`, `weekend`, `initial-view`. Click the month title to pick a month and year.

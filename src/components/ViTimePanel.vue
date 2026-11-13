@@ -133,7 +133,10 @@ function onKey(e: KeyboardEvent) {
 function reveal() {
   root.value?.querySelectorAll<HTMLElement>("[data-on]").forEach((el) => {
     const col = el.parentElement!;
-    col.scrollTop = el.offsetTop - col.clientHeight / 2 + el.clientHeight / 2;
+    // rect delta, not offsetTop: offsetTop is relative to the nearest positioned ancestor, not the column
+    const delta =
+      el.getBoundingClientRect().top - col.getBoundingClientRect().top;
+    col.scrollTop += delta - col.clientHeight / 2 + el.clientHeight / 2;
   });
 }
 onMounted(() => nextTick(reveal));

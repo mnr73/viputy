@@ -74,6 +74,7 @@ const rootAttrs = computed(() => ({ class: attrs.class, style: attrs.style }));
 const { t, locale } = useViputy();
 
 const field = ref<InstanceType<typeof ViField>>();
+const popup = ref<InstanceType<typeof ViPopup>>();
 const inputEl = ref<HTMLInputElement>();
 const open = ref(false);
 const draft = ref<string | null>(null);
@@ -97,14 +98,17 @@ const pattern = computed(() => {
     ? "yyyy/MM/dd"
     : "yyyy-MM-dd";
 });
-const showText = (dt: PlainDateTime | null) => {
-  if (!dt) return "";
-  const d = format(dt, pattern.value, {
-    calendar: calendar.value,
+const showDate = (dt: PlainDateTime) =>
+  format(dt, pattern.value, { calendar: calendar.value, locale: locale.value });
+const showTime = (dt: PlainDateTime) =>
+  formatTime(dt.seconds, {
+    seconds: withSeconds.value,
+    hour12: props.hour12,
     locale: locale.value
   });
-  if (!withTime.value) return d;
-  return `${d} ${formatTime(dt.seconds, { seconds: withSeconds.value, hour12: props.hour12, locale: locale.value })}`;
+const showText = (dt: PlainDateTime | null) => {
+  if (!dt) return "";
+  return withTime.value ? `${showDate(dt)} ${showTime(dt)}` : showDate(dt);
 };
 const text = ref(showText(value.value));
 watch(
@@ -196,6 +200,7 @@ function onDay(iso: string) {
   emitValue(dt);
   draft.value = null;
   if (!withTime.value) close();
+  else if (tabbed.value) goTab("time"); // phone: day picked, now the time
 }
 function onTime(sec: number) {
   const base = value.value ?? PlainDateTime.now().startOf("day");
@@ -225,7 +230,20 @@ const timeBounds = computed(() => {
 function close() {
   open.value = false;
 }
+// Phone sheet with a time: two tabs (date, time) instead of one tall scrolling page.
+const tab = ref<"date" | "time">("date");
+const tabbed = computed(() => withTime.value && !!popup.value?.isSheet);
+function goTab(next: "date" | "time") {
+  tab.value = next;
+  if (next === "time")
+    nextTick(() =>
+      popup.value?.panel
+        ?.querySelector<HTMLElement>(".vi-time__item[data-on], .vi-time__item")
+        ?.focus({ preventScroll: true })
+    );
+}
 watch(open, (o) => {
+  if (o) tab.value = "date";
   if (o) emit("open");
   else {
     emit("close");
@@ -273,6 +291,8 @@ function onKey(e: KeyboardEvent) {
   }
 }
 const summary = computed(() => (value.value ? showText(value.value) : ""));
+const summaryDate = computed(() => (value.value ? showDate(value.value) : ""));
+const summaryTime = computed(() => (value.value ? showTime(value.value) : ""));
 void todayIso;
 const sheetTitle = computed(
   () => props.label ?? t(withTime.value ? "pickDate" : "pickDate")
@@ -361,6 +381,7 @@ defineExpose({
   </ViField>
 
   <ViPopup
+    ref="popup"
     :auto-scroll="props.autoScroll"
     v-model="open"
     :anchor="anchor"
@@ -372,10 +393,12 @@ defineExpose({
       <div
         class="vi-date"
         :data-time="withTime || undefined"
+        :data-tabbed="(sheet && tabbed) || undefined"
         :data-months="props.months"
       >
         <div class="vi-date__body">
           <ViCalendar
+            v-show="!(sheet && tabbed) || tab === 'date'"
             :model-value="dayIso"
             :calendar="calendar"
             :min="props.min"
@@ -388,7 +411,10 @@ defineExpose({
             :weekend="props.weekend"
             @update:model-value="onDay"
           />
-          <div v-if="withTime" class="vi-date__time">
+          <div
+            v-if="withTime && !(sheet && tabbed && tab !== 'time')"
+            class="vi-date__time"
+          >
             <ViTimePanel
               :model-value="seconds"
               :seconds="withSeconds"
@@ -417,6 +443,10 @@ defineExpose({
         :calendars="props.calendars"
         :summary="summary"
         :with-time="withTime"
+        :tabs="
+          tabbed ? { date: summaryDate, time: summaryTime, active: tab } : null
+        "
+        @tab="goTab"
         @now="setNow"
         @confirm="close"
       />
