@@ -379,6 +379,46 @@ describe("other inputs", () => {
 });
 
 describe("ViForm", () => {
+    it("typing does not re-render the form", async () => {
+        // In a browser, microtasks flush between event listeners: a form-level input listener that
+        // re-rendered the slot ran before the field's own @input and reset the native value (an inline
+        // function rule made the vnode differ, so Vue patched `value` back to the old text).
+        let model = "";
+        let renders = 0;
+        const w = mount(
+            defineComponent({
+                setup: () => () =>
+                    h(ViForm, null, {
+                        default: (f: { valid: boolean }) => {
+                            renders++;
+                            return [
+                                h(ViInput, {
+                                    modelValue: model,
+                                    "onUpdate:modelValue": (v: any) =>
+                                        (model = v),
+                                    name: "m",
+                                    rules: [
+                                        "required",
+                                        (v: string) => v.length > 3 || "short"
+                                    ]
+                                }),
+                                h("i", { id: "valid" }, String(f.valid))
+                            ];
+                        }
+                    })
+            }),
+            { attachTo: document.body, global: { plugins: plugin() } }
+        );
+        await flush();
+        const before = renders;
+        const el = w.find("input");
+        (el.element as HTMLInputElement).value = "09121";
+        await el.trigger("input");
+        await flush();
+        expect(model).toBe("09121");
+        expect((el.element as HTMLInputElement).value).toBe("09121");
+        expect(renders).toBe(before);
+    });
     const makeForm = (
         formProps: Record<string, unknown> = {},
         onSubmit = vi.fn(),

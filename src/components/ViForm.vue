@@ -58,8 +58,6 @@ const attrs = useAttrs();
 const entries = shallowRef<FormEntry[]>([]);
 const submitted = ref(false);
 const validating = ref(false);
-// bumped by register/unregister and by every field change, so `valid` and `values` recompute
-const tick = ref(0);
 
 const serverErrors = computed(() => props.errors ?? {});
 provideForm({
@@ -78,8 +76,9 @@ provideForm({
   }
 });
 
+// reactive through each field's own getters; no input listener on the <form>: a re-render there runs
+// (in browsers, microtasks flush between listeners) before the field's own @input and resets its DOM value
 function collect() {
-  void tick.value;
   const out: Record<string, unknown> = {};
   for (const e of entries.value) if (e.name) out[e.name] = e.value();
   return out;
@@ -138,10 +137,7 @@ function onReset(e: Event) {
   reset();
 }
 
-const valid = computed(() => {
-  void tick.value;
-  return !entries.value.some((e) => e.invalid());
-});
+const valid = computed(() => !entries.value.some((e) => e.invalid()));
 
 onBeforeUnmount(() => (entries.value = []));
 defineExpose({ validate, reset, submitted, values: collect, valid });
@@ -156,8 +152,6 @@ defineExpose({ validate, reset, submitted, values: collect, valid });
     :data-submitting="props.submitting || undefined"
     @submit="onSubmit"
     @reset="onReset"
-    @input.capture="tick++"
-    @change.capture="tick++"
   >
     <fieldset
       class="vi-form__set"
